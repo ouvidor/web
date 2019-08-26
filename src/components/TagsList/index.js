@@ -1,3 +1,6 @@
+/**
+ * Componentes lista as tags que a reclamação tem
+ */
 import React from 'react';
 import PropTypes from 'prop-types';
 
