@@ -4,11 +4,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Tag from '../Tag';
 import { List } from './styles';
 
 export default function TagsList({ tags }) {
   return (
-    <List>{tags && tags.map(tag => <li key={tag.id}>{tag.title}</li>)}</List>
+    <List>
+      {tags && tags.map(tag => <Tag id={tag.id} title={tag.title} />)}
+    </List>
   );
 }
 
