@@ -9,7 +9,7 @@ const tags3 = [
   { id: 1, title: 'Saúde' },
   { id: 2, title: 'Crime' },
   { id: 3, title: 'Eletricidade' },
-  { id: 3, title: 'Desmatamento' },
+  { id: 4, title: 'Desmatamento' },
 ];
 
 storiesOf('TagsList', module)
