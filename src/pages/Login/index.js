@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
-import { Container } from './styles';
+import { Wrapper, Container } from './styles';
 
 export default function Login() {
   const validationSchema = Yup.object().shape({
@@ -17,15 +17,15 @@ export default function Login() {
   }
 
   return (
-    <Container>
-      <div>
+    <Wrapper>
+      <Container>
         <Form onSubmit={handleSubmit} schema={validationSchema}>
-          <Input name="email" type="email" />
-          <Input name="password" type="password" />
+          <Input name="email" type="email" placeholder="Seu email" />
+          <Input name="password" type="password" placeholder="Sua senha" />
 
-          <button type="submit">Entrar</button>
+          <button type="submit">Login</button>
         </Form>
-      </div>
-    </Container>
+      </Container>
+    </Wrapper>
   );
 }
