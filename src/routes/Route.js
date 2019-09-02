@@ -18,7 +18,7 @@ export default function RouteWrapper({
   // TODO utilizar redux para pegar o dado
   const logged = false;
 
-  // caso não esteja logado redireciona para a página de login
+  // caso não esteja logado e acesse uma rota privada redireciona para a página de login
   if (!logged && isPrivate) {
     return <Redirect to="/" />;
   }
