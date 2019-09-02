@@ -14,11 +14,13 @@ import AuthRoute from './Route';
 
 // páginas
 import Login from '../pages/Login';
+import Dashboard from '../pages/Dashboard';
 
 export default function Routes() {
   return (
     <Switch>
       <AuthRoute path="/" exact component={Login} />
+      <AuthRoute path="/dashboard" isPrivate component={Dashboard} />
 
       <Route render={() => <Redirect pathname="/" />} />
     </Switch>

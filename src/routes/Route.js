@@ -7,7 +7,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-// import DefaultLayout from '../pages/_layouts/DefaultLayout';
+import DefaultLayout from '../pages/_layouts/DefaultLayout';
 
 export default function RouteWrapper({
   component: Component,
@@ -16,7 +16,7 @@ export default function RouteWrapper({
 }) {
   // flag de autenticação
   // TODO utilizar redux para pegar o dado
-  const logged = false;
+  const logged = true;
 
   // caso não esteja logado e acesse uma rota privada redireciona para a página de login
   if (!logged && isPrivate) {
@@ -26,7 +26,7 @@ export default function RouteWrapper({
   // caso esteja logado e tente acessar uma rota publica redireciona para a rota privada
   if (logged && !isPrivate) {
     // TODO criar rota
-    return <Redirect to="/map" />;
+    return <Redirect to="/dashboard" />;
   }
 
   // caso esteja logado renderiza o componente com um Wrapper
@@ -36,9 +36,9 @@ export default function RouteWrapper({
       <Route
         {...rest}
         render={props => (
-          // <DefaultLayout>
-          <Component {...props} />
-          // </DefaultLayout>
+          <DefaultLayout>
+            <Component {...props} />
+          </DefaultLayout>
         )}
       />
     );
