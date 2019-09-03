@@ -22,6 +22,9 @@ module.exports = {
     'import/prefer-default-export': 'off',
 
     // remove um erro no storybook
-    'import/no-extraneous-dependencies': 0
+    'import/no-extraneous-dependencies': 0,
+
+    // permitir props-spreading, utilizado no routes/Route.js
+    'react/jsx-props-no-spreading': 'off',
   },
 };
