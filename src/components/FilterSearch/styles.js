@@ -53,7 +53,28 @@ export const SearchButton = styled.button`
 `;
 
 export const TagFilterContainer = styled.div`
-  margin-top: ;
+  margin-top: 5px;
 `;
 
-export const ClearTagsButton = styled.div``;
+export const ClearTagsButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #d84242;
+  border-radius: 4px;
+  padding: 2px 5px;
+  color: #d84242;
+  font-size: 12px;
+  margin-right: 10px;
+
+  svg {
+    width: 11px;
+    height: 11px;
+    fill: #d84242;
+    margin-right: 3px;
+  }
+
+  &:hover {
+    box-shadow: 0 0 2px rgb(216, 66, 66, 0.8);
+  }
+`;
