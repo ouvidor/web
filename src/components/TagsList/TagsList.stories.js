@@ -12,7 +12,7 @@ const tags3 = [
   { id: 4, title: 'Desmatamento' },
 ];
 
-storiesOf('TagsList', module)
+storiesOf('TAGS|TagsList', module)
   .add('1 tag', () => <TagsList tags={tags1} />)
   .add('2 tags', () => <TagsList tags={tags2} />)
   .add('extrapolando o wraper', () => (
