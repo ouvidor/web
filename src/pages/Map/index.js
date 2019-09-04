@@ -1,7 +1,12 @@
 import React from 'react';
 
+import FilterSearch from '../../components/FilterSearch';
 import { Container } from './styles';
 
 export default function Map() {
-  return <Container>Mapa</Container>;
+  return (
+    <Container>
+      <FilterSearch />
+    </Container>
+  );
 }
