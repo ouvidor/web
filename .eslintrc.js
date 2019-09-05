@@ -26,5 +26,8 @@ module.exports = {
 
     // permitir props-spreading, utilizado no routes/Route.js
     'react/jsx-props-no-spreading': 'off',
+
+    // ignora autoFocus em input, eu tenho um bom motivo
+    'jsx-a11y/no-autofocus': 'off'
   },
 };
