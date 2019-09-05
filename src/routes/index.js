@@ -13,14 +13,14 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 import AuthRoute from './Route';
 
 // páginas
-import Login from '../pages/Login';
-import Dashboard from '../pages/Dashboard';
+import LoginPage from '../pages/Login';
+import MapPage from '../pages/Map';
 
 export default function Routes() {
   return (
     <Switch>
-      <AuthRoute path="/" exact component={Login} />
-      <AuthRoute path="/dashboard" isPrivate component={Dashboard} />
+      <AuthRoute path="/" exact component={LoginPage} />
+      <AuthRoute path="/map" isPrivate component={MapPage} />
 
       <Route render={() => <Redirect pathname="/" />} />
     </Switch>

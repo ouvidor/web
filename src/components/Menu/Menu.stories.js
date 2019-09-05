@@ -22,7 +22,7 @@ storiesOf('MENU|Barra de menu', module)
     </StaticRouter>
   ))
   .add('com botão ativo', () => (
-    <StaticRouter location="/dashboard">
+    <StaticRouter location="/map">
       <GlobalStyle />
       <Menu adminMasterStatus />
     </StaticRouter>

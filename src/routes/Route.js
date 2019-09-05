@@ -26,7 +26,7 @@ export default function RouteWrapper({
   // caso esteja logado e tente acessar uma rota publica redireciona para a rota privada
   if (logged && !isPrivate) {
     // TODO criar rota
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/map" />;
   }
 
   // caso esteja logado renderiza o componente com um Wrapper
