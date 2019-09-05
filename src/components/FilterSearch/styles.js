@@ -54,6 +54,12 @@ export const SearchButton = styled.button`
 
 export const TagFilterContainer = styled.div`
   margin-top: 5px;
+
+  color: rgba(0, 0, 0, 0.5);
+
+  > div {
+    margin-left: 10px;
+  }
 `;
 
 export const ClearTagsButton = styled.button`
@@ -63,13 +69,14 @@ export const ClearTagsButton = styled.button`
   border: 1px solid #d84242;
   border-radius: 4px;
   padding: 2px 5px;
+  background: #eee;
   color: #d84242;
   font-size: 12px;
   margin-right: 10px;
 
   svg {
-    width: 11px;
-    height: 11px;
+    width: 14px;
+    height: 14px;
     fill: #d84242;
     margin-right: 3px;
   }

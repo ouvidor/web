@@ -15,6 +15,12 @@ import {
 export default function FilterSearch({ textState, loadingState }) {
   const [text, setText] = useState(textState);
   const [loading, setLoading] = useState(loadingState);
+  function handleSearch() {
+    setLoading(true);
+    // TODO fazer pesquisa quando clicado
+    // a pesquisa deve usar o text e as tags
+    setLoading(false);
+  }
 
   return (
     <Container>
@@ -24,9 +30,9 @@ export default function FilterSearch({ textState, loadingState }) {
           value={text}
           onChange={e => setText(e.target.value)}
         />
-        <SearchButton>
+        <SearchButton onClick={handleSearch}>
           {loading ? (
-            <CircleSpinner size={20} color="rgba(0,0,0,0.5)" />
+            <CircleSpinner size={15} color="rgba(0,0,0,0.5)" />
           ) : (
             <MdSearch />
           )}
@@ -38,7 +44,9 @@ export default function FilterSearch({ textState, loadingState }) {
           <MdClear /> excluir
         </ClearTagsButton>
         filtros:
-        <InputTag />
+        <div>
+          <InputTag />
+        </div>
       </TagFilterContainer>
     </Container>
   );
