@@ -28,6 +28,10 @@ export default function FilterSearch({ textState, loadingState, tagsState }) {
     setLoading(false);
   }
 
+  function handleClearTags() {
+    setTags([]);
+  }
+
   return (
     <Container>
       <div>
@@ -46,7 +50,7 @@ export default function FilterSearch({ textState, loadingState, tagsState }) {
       </div>
 
       <TagFilterContainer>
-        <ClearTagsButton>
+        <ClearTagsButton onClick={handleClearTags}>
           <MdClear /> excluir
         </ClearTagsButton>
         <span>filtros:</span>
