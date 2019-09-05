@@ -57,8 +57,8 @@ export const TagFilterContainer = styled.div`
 
   color: rgba(0, 0, 0, 0.5);
 
-  > div {
-    margin-left: 10px;
+  > span {
+    margin-right: 5px;
   }
 `;
 

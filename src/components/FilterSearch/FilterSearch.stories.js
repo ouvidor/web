@@ -25,4 +25,13 @@ storiesOf('SEARCH|SearchFilter', module)
       <GlobalStyle />
       <FilterSearch textState="Testando componente" loadingState />
     </>
+  ))
+  .add('com tags definidas', () => (
+    <>
+      <GlobalStyle />
+      <FilterSearch
+        textState="Testando componente"
+        tagsState={['Saúde', 'Saneamento']}
+      />
+    </>
   ));

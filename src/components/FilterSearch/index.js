@@ -1,3 +1,7 @@
+/**
+ * Componente de pesquisa com filtragem
+ * Pode filtrar local, titulo, descrição
+ */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { MdSearch, MdClear } from 'react-icons/md';
@@ -12,9 +16,11 @@ import {
   ClearTagsButton,
 } from './styles';
 
-export default function FilterSearch({ textState, loadingState }) {
+export default function FilterSearch({ textState, loadingState, tagsState }) {
   const [text, setText] = useState(textState);
   const [loading, setLoading] = useState(loadingState);
+  const [tags, setTags] = useState(tagsState);
+
   function handleSearch() {
     setLoading(true);
     // TODO fazer pesquisa quando clicado
@@ -43,10 +49,8 @@ export default function FilterSearch({ textState, loadingState }) {
         <ClearTagsButton>
           <MdClear /> excluir
         </ClearTagsButton>
-        filtros:
-        <div>
-          <InputTag />
-        </div>
+        <span>filtros:</span>
+        <InputTag tags={tags} setTags={setTags} />
       </TagFilterContainer>
     </Container>
   );
@@ -54,8 +58,10 @@ export default function FilterSearch({ textState, loadingState }) {
 FilterSearch.propTypes = {
   textState: PropTypes.string,
   loadingState: PropTypes.bool,
+  tagsState: PropTypes.arrayOf(PropTypes.string),
 };
 FilterSearch.defaultProps = {
   textState: '',
   loadingState: false,
+  tagsState: [],
 };
