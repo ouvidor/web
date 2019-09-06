@@ -34,4 +34,14 @@ storiesOf('SEARCH|SearchFilter', module)
         tagsState={['Saúde', 'Saneamento']}
       />
     </>
+  ))
+  .add('carregando', () => (
+    <>
+      <GlobalStyle />
+      <FilterSearch
+        textState="Testando componente"
+        tagsState={['Saúde', 'Saneamento']}
+        loadingState
+      />
+    </>
   ));
