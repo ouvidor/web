@@ -7,9 +7,22 @@ import { storiesOf } from '@storybook/react';
 import ManifestationCard from './index';
 import GlobalStyle from '../../styles/global';
 
-storiesOf('MANIFESTATION|Card', module).add('default', () => (
-  <>
-    <GlobalStyle />
-    <ManifestationCard />
-  </>
-));
+const manifestation = {
+  title: 'Denuncia',
+  tags: [{ id: 1, title: 'Saúde' }],
+  upvotes: 12,
+};
+
+storiesOf('MANIFESTATION|Card', module)
+  .add('default', () => (
+    <>
+      <GlobalStyle />
+      <ManifestationCard />
+    </>
+  ))
+  .add('com tags', () => (
+    <>
+      <GlobalStyle />
+      <ManifestationCard manifestation={manifestation} />
+    </>
+  ));
