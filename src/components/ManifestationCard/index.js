@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MdThumbUp, MdChevronRight } from 'react-icons/md';
 
+import TagsList from '../TagsList';
 import { Container } from './styles';
 
 export default function Manifestation({ manifestation }) {
@@ -10,7 +11,7 @@ export default function Manifestation({ manifestation }) {
     <Container>
       <header>
         <h1>{title}</h1>
-        <ul>{tags && tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
+        <TagsList tags={tags} />
       </header>
 
       <footer>
@@ -28,7 +29,12 @@ export default function Manifestation({ manifestation }) {
 Manifestation.propTypes = {
   manifestation: PropTypes.shape({
     title: PropTypes.string,
-    tags: PropTypes.arrayOf(PropTypes.string),
+    tags: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+      })
+    ),
     upvotes: PropTypes.number,
   }),
 };

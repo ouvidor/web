@@ -14,6 +14,7 @@ export const Container = styled.article`
     h1 {
       font-weight: bold;
       font-size: 18px;
+      margin-bottom: 5px;
     }
 
     ul {
