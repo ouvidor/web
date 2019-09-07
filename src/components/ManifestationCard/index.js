@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { MdThumbUp, MdChevronRight } from 'react-icons/md';
 
 import { Container } from './styles';
 
@@ -13,8 +14,12 @@ export default function Manifestation({ manifestation }) {
       </header>
 
       <footer>
-        <div>{upvotes}</div>
-        <button type="button">abrir</button>
+        <div>
+          <MdThumbUp /> {upvotes}
+        </div>
+        <button type="button">
+          abrir <MdChevronRight />
+        </button>
       </footer>
     </Container>
   );
