@@ -28,6 +28,9 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
 
     // ignora autoFocus em input, eu tenho um bom motivo
-    'jsx-a11y/no-autofocus': 'off'
+    'jsx-a11y/no-autofocus': 'off',
+
+    // ignora o estilo de quebra de linha, unix ou windows
+    'linebreak-style': 0
   },
 };
