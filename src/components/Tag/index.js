@@ -9,9 +9,11 @@ export default function Tag({ tag, onDelete }) {
   return (
     <Container key={id} background={background} color={color}>
       <span>{name}</span>
-      <button type="button" onClick={onDelete}>
-        <MdClear />
-      </button>
+      {onDelete && (
+        <button type="button" onClick={onDelete}>
+          <MdClear />
+        </button>
+      )}
     </Container>
   );
 }
