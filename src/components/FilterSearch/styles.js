@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  max-height: 70px;
+  height: 80px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: flex-start;
   flex-grow: 1;
   background-color: #ddd;
@@ -55,7 +55,7 @@ export const SearchButton = styled.button`
 export const TagFilterContainer = styled.div`
   margin-top: 5px;
 
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.8);
 
   > span {
     margin-right: 5px;
@@ -66,22 +66,22 @@ export const ClearTagsButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #d84242;
+  border: none;
   border-radius: 4px;
   padding: 2px 5px;
-  background: #eee;
-  color: #d84242;
-  font-size: 12px;
+  background: #d32727;
+  color: #fff;
+  font-size: 14px;
   margin-right: 10px;
 
   svg {
     width: 14px;
     height: 14px;
-    fill: #d84242;
+    fill: #fff;
     margin-right: 3px;
   }
 
   &:hover {
-    box-shadow: 0 0 2px rgb(216, 66, 66, 0.8);
+    box-shadow: 0 0 2px rgb(211, 39, 39, 0.8);
   }
 `;

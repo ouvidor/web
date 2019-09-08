@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { MdSearch, MdClear } from 'react-icons/md';
 import { CircleSpinner } from 'react-spinners-kit';
 
-import InputTag from '../InputTag';
+import TagInput from '../TagInput';
 import {
   Container,
   SearchInput,
@@ -16,7 +16,12 @@ import {
   ClearTagsButton,
 } from './styles';
 
-export default function FilterSearch({ textState, loadingState, tagsState }) {
+export default function FilterSearch({
+  textState,
+  loadingState,
+  tagsState,
+  suggestionsState,
+}) {
   const [text, setText] = useState(textState);
   const [loading, setLoading] = useState(loadingState);
   const [tags, setTags] = useState(tagsState);
@@ -36,11 +41,13 @@ export default function FilterSearch({ textState, loadingState, tagsState }) {
     <Container>
       <div>
         <SearchInput
+          title="pesquisar"
+          aria-label="pesquisar"
           placeholder="Pesquisar por título, descrição ou local"
           value={text}
           onChange={e => setText(e.target.value)}
         />
-        <SearchButton onClick={handleSearch}>
+        <SearchButton onClick={handleSearch} aria-label="Pesquisar">
           {loading ? (
             <CircleSpinner size={15} color="rgba(0,0,0,0.5)" />
           ) : (
@@ -54,18 +61,29 @@ export default function FilterSearch({ textState, loadingState, tagsState }) {
           <MdClear /> excluir
         </ClearTagsButton>
         <span>filtros:</span>
-        <InputTag tags={tags} setTags={setTags} />
+
+        <TagInput
+          tags={tags}
+          setTags={setTags}
+          suggestionsState={suggestionsState}
+        />
       </TagFilterContainer>
     </Container>
   );
 }
+
 FilterSearch.propTypes = {
   textState: PropTypes.string,
   loadingState: PropTypes.bool,
   tagsState: PropTypes.arrayOf(PropTypes.string),
+  suggestionsState: PropTypes.arrayOf(
+    PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })
+  ),
 };
+
 FilterSearch.defaultProps = {
   textState: '',
   loadingState: false,
   tagsState: [],
+  suggestionsState: [],
 };
