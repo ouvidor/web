@@ -1,24 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { MdClear } from 'react-icons/md';
 
 import { Container } from './styles';
 
-export default function Tag({ id, title, fontColor, backgroundColor }) {
+export default function Tag({ tag, onDelete }) {
+  const { id, name, background, color } = tag;
   return (
-    <Container key={id} background={backgroundColor} color={fontColor}>
-      {title}
+    <Container key={id} background={background} color={color}>
+      <span>{name}</span>
+      <button type="button" onClick={onDelete}>
+        <MdClear />
+      </button>
     </Container>
   );
 }
 
 Tag.propTypes = {
-  id: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  fontColor: PropTypes.string,
-  backgroundColor: PropTypes.string,
-};
-
-Tag.defaultProps = {
-  fontColor: '#2d2d2d',
-  backgroundColor: '#eee',
+  tag: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+    color: PropTypes.string,
+    background: PropTypes.string,
+  }).isRequired,
+  onDelete: PropTypes.func.isRequired,
 };
