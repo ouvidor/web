@@ -9,7 +9,7 @@ import GlobalStyle from '../../styles/global';
 
 const manifestation = {
   title: 'Denuncia',
-  tags: [{ id: 1, title: 'Saúde' }],
+  tags: [{ id: 1, name: 'Saúde', color: '#fff', background: '#d32727' }],
   upvotes: 12,
 };
 

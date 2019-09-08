@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { MdThumbUp, MdChevronRight } from 'react-icons/md';
 
-import TagsList from '../TagsList';
+import Tag from '../Tag';
 import { Container } from './styles';
 
 export default function Manifestation({ manifestation }) {
@@ -11,7 +11,7 @@ export default function Manifestation({ manifestation }) {
     <Container>
       <header>
         <h1>{title}</h1>
-        <TagsList tags={tags} />
+        {tags && tags.map(tag => <Tag tag={tag} />)}
       </header>
 
       <footer>
