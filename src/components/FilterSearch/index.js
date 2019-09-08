@@ -8,7 +8,6 @@ import { MdSearch, MdClear } from 'react-icons/md';
 import { CircleSpinner } from 'react-spinners-kit';
 
 import TagInput from '../TagInput';
-// import InputTag from '../InputTag';
 import {
   Container,
   SearchInput,
@@ -68,7 +67,6 @@ export default function FilterSearch({
           setTags={setTags}
           suggestionsState={suggestionsState}
         />
-        {/* <InputTag tags={tags} setTags={setTags} /> */}
       </TagFilterContainer>
     </Container>
   );
