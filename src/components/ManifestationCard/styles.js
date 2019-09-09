@@ -9,6 +9,7 @@ export const Container = styled.article`
   background-color: #eee;
   border-radius: 8px;
   padding: 15px;
+  position: relative;
 
   header {
     h1 {
@@ -30,7 +31,7 @@ export const Container = styled.article`
     opacity: 0.5;
     user-select: none;
 
-    div {
+    section {
       display: flex;
       align-items: center;
 
@@ -52,5 +53,16 @@ export const Container = styled.article`
         height: 24px;
       }
     }
+  }
+
+  div {
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    top: -5px;
+    right: -5px;
+    background: #f07c3a;
+    border-radius: 50%;
   }
 `;

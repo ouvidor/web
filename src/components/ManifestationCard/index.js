@@ -5,8 +5,10 @@ import { MdThumbUp, MdChevronRight } from 'react-icons/md';
 import Tag from '../Tag';
 import { Container } from './styles';
 
-export default function Manifestation({ manifestation }) {
+export default function ManifestationCard({ manifestation }) {
   const { title, tags, upvotes } = manifestation;
+  const [read, setRead] = React.useState(manifestation.read);
+
   return (
     <Container>
       <header>
@@ -15,18 +17,25 @@ export default function Manifestation({ manifestation }) {
       </header>
 
       <footer>
-        <div>
+        <section>
           <MdThumbUp /> {upvotes}
-        </div>
-        <button type="button">
+        </section>
+        <button
+          type="button"
+          onClick={() => {
+            setRead(true);
+          }}
+        >
           abrir <MdChevronRight />
         </button>
       </footer>
+
+      {read || <div />}
     </Container>
   );
 }
 
-Manifestation.propTypes = {
+ManifestationCard.propTypes = {
   manifestation: PropTypes.shape({
     title: PropTypes.string,
     tags: PropTypes.arrayOf(
@@ -36,13 +45,15 @@ Manifestation.propTypes = {
       })
     ),
     upvotes: PropTypes.number,
+    read: PropTypes.bool,
   }),
 };
 
-Manifestation.defaultProps = {
+ManifestationCard.defaultProps = {
   manifestation: {
     title: 'Título',
     tags: [],
     upvotes: 0,
+    read: false,
   },
 };
