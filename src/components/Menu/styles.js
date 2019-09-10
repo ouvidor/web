@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Background = styled.div`
   height: 100vh;
   width: 70px;
+  min-width: 70px;
   background: #bbb;
 
   nav {
