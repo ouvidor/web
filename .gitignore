@@ -24,3 +24,6 @@ yarn-error.log*
 
 # variaveis de ambiente
 .env
+
+# ignora o vídeo gerado pelo gource
+output.mp4
