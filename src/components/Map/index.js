@@ -1,6 +1,8 @@
 /**
  * Wrapper Component para o componente ReactMapGL
- *
+ * Pega as variaveis de ambiente para definir o mapa para a cidade
+ * Caso a tela seja aumentada o mapa tenta se adaptar, mas não consegue muito bem
+ * Se a tela for aumentada e depois diminuida, só irá voltar ao normal se recarregar a página
  */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
@@ -13,34 +15,15 @@ export default function Map({ token, viewState }) {
   // TODO implementar o viewport no redux
   const containerRef = useRef();
   const [viewport, setViewPort] = useState(viewState);
-  const [dimensions, setDimensions] = useState({
-    height: window.innerHeight,
-    width: window.innerWidth,
-  });
 
   useEffect(() => {
-    function handleResize() {
-      setDimensions({
-        height: window.innerHeight,
-        width: window.innerWidth,
-      });
-      console.log('Você mudou a dimensão');
-    }
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  });
-
-  useEffect(() => {
-    console.log(containerRef.current);
     setViewPort({
       ...viewport,
       width: containerRef.current.offsetWidth,
       height: containerRef.current.offsetHeight,
     });
-  }, [containerRef.current, dimensions]);
+    // eslint-disable-next-line
+  }, [containerRef.current, window.innerHeight, window.innerWidth]);
 
   return (
     <MapWrapper ref={containerRef}>
