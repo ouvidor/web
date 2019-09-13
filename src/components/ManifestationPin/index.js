@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Marker } from 'react-map-gl';
 
-import { StyledPin } from './styles';
-
 export default function ManifestationPin({ marker }) {
   const { latitude, longitude } = marker;
 
@@ -11,11 +9,24 @@ export default function ManifestationPin({ marker }) {
   c0,0,0.1,0.1,0.1,0.2c0.2,0.3,0.4,0.6,0.7,0.9c2.6,3.1,7.4,7.6,7.4,7.6s4.8-4.5,7.4-7.5c0.2-0.3,0.5-0.6,0.7-0.9
   C20.1,15.8,20.2,15.8,20.2,15.7z`;
 
+  const pinStyle = {
+    cursor: 'pointer',
+    fill: '#d00',
+    stroke: 'none',
+  };
+
   return (
     <Marker latitude={latitude} longitude={longitude}>
-      <StyledPin height={20} viewBox="0 0 24 24">
+      <svg
+        height={20}
+        viewBox="0 0 24 24"
+        style={{
+          ...pinStyle,
+          transform: `translate(-10px, -20px)`,
+        }}
+      >
         <path d={ICON} />
-      </StyledPin>
+      </svg>
     </Marker>
   );
 }
