@@ -9,12 +9,14 @@ import PropTypes from 'prop-types';
 import ReactMapGL from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
+import ManifestationPin from '../ManifestationPin';
 import { MapWrapper } from './styles';
 
 export default function Map({ token, viewState }) {
   // TODO implementar o viewport no redux
   const containerRef = useRef();
   const [viewport, setViewPort] = useState(viewState);
+  const [style] = useState('mapbox://styles/rihor/ck0gyxxik03gv1cmqneje52e9');
 
   useEffect(() => {
     setViewPort({
@@ -28,10 +30,15 @@ export default function Map({ token, viewState }) {
   return (
     <MapWrapper ref={containerRef}>
       <ReactMapGL
+        mapStyle={style}
         mapboxApiAccessToken={token}
         {...viewport}
         onViewportChange={view => setViewPort(view)}
-      />
+      >
+        <ManifestationPin
+          marker={{ latitude: -22.8869, longitude: -42.0266 }}
+        />
+      </ReactMapGL>
     </MapWrapper>
   );
 }
