@@ -10,15 +10,29 @@ import GlobalStyle from '../../styles/global';
 const view = {
   width: 600,
   height: 500,
-  latitude: 12.7577,
-  longitude: -122.4376,
-  zoom: 8,
+  latitude: -22.8869,
+  longitude: -42.0266,
+  zoom: 13,
 };
 
-storiesOf('MAP|Mapa', module).add('default', () => (
-  <>
-    <GlobalStyle />
+const manifestations = [
+  { latitude: -22.885, longitude: -42.024 },
+  {
+    latitude: -22.8869,
+    longitude: -42.0266,
+  },
+];
 
-    <Map viewState={view} />
-  </>
-));
+storiesOf('MAP|Mapa', module)
+  .add('default', () => (
+    <>
+      <GlobalStyle />
+      <Map viewState={view} />
+    </>
+  ))
+  .add('com manifestações', () => (
+    <>
+      <GlobalStyle />
+      <Map viewState={view} manifestationState={manifestations} />
+    </>
+  ));

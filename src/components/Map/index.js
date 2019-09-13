@@ -12,12 +12,14 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import ManifestationPin from '../ManifestationPin';
 import { MapWrapper } from './styles';
 
-export default function Map({ token, viewState }) {
+export default function Map({ token, viewState, manifestationState }) {
   // TODO implementar o viewport no redux
+  const [manifestations] = useState(manifestationState);
   const containerRef = useRef();
   const [viewport, setViewPort] = useState(viewState);
   const [style] = useState('mapbox://styles/rihor/ck0gyxxik03gv1cmqneje52e9');
 
+  // atualizar a viewport de acordo com o tamanho da tela
   useEffect(() => {
     setViewPort({
       ...viewport,
@@ -35,9 +37,8 @@ export default function Map({ token, viewState }) {
         {...viewport}
         onViewportChange={view => setViewPort(view)}
       >
-        <ManifestationPin
-          marker={{ latitude: -22.8869, longitude: -42.0266 }}
-        />
+        {manifestations &&
+          manifestations.map(m => <ManifestationPin marker={m} />)}
       </ReactMapGL>
     </MapWrapper>
   );
@@ -52,6 +53,12 @@ Map.propTypes = {
     zoom: PropTypes.number,
   }),
   token: PropTypes.string.isRequired,
+  manifestationState: PropTypes.arrayOf(
+    PropTypes.shape({
+      latitude: PropTypes.number,
+      longitude: PropTypes.number,
+    })
+  ),
 };
 
 Map.defaultProps = {
@@ -62,4 +69,5 @@ Map.defaultProps = {
     longitude: Number(process.env.REACT_APP_MAPBOX_LONGITUDE),
     zoom: Number(process.env.REACT_APP_MAPBOX_ZOOM),
   },
+  manifestationState: [],
 };
