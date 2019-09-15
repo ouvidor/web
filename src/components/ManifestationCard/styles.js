@@ -54,15 +54,4 @@ export const Container = styled.article`
       }
     }
   }
-
-  div {
-    content: '';
-    position: absolute;
-    height: 15px;
-    width: 15px;
-    top: -5px;
-    right: -5px;
-    background: #f07c3a;
-    border-radius: 50%;
-  }
 `;

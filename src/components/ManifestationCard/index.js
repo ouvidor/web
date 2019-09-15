@@ -7,7 +7,6 @@ import { Container } from './styles';
 
 export default function ManifestationCard({ manifestation }) {
   const { title, tags, upvotes } = manifestation;
-  const [read, setRead] = React.useState(manifestation.read);
 
   return (
     <Container>
@@ -20,17 +19,10 @@ export default function ManifestationCard({ manifestation }) {
         <section>
           <MdThumbUp /> {upvotes}
         </section>
-        <button
-          type="button"
-          onClick={() => {
-            setRead(true);
-          }}
-        >
+        <button type="button">
           abrir <MdChevronRight />
         </button>
       </footer>
-
-      {read || <div />}
     </Container>
   );
 }
@@ -45,7 +37,6 @@ ManifestationCard.propTypes = {
       })
     ),
     upvotes: PropTypes.number,
-    read: PropTypes.bool,
   }),
 };
 
@@ -54,6 +45,5 @@ ManifestationCard.defaultProps = {
     title: 'Título',
     tags: [],
     upvotes: 0,
-    read: false,
   },
 };
