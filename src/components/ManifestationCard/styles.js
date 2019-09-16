@@ -9,6 +9,7 @@ export const Container = styled.article`
   background-color: #eee;
   border-radius: 8px;
   padding: 15px;
+  position: relative;
 
   header {
     h1 {
@@ -30,7 +31,7 @@ export const Container = styled.article`
     opacity: 0.5;
     user-select: none;
 
-    div {
+    section {
       display: flex;
       align-items: center;
 

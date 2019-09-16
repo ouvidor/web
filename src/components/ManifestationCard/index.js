@@ -5,8 +5,9 @@ import { MdThumbUp, MdChevronRight } from 'react-icons/md';
 import Tag from '../Tag';
 import { Container } from './styles';
 
-export default function Manifestation({ manifestation }) {
+export default function ManifestationCard({ manifestation }) {
   const { title, tags, upvotes } = manifestation;
+
   return (
     <Container>
       <header>
@@ -15,9 +16,9 @@ export default function Manifestation({ manifestation }) {
       </header>
 
       <footer>
-        <div>
+        <section>
           <MdThumbUp /> {upvotes}
-        </div>
+        </section>
         <button type="button">
           abrir <MdChevronRight />
         </button>
@@ -26,7 +27,7 @@ export default function Manifestation({ manifestation }) {
   );
 }
 
-Manifestation.propTypes = {
+ManifestationCard.propTypes = {
   manifestation: PropTypes.shape({
     title: PropTypes.string,
     tags: PropTypes.arrayOf(
@@ -39,7 +40,7 @@ Manifestation.propTypes = {
   }),
 };
 
-Manifestation.defaultProps = {
+ManifestationCard.defaultProps = {
   manifestation: {
     title: 'Título',
     tags: [],
