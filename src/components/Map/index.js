@@ -12,9 +12,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import ManifestationPin from '../ManifestationPin';
 import { MapWrapper } from './styles';
 
-export default function Map({ token, viewState, manifestationState }) {
+export default function Map({ token, viewState, manifestationsState }) {
   // TODO implementar o viewport no redux
-  const [manifestations] = useState(manifestationState);
+  const [manifestations] = useState(manifestationsState);
   const containerRef = useRef();
   const [viewport, setViewPort] = useState(viewState);
   const [style] = useState('mapbox://styles/rihor/ck0gyxxik03gv1cmqneje52e9');
@@ -38,7 +38,7 @@ export default function Map({ token, viewState, manifestationState }) {
         onViewportChange={view => setViewPort(view)}
       >
         {manifestations &&
-          manifestations.map(m => <ManifestationPin marker={m} />)}
+          manifestations.map(m => <ManifestationPin key={m.id} marker={m} />)}
       </ReactMapGL>
     </MapWrapper>
   );
@@ -53,8 +53,9 @@ Map.propTypes = {
     zoom: PropTypes.number,
   }),
   token: PropTypes.string.isRequired,
-  manifestationState: PropTypes.arrayOf(
+  manifestationsState: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.number,
       latitude: PropTypes.number,
       longitude: PropTypes.number,
     })
@@ -69,5 +70,5 @@ Map.defaultProps = {
     longitude: Number(process.env.REACT_APP_MAPBOX_LONGITUDE),
     zoom: Number(process.env.REACT_APP_MAPBOX_ZOOM),
   },
-  manifestationState: [],
+  manifestationsState: [],
 };

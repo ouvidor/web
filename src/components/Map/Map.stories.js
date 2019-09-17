@@ -16,8 +16,9 @@ const view = {
 };
 
 const manifestations = [
-  { latitude: -22.885, longitude: -42.024 },
+  { id: 1, latitude: -22.885, longitude: -42.024 },
   {
+    id: 2,
     latitude: -22.8869,
     longitude: -42.0266,
   },
@@ -27,12 +28,16 @@ storiesOf('MAP|Mapa', module)
   .add('default', () => (
     <>
       <GlobalStyle />
-      <Map viewState={view} />
+      <Map token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} viewState={view} />
     </>
   ))
   .add('com manifestações', () => (
     <>
       <GlobalStyle />
-      <Map viewState={view} manifestationState={manifestations} />
+      <Map
+        token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+        viewState={view}
+        manifestationsState={manifestations}
+      />
     </>
   ));
