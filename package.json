@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@rocketseat/unform": "^1.5.1",
+    "date-fns": "^2.0.0-beta.5",
     "dotenv": "^8.1.0",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
@@ -58,6 +59,6 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "prettier": "^1.18.2",
-    "storybook": "^5.2.1"
+    "storybook": "^5.1.11"
   }
 }
