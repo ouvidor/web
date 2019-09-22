@@ -1,31 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FilterSearch from '../../components/FilterSearch';
 import CardList from '../../components/CardList';
 import MapView from '../../components/Map';
 import { Container, BodyWrapper } from './styles';
 
-export default function Map({ cardsState }) {
-  const [cards, setCards] = useState(cardsState);
+export default function Map({ manifestationsState }) {
+  const [manifestations, setManifestations] = useState(manifestationsState);
 
-  // TODO função para pegar os dados da api
+  useEffect(() => {
+    // TODO função para pegar os dados da api
+    setManifestations(manifestationsState);
+  }, []);
 
   return (
     <Container>
       <FilterSearch />
       <BodyWrapper>
         {/* TODO area com draggable */}
-        <CardList cardsState={cards} setCards={setCards} />
-        <MapView token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} />
+        <CardList manifestations={manifestations} />
+        <MapView
+          token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+          manifestationsState={manifestations}
+        />
       </BodyWrapper>
     </Container>
   );
 }
 
 Map.propTypes = {
-  cardsState: PropTypes.arrayOf(PropTypes.object),
+  manifestationsState: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      tags: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          label: PropTypes.string,
+        })
+      ),
+      upvotes: PropTypes.number,
+    })
+  ),
 };
 
 Map.defaultProps = {
-  cardsState: [],
+  manifestationsState: [],
 };
