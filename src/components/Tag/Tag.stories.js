@@ -7,16 +7,21 @@ import { storiesOf } from '@storybook/react';
 import Tag from './index';
 import GlobalStyle from '../../styles/global';
 
-const tagSaude = { id: 1, name: 'Saúde', color: '#fff', background: '#d32727' };
+const tagSaude = {
+  id: 1,
+  label: 'Saúde',
+  color: '#fff',
+  background: '#d32727',
+};
 const tagSaneamento = {
   id: 2,
-  name: 'Saneamento',
+  label: 'Saneamento',
   color: '#fff',
   background: '#277cd3',
 };
 const tagCriminalidade = {
   id: 3,
-  name: 'Criminalidade',
+  label: 'Criminalidade',
   color: '#000',
   background: '#e56f2b',
 };

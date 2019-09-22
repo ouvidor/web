@@ -5,19 +5,27 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Pagination from '../Pagination';
+import ManifestationCard from '../ManifestationCard';
 
 import { Container } from './styles';
 
-export default function CardList({ pageState, maxPageState }) {
+export default function CardList({ pageState, maxPageState, manifestations }) {
   // TODO receber manifestations
   // const [maxPage, setMaxPage] = useState(maxPageState);
-  // const [manifestations, setManifestations] = useState(manifestations);
   const [page, setPage] = useState(pageState);
 
   return (
     <Container>
       <Pagination page={page} setPage={setPage} maxPageState={maxPageState} />
-      {/* Lista de cards */}
+      <ul>
+        {manifestations &&
+          manifestations.map(manifestation => (
+            <ManifestationCard
+              key={manifestation.id}
+              manifestation={manifestation}
+            />
+          ))}
+      </ul>
     </Container>
   );
 }
@@ -25,6 +33,18 @@ export default function CardList({ pageState, maxPageState }) {
 CardList.propTypes = {
   pageState: PropTypes.number,
   maxPageState: PropTypes.number,
+  manifestations: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string,
+      tags: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          label: PropTypes.string,
+        })
+      ),
+      upvotes: PropTypes.number,
+    })
+  ),
 };
 
-CardList.defaultProps = { pageState: 1, maxPageState: 1 };
+CardList.defaultProps = { pageState: 1, maxPageState: 1, manifestations: [] };

@@ -8,25 +8,25 @@ import FilterSearch from './index';
 import GlobalStyle from '../../styles/global';
 
 const tags = [
-  { id: 1, name: 'Saúde', color: '#fff', background: '#d32727' },
+  { id: 1, label: 'Saúde', color: '#fff', background: '#d32727' },
   {
     id: 2,
-    name: 'Saneamento',
+    label: 'Saneamento',
     color: '#fff',
     background: '#277cd3',
   },
   {
     id: 3,
-    name: 'Criminalidade',
+    label: 'Criminalidade',
     color: '#000',
     background: '#e56f2b',
   },
 ];
 
 const suggestion = [
-  { id: 1, name: 'Saúde' },
-  { id: 2, name: 'Saneamento' },
-  { id: 3, name: 'Criminalidade' },
+  { id: 1, label: 'Saúde' },
+  { id: 2, label: 'Saneamento' },
+  { id: 3, label: 'Criminalidade' },
 ];
 
 storiesOf('SEARCH|SearchFilter', module)
@@ -41,16 +41,6 @@ storiesOf('SEARCH|SearchFilter', module)
       <GlobalStyle />
       <FilterSearch
         textState="Testando componente"
-        suggestionsState={suggestion}
-      />
-    </>
-  ))
-  .add('carregando', () => (
-    <>
-      <GlobalStyle />
-      <FilterSearch
-        textState="Testando componente"
-        loadingState
         suggestionsState={suggestion}
       />
     </>

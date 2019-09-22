@@ -7,6 +7,8 @@ import { storiesOf } from '@storybook/react';
 import Map from './index';
 import GlobalStyle from '../../styles/global';
 
+import { Manifestation } from '../../util/Examples';
+
 const view = {
   width: 600,
   height: 500,
@@ -16,8 +18,9 @@ const view = {
 };
 
 const manifestations = [
-  { id: 1, latitude: -22.885, longitude: -42.024 },
+  Manifestation,
   {
+    ...Manifestation,
     id: 2,
     latitude: -22.8869,
     longitude: -42.0266,

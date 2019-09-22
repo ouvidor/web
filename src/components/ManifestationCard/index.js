@@ -12,7 +12,7 @@ export default function ManifestationCard({ manifestation }) {
     <Container>
       <header>
         <h1>{title}</h1>
-        {tags && tags.map(tag => <Tag tag={tag} />)}
+        {tags && tags.map(tag => <Tag key={tag} tag={tag} />)}
       </header>
 
       <footer>
