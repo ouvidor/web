@@ -75,7 +75,12 @@ export default function FilterSearch({
 FilterSearch.propTypes = {
   textState: PropTypes.string,
   loadingState: PropTypes.bool,
-  tagsState: PropTypes.arrayOf(PropTypes.string),
+  tagsState: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      label: PropTypes.string,
+    })
+  ),
   suggestionsState: PropTypes.arrayOf(
     PropTypes.shape({ id: PropTypes.number, name: PropTypes.string })
   ),
