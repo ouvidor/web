@@ -7,12 +7,19 @@ import {
   MdLocationOn,
   MdChromeReaderMode,
 } from 'react-icons/md';
+import { format, parseISO } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 import Tag from '../Tag';
 import { Container } from './styles';
 
 export default function Manifestation({ manifestation }) {
   const { title, tags, upvotes, description, date, location } = manifestation;
+  const formattedDate =
+    date &&
+    format(parseISO(date), "dd 'de' MMMM 'de' yyyy", {
+      locale: pt,
+    });
 
   function changeStatus() {
     console.log('outra pagina');
@@ -27,7 +34,7 @@ export default function Manifestation({ manifestation }) {
       <header>
         <h1>{title}</h1>
         <section>
-          <div>{tags && tags.map(tag => <Tag tag={tag} />)}</div>
+          <div>{tags && tags.map(tag => <Tag key={tag} tag={tag} />)}</div>
           <div>
             <MdThumbUp />
             &nbsp; {upvotes}
@@ -47,10 +54,12 @@ export default function Manifestation({ manifestation }) {
           <MdChromeReaderMode size="16px" />
           <span>&nbsp;Status</span>
         </button>
-        <p>
-          <MdDateRange size="14px" />
-          &nbsp;Data: {date}
-        </p>
+        {formattedDate && (
+          <p>
+            <MdDateRange size="14px" />
+            &nbsp;Data: {formattedDate}
+          </p>
+        )}
         <p>
           <MdLocationOn size="14px" />
           &nbsp;Local: {location}
@@ -71,7 +80,7 @@ Manifestation.propTypes = {
     ),
     upvotes: PropTypes.number,
     description: PropTypes.string,
-    date: PropTypes.instanceOf(Date),
+    date: PropTypes.string,
     location: PropTypes.string,
   }),
 };
