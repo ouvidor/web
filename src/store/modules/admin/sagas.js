@@ -15,13 +15,13 @@ export function* updateProfile({ payload }) {
       email,
       ...(rest.oldPassword ? rest : {}),
     };
-    const response = yield call(api.put, 'users', profile);
+    const response = yield call(api.put, 'admin', profile);
 
-    toast.success('Perfil atualizado com sucesso!');
+    toast.success('Perfil foi atualizado com sucesso!');
 
     yield put(updateProfileSuccess(response.data));
   } catch (err) {
-    toast.error('Ocorreu um erro interno. 😢');
+    toast.error('Não pôde atualizar perfil.');
     yield put(updateProfileFailure());
   }
 }

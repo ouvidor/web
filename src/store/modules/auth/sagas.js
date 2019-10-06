@@ -13,13 +13,16 @@ export function* signIn({ payload }) {
   try {
     const { email, password } = payload;
 
+    // faz a chamada à API no endereço '/sessions' enviando um JSON contendo email e senha
     const response = yield call(api.post, 'sessions', { email, password });
 
-    const { user, token } = response.data;
+    const { admin, token } = response.data;
 
+    // coloca o Token na Header das requisições HTTP
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
-    yield put(signInSuccess(token, user));
+    // diz ao middleware para dar um dispatch nessa action para a store
+    yield put(signInSuccess(token, admin));
 
     // redireciona o admin para essa url
     history.push('/map');
@@ -29,26 +32,15 @@ export function* signIn({ payload }) {
   }
 }
 
-export function* registerAdmin({ payload }) {
-  try {
-    const { name, email, password } = payload;
-    yield call(api.post, 'admin', {
-      name,
-      email,
-      password,
-    });
-  } catch (err) {
-    toast.error('Falha ao cadastrar um admin.');
-  }
-}
-
+// recuperar o token salvo no storage do navegador
 export function setToken({ payload }) {
-  // caso o usuário não tenha nada salvo
+  // caso o admin não tenha nada salvo
   if (!payload) return;
 
   const { token } = payload.auth;
 
   if (token) {
+    // coloca o Token na Header das chamadas HTTP
     api.defaults.headers.Authorization = `Bearer ${token}`;
   }
 }
@@ -62,6 +54,5 @@ export default all([
   // utilizando a action do redux-persist para pegar o token salvo
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
-  takeLatest('@auth/SIGN_UP_REQUEST', registerAdmin),
   takeLatest('@auth/SIGN_OUT', signOut),
 ]);
