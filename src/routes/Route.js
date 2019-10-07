@@ -6,6 +6,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import DefaultLayout from '../pages/_layouts/DefaultLayout';
 
@@ -14,24 +15,23 @@ export default function RouteWrapper({
   isPrivate,
   ...rest
 }) {
-  // flag de autenticação
-  // TODO utilizar redux para pegar o dado
-  const logged = true;
+  // ouve o estado de login do admin
+  const signed = useSelector(state => state.auth.signed);
 
   // caso não esteja logado e acesse uma rota privada redireciona para a página de login
-  if (!logged && isPrivate) {
+  if (!signed && isPrivate) {
     return <Redirect to="/" />;
   }
 
   // caso esteja logado e tente acessar uma rota publica redireciona para a rota privada
-  if (logged && !isPrivate) {
+  if (signed && !isPrivate) {
     // TODO criar rota
     return <Redirect to="/map" />;
   }
 
   // caso esteja logado renderiza o componente com um Wrapper
   // esse Wrapper criara o menu
-  if (logged) {
+  if (signed) {
     return (
       <Route
         {...rest}

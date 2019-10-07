@@ -11,7 +11,7 @@ export default function Map({ manifestationsState }) {
   useEffect(() => {
     // TODO função para pegar os dados da api
     setManifestations(manifestationsState);
-  }, []);
+  }, [manifestationsState]);
 
   return (
     <Container>
