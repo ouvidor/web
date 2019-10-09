@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 import Pagination from '../Pagination';
 import ManifestationCard from '../ManifestationCard';
+import FilterSearch from '../FilterSearch';
 
 import { Container } from './styles';
 
@@ -16,6 +17,7 @@ export default function CardList({ pageState, maxPageState, manifestations }) {
 
   return (
     <Container>
+      <FilterSearch />
       <Pagination page={page} setPage={setPage} maxPageState={maxPageState} />
       <ul>
         {manifestations &&

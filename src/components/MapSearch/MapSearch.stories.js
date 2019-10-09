@@ -1,17 +1,17 @@
 /**
- * Testes do componente CardList
+ * Testes do componente MapSearch
  */
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 
-import CardList from './index';
+import MapSearch from './index';
 import GlobalStyle from '../../styles/global';
 
-storiesOf('SEARCH|CardList', module)
+storiesOf('SEARCH|MapSearch', module)
   .addParameters({})
   .add('default', () => (
     <>
       <GlobalStyle />
-      <CardList />
+      <MapSearch />
     </>
   ));
