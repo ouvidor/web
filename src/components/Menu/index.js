@@ -21,10 +21,10 @@ import {
 
 import { Container, Item, ActiveIndicator } from './styles';
 
-const CustomLink = ({ to, IconComponent, activePath }) => (
+const CustomLink = ({ to, Icon, activePath }) => (
   <Item>
     <Link to={to}>
-      <IconComponent />
+      <Icon />
     </Link>
     {to === activePath && <ActiveIndicator />}
   </Item>
@@ -35,60 +35,24 @@ export default function Menu({ adminLeaderStatus }) {
     state => adminLeaderStatus || state.admin.isLeader
   );
 
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   return (
     <Container>
       <ul>
-        <CustomLink
-          to="/map"
-          IconComponent={MdMap}
-          activePath={location.pathname}
-        />
-        <CustomLink
-          to="/recent"
-          IconComponent={MdVisibility}
-          activePath={location.pathname}
-        />
-        <CustomLink
-          to="/create"
-          IconComponent={MdCreate}
-          activePath={location.pathname}
-        />
-        <CustomLink
-          to="/statistics"
-          IconComponent={MdEqualizer}
-          activePath={location.pathname}
-        />
-        <CustomLink
-          to="/send"
-          IconComponent={MdSend}
-          activePath={location.pathname}
-        />
-        <CustomLink
-          to="/email"
-          IconComponent={MdEmail}
-          activePath={location.pathname}
-        />
+        <CustomLink to="/map" Icon={MdMap} activePath={pathname} />
+        <CustomLink to="/recent" Icon={MdVisibility} activePath={pathname} />
+        <CustomLink to="/create" Icon={MdCreate} activePath={pathname} />
+        <CustomLink to="/statistics" Icon={MdEqualizer} activePath={pathname} />
+        <CustomLink to="/send" Icon={MdSend} activePath={pathname} />
+        <CustomLink to="/email" Icon={MdEmail} activePath={pathname} />
         {isAdminLeader && (
-          <CustomLink
-            to="/settings"
-            IconComponent={MdSettings}
-            activePath={location.pathname}
-          />
+          <CustomLink to="/settings" Icon={MdSettings} activePath={pathname} />
         )}
       </ul>
       <ul>
-        <CustomLink
-          to="/profile"
-          IconComponent={MdFace}
-          activePath={location.pathname}
-        />
-        <CustomLink
-          to="/info"
-          IconComponent={MdInfo}
-          activePath={location.pathname}
-        />
+        <CustomLink to="/profile" Icon={MdFace} activePath={pathname} />
+        <CustomLink to="/info" Icon={MdInfo} activePath={pathname} />
       </ul>
     </Container>
   );
@@ -99,6 +63,6 @@ Menu.defaultProps = { adminLeaderStatus: false };
 
 CustomLink.propTypes = {
   to: PropTypes.string.isRequired,
-  IconComponent: PropTypes.element.isRequired,
+  Icon: PropTypes.func.isRequired,
   activePath: PropTypes.string.isRequired,
 };

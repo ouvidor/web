@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 export const Container = styled.div`
   background: #0b76da;
@@ -32,6 +32,10 @@ export const Item = styled.li`
 
   &:hover {
     background: rgba(255, 255, 255, 0.1);
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.3);
   }
 
   a {
