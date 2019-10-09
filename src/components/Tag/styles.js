@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.li`
-  padding: 2px 8px;
+  padding: 2px 5px;
   background: #eee;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -12,12 +12,15 @@ export const Container = styled.li`
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  transition: border 0.3s;
 
   & + li {
     margin-left: 5px;
   }
 
   &:hover {
+    border: 1px solid #ccc;
+
     svg {
       fill: rgba(0, 0, 0, 1);
     }
