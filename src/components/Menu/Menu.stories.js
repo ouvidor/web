@@ -2,28 +2,36 @@
  * Testes do componente Menu
  */
 import React from 'react';
+import { Provider } from 'react-redux';
 import { storiesOf } from '@storybook/react';
 import { StaticRouter } from 'react-router-dom';
 
 import Menu from './index';
 import GlobalStyle from '../../styles/global';
+import { store } from '../../store';
 
 storiesOf('MENU|Barra de menu', module)
   .add('como admin comum', () => (
-    <StaticRouter>
-      <GlobalStyle />
-      <Menu />
-    </StaticRouter>
+    <Provider store={store}>
+      <StaticRouter>
+        <GlobalStyle />
+        <Menu />
+      </StaticRouter>
+    </Provider>
   ))
-  .add('como adminMaster', () => (
-    <StaticRouter>
-      <GlobalStyle />
-      <Menu adminMasterStatus />
-    </StaticRouter>
+  .add('como admin líder', () => (
+    <Provider store={store}>
+      <StaticRouter>
+        <GlobalStyle />
+        <Menu adminLeaderStatus />
+      </StaticRouter>
+    </Provider>
   ))
   .add('com botão ativo', () => (
-    <StaticRouter location="/map">
-      <GlobalStyle />
-      <Menu adminMasterStatus />
-    </StaticRouter>
+    <Provider store={store}>
+      <StaticRouter location="/map">
+        <GlobalStyle />
+        <Menu adminLeaderStatus />
+      </StaticRouter>
+    </Provider>
   ));
