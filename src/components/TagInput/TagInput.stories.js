@@ -8,19 +8,9 @@ import TagInput from './index';
 import GlobalStyle from '../../styles/global';
 
 const tags = [
-  { id: 1, name: 'Saúde', color: '#fff', background: '#d32727' },
-  {
-    id: 2,
-    name: 'Saneamento',
-    color: '#fff',
-    background: '#277cd3',
-  },
-  {
-    id: 3,
-    name: 'Criminalidade',
-    color: '#000',
-    background: '#e56f2b',
-  },
+  { id: 1, name: 'Saúde' },
+  { id: 2, name: 'Saneamento' },
+  { id: 3, name: 'Criminalidade' },
 ];
 const suggestion = [
   { id: 1, name: 'Saúde' },

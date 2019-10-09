@@ -5,14 +5,14 @@
 
 .react-tags {
   position: relative;
-  height: 25px;
-  background: #fff;
+  min-height: 35px;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  border-radius: 4px;
+  background: #fff;
+  border-radius: 8px;
 
   font-size: 14px;
 
@@ -20,36 +20,13 @@
   cursor: text;
 }
 
+/* quando o componente receber foco */
 .react-tags.is-focused {
-  border-color: rgb(39, 124, 211);
+  box-shadow: 0 4px 10px rgba(39, 124, 211, 0.1);
 }
 
 .react-tags__selected {
   display: inline;
-}
-
-.react-tags__selected-tag {
-  display: inline-block;
-  margin-right: 4px;
-  padding: 0px 4px;
-  border: 1px solid #ddd;
-  border-radius: 2px;
-  background: #eee;
-
-  /* match the font styles */
-  font-size: inherit;
-  line-height: inherit;
-}
-
-.react-tags__selected-tag:after {
-  content: '\2715';
-  color: #aaa;
-  margin-left: 3px;
-}
-
-.react-tags__selected-tag:hover,
-.react-tags__selected-tag:focus {
-  border-color: #b1b1b1;
 }
 
 .react-tags__search {
@@ -72,7 +49,7 @@
 .react-tags__search input {
   /* prevent autoresize overflowing the container */
   max-width: 100%;
-
+  background: transparent;
   /* remove styles and layout from this element */
   margin: 0;
   padding: 0;
