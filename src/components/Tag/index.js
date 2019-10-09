@@ -5,10 +5,10 @@ import { MdClear } from 'react-icons/md';
 import { Container } from './styles';
 
 export default function Tag({ tag, onDelete }) {
-  const { id, label, background, color } = tag;
+  const { id, name } = tag;
   return (
-    <Container key={id} background={background} color={color}>
-      <span>{label}</span>
+    <Container key={id}>
+      <span>{name}</span>
       {onDelete && (
         <button type="button" onClick={onDelete}>
           <MdClear />
@@ -21,9 +21,7 @@ export default function Tag({ tag, onDelete }) {
 Tag.propTypes = {
   tag: PropTypes.shape({
     id: PropTypes.number,
-    label: PropTypes.string,
-    color: PropTypes.string,
-    background: PropTypes.string,
+    name: PropTypes.string,
   }).isRequired,
   onDelete: PropTypes.func,
 };

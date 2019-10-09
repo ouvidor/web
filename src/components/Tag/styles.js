@@ -2,11 +2,12 @@ import styled from 'styled-components';
 
 export const Container = styled.li`
   padding: 2px 8px;
-  background: ${props => props.background};
+  background: #eee;
+  border: 1px solid #ddd;
   border-radius: 4px;
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   font-size: 14px;
-  color: ${props => props.color};
+  color: rgba(0, 0, 0, 0.7);
   cursor: default;
   display: inline-flex;
   justify-content: center;
@@ -17,7 +18,9 @@ export const Container = styled.li`
   }
 
   &:hover {
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    svg {
+      fill: rgba(0, 0, 0, 1);
+    }
   }
 
   span {
@@ -34,7 +37,12 @@ export const Container = styled.li`
     svg {
       width: 14px;
       height: 14px;
-      fill: ${props => props.color};
+      fill: rgba(0, 0, 0, 0.7);
+      transition: fill 0.3s;
+
+      &:hover {
+        fill: #f00;
+      }
     }
   }
 `;
