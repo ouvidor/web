@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import FilterSearch from '../../components/FilterSearch';
-import CardList from '../../components/CardList';
+
+import MapSearch from '../../components/MapSearch';
 import MapView from '../../components/Map';
 import { Container, BodyWrapper } from './styles';
 
@@ -15,10 +15,8 @@ export default function Map({ manifestationsState }) {
 
   return (
     <Container>
-      <FilterSearch />
       <BodyWrapper>
-        {/* TODO area com draggable */}
-        <CardList manifestations={manifestations} />
+        <MapSearch manifestations={manifestations} />
         <MapView
           token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
           manifestationsState={manifestations}
