@@ -14,11 +14,11 @@ export function* signIn({ payload }) {
     const { email, password } = payload;
 
     // faz a chamada à API no endereço '/sessions' enviando um JSON contendo email e senha
-    const response = yield call(api.post, 'sessions', { email, password });
+    const response = yield call(api.post, 'auth', { email, password });
 
-    const { admin, token } = response.data;
+    const { user: admin, token } = response.data;
 
-    // coloca o Token na Header das requisições HTTP
+    // coloca o Token na Header das requisições HTTP, agora toda requisição vai ter o token
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
     // diz ao middleware para dar um dispatch nessa action para a store
