@@ -19,6 +19,8 @@ export default function TagInputWrapper({ tags, setTags, suggestionsState }) {
   );
 
   function handleAddition(tag) {
+    // maximo de duas tags para evitar bugs na interface
+    if (tags.length >= 2) return;
     setTags([...tags, tag]);
   }
 
@@ -38,7 +40,6 @@ export default function TagInputWrapper({ tags, setTags, suggestionsState }) {
       clearInputOnDelete={false}
       tagComponent={Tag}
       maxSuggestionsLength={20}
-      delimiters
       // test
       allowNew
     />
