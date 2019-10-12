@@ -16,7 +16,6 @@ import {
   MdEmail,
   MdSettings,
   MdFace,
-  MdInfo,
 } from 'react-icons/md';
 
 import { Container, Item, ActiveIndicator } from './styles';
@@ -52,7 +51,6 @@ export default function Menu({ adminLeaderStatus }) {
       </ul>
       <ul>
         <CustomLink to="/profile" Icon={MdFace} activePath={pathname} />
-        <CustomLink to="/info" Icon={MdInfo} activePath={pathname} />
       </ul>
     </Container>
   );
