@@ -3,7 +3,8 @@ import React from 'react';
 import FilterSearch from '../../components/FilterSearch';
 import Pagination from '../../components/Pagination';
 import Tag from '../../components/Tag';
-import { Background, Container, ManifestationList } from './styles';
+import { Background, Container } from '../../styles';
+import { ManifestationList } from './styles';
 
 export default function RecentsPage() {
   return (
