@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 import ReactMapGL from 'react-map-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-import ManifestationPin from '../ManifestationPin';
+import ManifestationPin from './ManifestationPin';
 import { MapWrapper } from './styles';
 
 export default function Map({ token, viewState, manifestationsState }) {
