@@ -5,11 +5,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Tag from './index';
-import GlobalStyle from '../../styles/global';
-
-const tagSaude = { id: 1, name: 'Saúde' };
-const tagSaneamento = { id: 2, name: 'Saneamento' };
-const tagCriminalidade = { id: 3, name: 'Criminalidade' };
+import { tags } from '../../util/Examples';
 
 function onDelete() {
   console.log('onDelete');
@@ -17,9 +13,8 @@ function onDelete() {
 
 storiesOf('TAGS|Tag', module).add('todas as tags', () => (
   <>
-    <GlobalStyle />
-    <Tag tag={tagSaude} onDelete={onDelete} />
-    <Tag tag={tagSaneamento} onDelete={onDelete} />
-    <Tag tag={tagCriminalidade} onDelete={onDelete} />
+    <Tag tag={tags[0]} onDelete={onDelete} />
+    <Tag tag={tags[1]} onDelete={onDelete} />
+    <Tag tag={tags[2]} onDelete={onDelete} />
   </>
 ));

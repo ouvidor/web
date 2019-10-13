@@ -5,7 +5,6 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 
 import Map from './index';
-import GlobalStyle from '../../styles/global';
 
 import { Manifestation } from '../../util/Examples';
 
@@ -29,18 +28,12 @@ const manifestations = [
 
 storiesOf('MAP|Mapa', module)
   .add('default', () => (
-    <>
-      <GlobalStyle />
-      <Map token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} viewState={view} />
-    </>
+    <Map token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN} viewState={view} />
   ))
   .add('com manifestações', () => (
-    <>
-      <GlobalStyle />
-      <Map
-        token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-        viewState={view}
-        manifestationsState={manifestations}
-      />
-    </>
+    <Map
+      token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+      viewState={view}
+      manifestationsState={manifestations}
+    />
   ));
