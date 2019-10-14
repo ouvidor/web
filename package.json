@@ -29,10 +29,20 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "render-video": "gource -1080x720 -s 1 -a 1 -o output.mp4"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!src/util",
+      "!src/styles",
+      "!src/services/*.js",
+      "!src/index.js"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -60,6 +70,7 @@
     "@testing-library/jest-dom": "^4.1.2",
     "@testing-library/react": "^9.3.0",
     "@types/jest": "^24.0.18",
+    "axios-mock-adapter": "^1.17.0",
     "eslint": "^6.2.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.1.0",
