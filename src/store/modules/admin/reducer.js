@@ -4,11 +4,11 @@
  * que não faz mutações no estado atual, apenas cria um novo estado.
  */
 
-const INTIAL_STATE = {
+export const INITIAL_STATE = {
   profile: null,
 };
 
-export default function admin(state = INTIAL_STATE, action) {
+export default function admin(state = INITIAL_STATE, action) {
   switch (action.type) {
     case '@admin/UPDATE_PROFILE_SUCCESS':
       // guarda o perfil editado
