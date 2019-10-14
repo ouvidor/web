@@ -9,7 +9,7 @@ export default function Login() {
     email: Yup.string()
       .email('Insira um email válido.')
       .required('O email é necessário'),
-    password: Yup.string().required('A senha é necessária.'),
+    password: Yup.string().required('A senha é necessária'),
   });
 
   function handleSubmit(data) {
@@ -20,8 +20,14 @@ export default function Login() {
     <Wrapper>
       <Container>
         <Form onSubmit={handleSubmit} schema={validationSchema}>
-          <Input name="email" type="email" placeholder="Seu email" />
-          <Input name="password" type="password" placeholder="Sua senha" />
+          
+          <div>
+            <Input name="email" type="email" placeholder="Seu email" />
+          </div>
+          
+          <div>
+            <Input name="password" type="password" placeholder="Sua senha" />
+          </div>
 
           <button type="submit">Login</button>
         </Form>
