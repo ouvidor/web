@@ -30,7 +30,6 @@ export const Container = styled.div`
     justify-content: center;
 
     input {
-      
       width: 100%;
       background: #fff;
       border: 0;
@@ -79,11 +78,10 @@ export const Container = styled.div`
         top: -9px;
       }
     }
-    
   }
 `;
 
 export const Space = styled.div`
-    width: 100%;
-    position: relative;
+  width: 100%;
+  position: relative;
 `;

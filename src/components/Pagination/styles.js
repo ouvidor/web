@@ -11,11 +11,11 @@ export const Container = styled.div`
 
   span {
     user-select: none;
-    color: #0B76DA;
+    color: #0b76da;
   }
 
   &:hover {
-    box-shadow: 0px 0px 5px rgb(11,118,218,0.2)
+    box-shadow: 0px 0px 5px rgb(11, 118, 218, 0.2);
   }
 `;
 
@@ -30,7 +30,7 @@ export const Button = styled.button`
   background-color: white;
 
   svg {
-    fill: #0B76DA;
+    fill: #0b76da;
     width: 20px;
     height: 20px;
     transition: all 0.1s;
@@ -41,12 +41,11 @@ export const Button = styled.button`
       ? css`
           cursor: not-allowed;
           opacity: 0.2;
-          
         `
       : css`
           &:hover {
             svg {
-              fill: #0B4CDA;
+              fill: #0b4cda;
             }
           }
         `}

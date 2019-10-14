@@ -24,11 +24,10 @@ export default function Login() {
     <Wrapper>
       <Container>
         <Form onSubmit={handleSubmit} schema={validationSchema}>
-          
           <div>
             <Input name="email" type="email" placeholder="Seu email" />
           </div>
-          
+
           <div>
             <Input name="password" type="password" placeholder="Sua senha" />
           </div>
