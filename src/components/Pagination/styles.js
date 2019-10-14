@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
-  background-color: #ddd;
-  border-radius: 4px;
+  background-color: #fff;
+  border-radius: 8px;
   height: 40px;
   width: 250px;
   display: flex;
@@ -11,6 +11,11 @@ export const Container = styled.div`
 
   span {
     user-select: none;
+    color: #0B76DA;
+  }
+
+  &:hover {
+    box-shadow: 0px 0px 5px rgb(11,118,218,0.2)
   }
 `;
 
@@ -22,9 +27,10 @@ export const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: white;
 
   svg {
-    fill: #000;
+    fill: #0B76DA;
     width: 20px;
     height: 20px;
     transition: all 0.1s;
@@ -34,12 +40,13 @@ export const Button = styled.button`
     props.blocked
       ? css`
           cursor: not-allowed;
-          opacity: 0.3;
+          opacity: 0.2;
+          
         `
       : css`
           &:hover {
             svg {
-              fill: #bbb;
+              fill: #0B4CDA;
             }
           }
         `}
