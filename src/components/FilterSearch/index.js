@@ -4,17 +4,11 @@
  */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { MdSearch, MdClear } from 'react-icons/md';
+import { MdSearch } from 'react-icons/md';
 import { CircleSpinner } from 'react-spinners-kit';
 
 import TagInput from '../TagInput';
-import {
-  Container,
-  SearchInput,
-  SearchButton,
-  TagFilterContainer,
-  ClearTagsButton,
-} from './styles';
+import { Container } from './styles';
 
 export default function FilterSearch({
   textState,
@@ -33,41 +27,30 @@ export default function FilterSearch({
     setLoading(false);
   }
 
-  function handleClearTags() {
-    setTags([]);
-  }
-
   return (
     <Container>
       <div>
-        <SearchInput
+        <input
           title="pesquisar"
           aria-label="pesquisar"
-          placeholder="Pesquisar por título, descrição ou local"
+          placeholder="Pesquisar por título ou protocolo"
           value={text}
           onChange={e => setText(e.target.value)}
         />
-        <SearchButton onClick={handleSearch} aria-label="Pesquisar">
+        <button type="button" onClick={handleSearch} aria-label="Pesquisar">
           {loading ? (
             <CircleSpinner size={15} color="rgba(0,0,0,0.5)" />
           ) : (
             <MdSearch />
           )}
-        </SearchButton>
+        </button>
       </div>
 
-      <TagFilterContainer>
-        <ClearTagsButton onClick={handleClearTags}>
-          <MdClear /> excluir
-        </ClearTagsButton>
-        <span>filtros:</span>
-
-        <TagInput
-          tags={tags}
-          setTags={setTags}
-          suggestionsState={suggestionsState}
-        />
-      </TagFilterContainer>
+      <TagInput
+        tags={tags}
+        setTags={setTags}
+        suggestionsState={suggestionsState}
+      />
     </Container>
   );
 }

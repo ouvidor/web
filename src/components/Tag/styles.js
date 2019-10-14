@@ -1,30 +1,37 @@
 import styled from 'styled-components';
 
 export const Container = styled.li`
-  padding: 2px 8px;
-  background: ${props => props.background};
-  border-radius: 4px;
+  padding: 2px 5px;
+  background: #eee;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   font-size: 14px;
-  color: ${props => props.color};
+  color: rgba(0, 0, 0, 0.7);
   cursor: default;
   display: inline-flex;
   justify-content: center;
   align-items: center;
+  transition: border 0.3s;
 
   & + li {
     margin-left: 5px;
   }
 
   &:hover {
-    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    border: 1px solid #ccc;
+
+    svg {
+      fill: rgba(0, 0, 0, 1);
+    }
   }
 
   span {
-    margin-right: 4px;
+    text-align: center;
   }
 
   button {
+    margin-left: 2px;
     background: transparent;
     border: none;
     display: flex;
@@ -34,7 +41,12 @@ export const Container = styled.li`
     svg {
       width: 14px;
       height: 14px;
-      fill: ${props => props.color};
+      fill: rgba(0, 0, 0, 0.7);
+      transition: fill 0.3s;
+
+      &:hover {
+        fill: #f00;
+      }
     }
   }
 `;

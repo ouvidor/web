@@ -4,42 +4,63 @@
  * Recebe o tipo do usuário e renderiza apenas as opções disponíveis a ele
  */
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom';
-import { MdMap } from 'react-icons/md';
+import { Link, useLocation } from 'react-router-dom';
+import {
+  MdMap,
+  MdVisibility,
+  MdCreate,
+  MdEqualizer,
+  MdSend,
+  MdEmail,
+  MdSettings,
+  MdFace,
+} from 'react-icons/md';
 
-import { Background, ButtonsList } from './styles';
+import { Container, Item, ActiveIndicator } from './styles';
 
-export default function Menu({ adminMasterStatus }) {
-  // TODO pegar do redux, mas pra facilitar nos testes pode receber também
-  const isAdminMaster = false || adminMasterStatus;
+const CustomLink = ({ to, Icon, activePath }) => (
+  <Item>
+    <Link to={to}>
+      <Icon />
+    </Link>
+    {to === activePath && <ActiveIndicator />}
+  </Item>
+);
+
+export default function Menu({ adminLeaderStatus }) {
+  const isAdminLeader = useSelector(
+    state => adminLeaderStatus || state.admin.isLeader
+  );
+
+  const { pathname } = useLocation();
 
   return (
-    <Background>
-      <nav>
-        <ButtonsList>
-          <li>
-            <NavLink to="/map" activeClassName="active-menu-btn">
-              <MdMap />
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/statistics" activeClassName="active-menu-btn">
-              <MdMap />
-            </NavLink>
-          </li>
-          {isAdminMaster && (
-            <li>
-              <NavLink to="/recent" activeClassName="active-menu-btn">
-                <MdMap />
-              </NavLink>
-            </li>
-          )}
-        </ButtonsList>
-      </nav>
-    </Background>
+    <Container>
+      <ul>
+        <CustomLink to="/map" Icon={MdMap} activePath={pathname} />
+        <CustomLink to="/recent" Icon={MdVisibility} activePath={pathname} />
+        <CustomLink to="/create" Icon={MdCreate} activePath={pathname} />
+        <CustomLink to="/statistics" Icon={MdEqualizer} activePath={pathname} />
+        <CustomLink to="/send" Icon={MdSend} activePath={pathname} />
+        <CustomLink to="/email" Icon={MdEmail} activePath={pathname} />
+        {isAdminLeader && (
+          <CustomLink to="/settings" Icon={MdSettings} activePath={pathname} />
+        )}
+      </ul>
+      <ul>
+        <CustomLink to="/profile" Icon={MdFace} activePath={pathname} />
+      </ul>
+    </Container>
   );
 }
 
-Menu.propTypes = { adminMasterStatus: PropTypes.bool };
-Menu.defaultProps = { adminMasterStatus: false };
+Menu.propTypes = { adminLeaderStatus: PropTypes.bool };
+Menu.defaultProps = { adminLeaderStatus: false };
+
+CustomLink.propTypes = {
+  to: PropTypes.string.isRequired,
+  Icon: PropTypes.func.isRequired,
+  activePath: PropTypes.string.isRequired,
+};

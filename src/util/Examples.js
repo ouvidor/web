@@ -13,3 +13,21 @@ export const Manifestation = {
   location: 'bairro Seila, rua NaoSeiQual',
   date: '2020-09-30T19:00:00.000Z',
 };
+
+export const tags = [
+  { id: 1, name: 'Saúde' },
+  {
+    id: 2,
+    name: 'Saneamento',
+  },
+  {
+    id: 3,
+    name: 'Criminalidade',
+  },
+];
+
+export const suggestions = [
+  { id: 1, name: 'Saúde' },
+  { id: 2, name: 'Saneamento' },
+  { id: 3, name: 'Criminalidade' },
+];

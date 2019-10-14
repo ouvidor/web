@@ -4,7 +4,8 @@
  * Esse componente puxa as sugestões da API
  */
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import TagInput from 'react-tag-autocomplete';
 
@@ -13,11 +14,13 @@ import './styles.css';
 import Tag from '../Tag';
 
 export default function TagInputWrapper({ tags, setTags, suggestionsState }) {
-  const [suggestions] = useState(suggestionsState);
-
-  // TODO useEffect para requisitar as sugestões da API
+  const suggestions = useSelector(
+    state => suggestionsState || state.categories
+  );
 
   function handleAddition(tag) {
+    // maximo de duas tags para evitar bugs na interface
+    if (tags.length >= 2) return;
     setTags([...tags, tag]);
   }
 
@@ -33,9 +36,12 @@ export default function TagInputWrapper({ tags, setTags, suggestionsState }) {
       handleDelete={handleDelete}
       autofocus={false}
       minQueryLength={1}
-      placeholder="Insira uma tag"
+      placeholder="Categorias"
       clearInputOnDelete={false}
       tagComponent={Tag}
+      maxSuggestionsLength={20}
+      // test
+      allowNew
     />
   );
 }
