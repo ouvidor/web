@@ -30,6 +30,7 @@ export const Container = styled.div`
     justify-content: center;
 
     input {
+      
       width: 100%;
       background: #fff;
       border: 0;
@@ -37,7 +38,7 @@ export const Container = styled.div`
       height: 50px;
       padding: 0 15px;
       color: #000;
-      margin: 0 0 10px;
+      margin: 0 0 12px;
       &::placeholder {
         color: rgba(0, 0, 0, 0.5);
       }
@@ -60,13 +61,29 @@ export const Container = styled.div`
       }
     }
 
-    span {
-      padding: 2px 15px;
-      margin-bottom: 10px;
-      color: #c44543;
-      border: 1px solid #c44543;
-      border-radius: 4px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    div {
+      width: 100%;
+      position: relative;
+
+      span {
+        padding: 2px 15px;
+        margin-bottom: 10px;
+        background-color: #ffdfdf;
+        color: #c44543;
+        border: 1px solid #c44543;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+        position: absolute;
+        right: -12px;
+        top: -9px;
+      }
     }
+    
   }
+`;
+
+export const Space = styled.div`
+    width: 100%;
+    position: relative;
 `;

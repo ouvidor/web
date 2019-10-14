@@ -43,9 +43,9 @@ export default function Pagination({ page, setPage, loadingState, maxPage }) {
       </Button>
 
       {loadingState ? (
-        <CircleSpinner color="#2d2d2d" size={20} />
+        <CircleSpinner color="#0B76DA" size={20} />
       ) : (
-        <span>{page}</span>
+        <span><strong>{page}</strong></span>
       )}
       <Button
         blocked={isLastPage ? 1 : 0}

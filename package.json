@@ -32,7 +32,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
-    "render-video": "gource -s 5 -a 1 -o output.mp4"
+    "render-video": "gource -1080x720 -s 1 -a 1 -o output.mp4"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -13,8 +13,8 @@ import { Switch, Redirect, Route } from 'react-router-dom';
 import AuthRoute from './Route';
 
 // páginas
-import LoginPage from '../pages/Login';
-import MapPage from '../pages/Map';
+import LoginPage from '../pages/LoginPage';
+import MapPage from '../pages/MapPage';
 import RecentsPage from '../pages/RecentsPage';
 import CreatePage from '../pages/CreatePage';
 import StatisticsPage from '../pages/StatisticsPage';
