@@ -9,9 +9,10 @@ import { updateProfileSuccess, updateProfileFailure } from './actions';
 
 export function* updateProfile({ payload }) {
   try {
-    const { name, email, ...rest } = payload.data;
+    const { first_name, last_name, email, ...rest } = payload.data;
     const profile = {
-      name,
+      first_name,
+      last_name,
       email,
       ...(rest.oldPassword ? rest : {}),
     };

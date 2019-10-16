@@ -15,7 +15,7 @@
     "react-map-gl": "^5.0.10",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.1.1",
+    "react-scripts": "3.2.0",
     "react-spinners-kit": "^1.9.0",
     "react-tag-autocomplete": "^5.11.1",
     "react-toastify": "^5.4.0",
@@ -29,10 +29,16 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "coverage": "react-scripts test --coverage --watchAll=false",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "render-video": "gource -1080x720 -s 1 -a 1 -o output.mp4"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -57,6 +63,10 @@
     "@storybook/addon-links": "^5.2.1",
     "@storybook/addons": "^5.2.1",
     "@storybook/react": "^5.2.1",
+    "@testing-library/jest-dom": "^4.1.2",
+    "@testing-library/react": "^9.3.0",
+    "@types/jest": "^24.0.18",
+    "axios-mock-adapter": "^1.17.0",
     "eslint": "^6.2.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.1.0",

@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    jest: true,
   },
   extends: ['airbnb', 'prettier', 'prettier/react'],
   globals: {
@@ -31,6 +32,9 @@ module.exports = {
     'jsx-a11y/no-autofocus': 'off',
 
     // ignora o estilo de quebra de linha, unix ou windows
-    'linebreak-style': 0
+    'linebreak-style': 0,
+
+    // aceita outros padrões além de camelCase
+    'camelcase': [2, {"ignoreDestructuring": true, "properties": "never"}]
   },
 };
