@@ -71,7 +71,12 @@ export default function ReactSelect({
 ReactSelect.propTypes = {
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
-  options: PropTypes.arrayOf().isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+    })
+  ).isRequired,
   multiple: PropTypes.bool,
 };
 
