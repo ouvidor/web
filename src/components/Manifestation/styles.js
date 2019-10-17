@@ -3,70 +3,90 @@ import styled from 'styled-components';
 export const Container = styled.article`
   display: flex;
   flex-direction: column;
-  height: 376px;
-  width: 325px;
-  background-color: #eee;
+  height: 333px;
+  width: 500px;
+  background-color: white;
   border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 10px rgb(11,118,218,0.2);
   padding: 15px;
   position: relative;
 
   header {
-    h1 {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 5px;
+
+    div:first-child{
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      h1 {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 0;
+      }
+
     }
 
     section {
       display: flex;
       justify-content: space-between;
+      margin-top: 10px;
+
+      span {
+        font-size: 12px;
+      }
       ul {
         list-style: none;
         padding: 0px;
         margin: 0px;
       }
-      div:last-child {
+
+      button {
         display: flex;
         align-items: center;
-        width: 70px;
+        background-color: white;
+        border: none;
+        padding: 2px 10px;
+        border-radius: 8px;
+        border: 0.8px solid #0B76DA;
+        font-size: 12px;
+
+        &:hover {
+          background-color: #dfffff;
+        }
       }
     }
   }
 
   article {
-    p {
+    p:first-child{
       margin: 10px 0;
-      font-size: 12px;
+      color: black;
     }
-    button {
-      display: flex;
-      align-items: center;
-      background-color: #2d2d2d;
-      border: none;
-      padding: 2px 10px;
-      border-radius: 8px;
-
-      &:hover {
-        background-color: #444;
-      }
+    p {
+      
+      font-size: 12px;
+      color: rgba(0, 0, 0, 0.7);
     }
   }
 
   footer {
-    margin-top: auto;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: auto;    
 
     button {
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      background-color: transparent;
+      
+      background-color: #0B76DA;
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
       border: none;
       cursor: pointer;
-    }
-    p {
       font-size: 12px;
-      opacity: 0.5;
+
+      &:hover {
+        background: #0665bd;
+      }
     }
   }
 `;
