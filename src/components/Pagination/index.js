@@ -10,7 +10,7 @@ import { CircleSpinner } from 'react-spinners-kit';
 
 import { Container, Button } from './styles';
 
-export default function Pagination({ page, setPage, loadingState, maxPage }) {
+export default function Pagination({ page, setPage, loading, maxPage }) {
   const [isFirstPage, setIsFirstPage] = useState(page === 1);
   const [isLastPage, setIsLastPage] = useState(page === maxPage);
 
@@ -42,7 +42,7 @@ export default function Pagination({ page, setPage, loadingState, maxPage }) {
         <MdChevronLeft />
       </Button>
 
-      {loadingState ? (
+      {loading ? (
         <CircleSpinner color="#0B76DA" size={20} />
       ) : (
         <span>
@@ -63,7 +63,7 @@ export default function Pagination({ page, setPage, loadingState, maxPage }) {
 Pagination.propTypes = {
   page: PropTypes.number,
   setPage: PropTypes.func,
-  loadingState: PropTypes.bool,
+  loading: PropTypes.bool,
   maxPage: PropTypes.number,
 };
 
@@ -72,6 +72,6 @@ Pagination.defaultProps = {
   setPage: () => {
     console.warn('setPage precisa ser passado para o componente Pagination');
   },
-  loadingState: false,
+  loading: false,
   maxPage: 1,
 };
