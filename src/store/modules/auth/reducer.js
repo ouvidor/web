@@ -4,7 +4,7 @@
  * que não faz mutações no estado atual, apenas cria um novo estado.
  */
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   token: null,
   signed: false,
   loading: false,
