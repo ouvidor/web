@@ -1,28 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MdThumbUp, MdChevronRight } from 'react-icons/md';
 
 import Tag from '../Tag';
-import { Container } from './styles';
+import { Container, TagList } from './styles';
 
 export default function ManifestationCard({ manifestation }) {
-  const { title, tags, upvotes } = manifestation;
+  const { title, tags } = manifestation;
 
   return (
     <Container>
+
       <header>
-        <h1>{title}</h1>
-        {tags && tags.map(tag => <Tag key={tag} tag={tag} />)}
+        <section>
+          <h1>{title}</h1>
+        </section>
+        <article>
+          <div></div>
+        </article>
       </header>
 
-      <footer>
-        <section>
-          <MdThumbUp /> {upvotes}
-        </section>
-        <button type="button">
-          abrir <MdChevronRight />
-        </button>
-      </footer>
+      <TagList>
+        
+        {tags && tags.map(tag => <Tag key={tag} tag={tag} />)}
+
+      </TagList>
+
     </Container>
   );
 }
@@ -36,7 +38,7 @@ ManifestationCard.propTypes = {
         title: PropTypes.string,
       })
     ),
-    upvotes: PropTypes.number,
+
   }),
 };
 
@@ -44,6 +46,6 @@ ManifestationCard.defaultProps = {
   manifestation: {
     title: 'Título',
     tags: [],
-    upvotes: 0,
+
   },
 };

@@ -4,54 +4,68 @@ export const Container = styled.article`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 145px;
-  width: 250px;
-  background-color: #eee;
+  width: 457px;
+  background-color: #fff;
   border-radius: 8px;
-  padding: 15px;
+  padding: 10px;
   position: relative;
 
-  header {
-    h1 {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0px;
-      margin: 0px;
-    }
+  &:hover {
+    box-shadow: 0px 0px 5px rgb(11,118,218,0.2);
   }
 
-  footer {
+  header {
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
-    opacity: 0.5;
-    user-select: none;
+    align-items: center;
 
     section {
       display: flex;
-      align-items: center;
+      flex: 7;
 
-      svg {
-        margin-right: 5px;
-        width: 20px;
-        height: 20px;
+      h1 {
+        font-weight: bold;
+        font-size: 16px;
+        color: #0E508D;
+        width: 350px;
+
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
-    button {
-      border: none;
-      background: transparent;
+    article {
       display: flex;
+      flex: 1;
       align-items: center;
+      justify-content: flex-end;
 
-      svg {
-        width: 24px;
-        height: 24px;
+      div {
+        height: 12px;
+        width: 12px;
+        background-color: green;
+        border-radius: 50%;
       }
+      
     }
+    
   }
+  
+`;
+
+export const TagList = styled.ul`
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  list-style: none;
+  padding: 0px;
+  margin: 4px 0 0 0;
+    
+  span{
+    font-size: 12px;
+  }
+  
 `;
