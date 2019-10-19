@@ -29,7 +29,7 @@ export const tags = [
 ];
 
 export const suggestions = [
-  { id: 1, name: 'Saúde' },
-  { id: 2, name: 'Saneamento' },
-  { id: 3, name: 'Criminalidade' },
+  { id: 1, title: 'Saúde' },
+  { id: 2, title: 'Saneamento' },
+  { id: 3, title: 'Criminalidade' },
 ];

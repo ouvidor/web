@@ -12,7 +12,7 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import ManifestationPin from './ManifestationPin';
 import { MapWrapper } from './styles';
 
-export default function Map({ token, viewState, manifestationsState }) {
+export default function MapView({ token, viewState, manifestationsState }) {
   // TODO implementar o viewport no redux
   const [manifestations] = useState(manifestationsState);
   const containerRef = useRef();
@@ -44,7 +44,7 @@ export default function Map({ token, viewState, manifestationsState }) {
   );
 }
 
-Map.propTypes = {
+MapView.propTypes = {
   viewState: PropTypes.shape({
     width: PropTypes.number,
     height: PropTypes.number,
@@ -62,7 +62,7 @@ Map.propTypes = {
   ),
 };
 
-Map.defaultProps = {
+MapView.defaultProps = {
   viewState: {
     width: 0,
     height: 0,

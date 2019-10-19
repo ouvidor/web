@@ -9,5 +9,11 @@ export const Container = styled.div`
 export const BodyWrapper = styled.div`
   display: flex;
   flex: 1;
-  background: linear-gradient(#000, #fff);
 `;
+
+export const Body = styled.div`
+  background: #eaedf2;
+  padding: 10px;
+`;
+
+export const List = styled.ul``;

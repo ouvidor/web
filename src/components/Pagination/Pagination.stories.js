@@ -30,6 +30,6 @@ storiesOf('SEARCH|Paginação', module)
   ))
   .add('carregando', () => (
     <StaticRouter>
-      <Pagination loadingState />
+      <Pagination loading />
     </StaticRouter>
   ));
