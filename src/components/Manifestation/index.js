@@ -10,84 +10,75 @@ import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 import Tag from '../Tag';
-import { Container } from './styles';
+import { Container, Header, DetailsContainer, Footer } from './styles';
 
 export default function Manifestation({ manifestation }) {
-  const {
-    title,
-    tags,
-    upvotes,
-    description,
-    date,
-    location,
-    protocol,
-  } = manifestation;
+  const { title, tags, description, date, location, protocol } = manifestation;
   const formattedDate =
     date &&
     format(parseISO(date), "dd 'de' MMMM 'de' yyyy", {
       locale: pt,
     });
 
-  function openDots() {
+  function openConfig() {
     console.log('abrindo configs');
   }
 
-  function getAttatch() {
+  function openAttached() {
     console.log('pagina de anexo');
   }
 
-  function replyTo() {
+  function handleSend() {
     console.log('pagina para direcionar secretaría');
   }
 
   return (
     <Container>
-      <header>
+      <Header>
         <div>
           <h1>{title}</h1>
           <MdMoreVert
             color="black"
             size="18"
-            onClick={openDots}
+            onClick={openConfig}
             cursor="pointer"
           />
         </div>
 
-        <span>
-          <small>protocolo: {protocol}</small>
-        </span>
+        <span>protocolo: {protocol}</span>
 
         <section>
           <div>{tags && tags.map(tag => <Tag key={tag} tag={tag} />)}</div>
-          <button type="button" onClick={getAttatch}>
+          <button type="button" onClick={openAttached}>
             <MdAttachFile color="black" size="14" />
             &nbsp;Anexos
           </button>
         </section>
-      </header>
+      </Header>
 
-      <article>
+      <DetailsContainer>
         <p>{description}</p>
         <br />
 
         {formattedDate && (
-          <p>
+          <div>
             <MdDateRange size="14px" />
-            &nbsp;Data: {formattedDate}
-          </p>
+            Data: {formattedDate}
+          </div>
         )}
+        {location && (
+          <div>
+            <MdLocationOn size="14px" />
+            Local: {location}
+          </div>
+        )}
+      </DetailsContainer>
 
-        <p>
-          <MdLocationOn size="14px" />
-          &nbsp;Local: {location}
-        </p>
-      </article>
-
-      <footer>
-        <button type="button" onClick={replyTo}>
+      <Footer>
+        <button type="button" onClick={handleSend}>
           Direcionar para secretária
         </button>
-      </footer>
+      </Footer>
     </Container>
   );
 }
