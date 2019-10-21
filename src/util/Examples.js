@@ -6,8 +6,10 @@ export const Manifestation = {
   title: 'Denuncia',
   description:
     ' Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ',
-  tags: [{ id: 1, name: 'Saúde', color: '#fff', background: '#d32727' },
-        { id: 2, name: 'Alimentação', color: '#fff', background: '#d32727' }],
+  tags: [
+    { id: 1, name: 'Saúde', color: '#fff', background: '#d32727' },
+    { id: 2, name: 'Alimentação', color: '#fff', background: '#d32727' },
+  ],
   upvotes: 12,
   latitude: -22.8869,
   longitude: -42.0266,

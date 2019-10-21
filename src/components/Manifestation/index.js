@@ -4,7 +4,7 @@ import {
   MdAttachFile,
   MdDateRange,
   MdLocationOn,
-  MdMoreVert
+  MdMoreVert,
 } from 'react-icons/md';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -13,7 +13,15 @@ import Tag from '../Tag';
 import { Container } from './styles';
 
 export default function Manifestation({ manifestation }) {
-  const { title, tags, upvotes, description, date, location, protocol } = manifestation;
+  const {
+    title,
+    tags,
+    upvotes,
+    description,
+    date,
+    location,
+    protocol,
+  } = manifestation;
   const formattedDate =
     date &&
     format(parseISO(date), "dd 'de' MMMM 'de' yyyy", {
@@ -35,13 +43,19 @@ export default function Manifestation({ manifestation }) {
   return (
     <Container>
       <header>
-        
         <div>
           <h1>{title}</h1>
-          <MdMoreVert color="black" size="18" onClick={openDots} cursor="pointer"/>
+          <MdMoreVert
+            color="black"
+            size="18"
+            onClick={openDots}
+            cursor="pointer"
+          />
         </div>
 
-        <span><small>protocolo: {protocol}</small></span>
+        <span>
+          <small>protocolo: {protocol}</small>
+        </span>
 
         <section>
           <div>{tags && tags.map(tag => <Tag key={tag} tag={tag} />)}</div>
@@ -50,11 +64,9 @@ export default function Manifestation({ manifestation }) {
             &nbsp;Anexos
           </button>
         </section>
-
       </header>
 
       <article>
-        
         <p>{description}</p>
         <br />
 
@@ -69,12 +81,9 @@ export default function Manifestation({ manifestation }) {
           <MdLocationOn size="14px" />
           &nbsp;Local: {location}
         </p>
-
       </article>
 
       <footer>
-        
-
         <button type="button" onClick={replyTo}>
           Direcionar para secretária
         </button>

@@ -11,7 +11,7 @@ export const Container = styled.article`
   position: relative;
 
   &:hover {
-    box-shadow: 0px 0px 5px rgb(11,118,218,0.2);
+    box-shadow: 0px 0px 5px rgb(11, 118, 218, 0.2);
   }
 
   header {
@@ -27,7 +27,7 @@ export const Container = styled.article`
       h1 {
         font-weight: bold;
         font-size: 16px;
-        color: #0E508D;
+        color: #0e508d;
         width: 350px;
 
         white-space: nowrap;
@@ -48,24 +48,19 @@ export const Container = styled.article`
         background-color: green;
         border-radius: 50%;
       }
-      
     }
-    
   }
-  
 `;
 
 export const TagList = styled.ul`
-
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   list-style: none;
   padding: 0px;
   margin: 4px 0 0 0;
-    
-  span{
+
+  span {
     font-size: 12px;
   }
-  
 `;
