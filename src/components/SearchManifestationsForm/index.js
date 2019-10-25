@@ -6,7 +6,7 @@ import { object, string, array } from 'yup';
 import PropTypes from 'prop-types';
 
 import Select from '../Select';
-import { StyledForm, TextInput, selectStyle } from './styles';
+import { StyledForm, TextInput } from './styles';
 
 export default function SearchManifestationsForm({
   onSubmit,
@@ -30,7 +30,7 @@ export default function SearchManifestationsForm({
           )}
         </button>
       </TextInput>
-      <Select name="tags" options={tagsOptions} styles={selectStyle} multiple />
+      <Select name="tags" options={tagsOptions} multiple />
     </StyledForm>
   );
 }

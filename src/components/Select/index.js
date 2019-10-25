@@ -3,6 +3,7 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 
 import { useField } from '@rocketseat/unform';
+import styles from './styles';
 
 export default function ReactSelect({
   name,
@@ -51,6 +52,7 @@ export default function ReactSelect({
 
       <Select
         name={fieldName}
+        styles={styles}
         aria-label={fieldName}
         options={options}
         isMulti={multiple}
