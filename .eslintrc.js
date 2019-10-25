@@ -35,6 +35,9 @@ module.exports = {
     'linebreak-style': 0,
 
     // aceita outros padrões além de camelCase
-    'camelcase': [2, {"ignoreDestructuring": true, "properties": "never"}]
+    'camelcase': [2, {"ignoreDestructuring": true, "properties": "never"}],
+
+    // aceitar ++
+    'no-plusplus': 'off'
   },
 };
