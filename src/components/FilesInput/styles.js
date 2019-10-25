@@ -3,35 +3,40 @@ import styled from 'styled-components';
 export const Container = styled.div`
   margin-bottom: 10px;
   align-self: stretch;
+
   label {
-    height: 300px;
+    height: 100px;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 4px;
+    background: #fff;
+    border-radius: 8px;
     align-items: center;
-    transition: box-shadow 0.2s;
     position: relative;
     cursor: pointer;
+    transition: box-shadow 0.3s;
+
     &:hover {
-      box-shadow: 0 4px 4px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 12px rgb(11, 118, 218, 0.1);
     }
+
     span {
-      color: #999;
+      color: rgba(0, 0, 0, 0.5);
       font-weight: bold;
       font-size: 16px;
       flex-grow: 1;
       align-self: center;
       text-align: center;
     }
+
     img {
       height: 100%;
       width: 100%;
       border-radius: 4px;
       z-index: 1;
     }
+
     /* não mostrar o verdadeiro input */
     input {
       display: none;
@@ -46,10 +51,15 @@ export const ContainerPlaceholder = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
   div {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+
+    span {
+      margin-left: 20px;
+    }
   }
 `;

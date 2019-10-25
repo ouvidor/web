@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useField } from '@rocketseat/unform';
-import { MdPhotoCamera } from 'react-icons/md';
+import { MdAttachFile } from 'react-icons/md';
 
 // import api from '../../services/api';
 import { Container, ContainerPlaceholder } from './styles';
@@ -22,18 +22,27 @@ export default function BannerInput() {
         path: 'dataset.file',
       });
     }
-    // senão colocar isso aqui o unform fica atualizando toda hora
+    // se não colocar isso aqui o unform fica atualizando toda hora
     // eslint-disable-next-line
   }, [ref.current, defaultValue]);
 
   async function handleChange(event) {
     const formData = new FormData();
-    formData.append('file', event.target.files[0]);
+    const { files } = event.target;
+
+    // anexa os arquivos no FormData
+    for (let index = 0; index < files.length; index++) {
+      // se não tiver um arquivo nesse indice retorna
+      if (!files[index]) return;
+
+      formData.append('file', files[index]);
+    }
+
     // const response = await api.post('files', formData);
     // const { id, url } = response.data;
     // setFile(id);
     // setPreview(url);
-    console.log(event.target.files);
+    console.log(formData);
   }
 
   // a label deve conter um input dentro
@@ -41,13 +50,17 @@ export default function BannerInput() {
   return (
     <Container>
       <label htmlFor="file">
-        <ContainerPlaceholder>
-          <div>
-            <MdPhotoCamera size={50} color="rgba(255,255,255, 0.4)" />
-            <span>Envie um arquivo</span>
-          </div>
-        </ContainerPlaceholder>
-        {preview && <img src={preview} alt="file" />}
+        {preview ? (
+          <img src={preview} alt="file" />
+        ) : (
+          <ContainerPlaceholder>
+            <div>
+              <MdAttachFile size={40} color="rgba(0,0,0, 0.5)" />
+              <span>Anexe arquivos</span>
+            </div>
+          </ContainerPlaceholder>
+        )}
+
         <input
           type="file"
           id="file"
