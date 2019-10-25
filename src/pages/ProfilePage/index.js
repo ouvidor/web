@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import { Background, Container } from '../../styles';
+import { Background } from '../../styles';
 import { ProfileContainer } from './styles';
 
 export default function ProfilePage() {
@@ -9,7 +9,7 @@ export default function ProfilePage() {
 
   return (
     <Background>
-      <Container>
+      <>
         <h1>Seu perfil</h1>
         <ProfileContainer>
           <p>
@@ -39,7 +39,7 @@ export default function ProfilePage() {
             </li>
           </ul>
         </ProfileContainer>
-      </Container>
+      </>
     </Background>
   );
 }

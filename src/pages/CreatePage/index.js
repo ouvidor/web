@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Textarea, FileInput } from '@rocketseat/unform';
+import { Form, Input, Textarea } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
 import { Background } from '../../styles';

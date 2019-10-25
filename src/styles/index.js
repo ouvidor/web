@@ -3,10 +3,7 @@ import styled from 'styled-components';
 export const Background = styled.div`
   background: #eaedf2;
   flex: 1;
-`;
-
-export const Container = styled.div`
-  margin: 15px 20px;
+  padding: 15px 20px;
 
   h1,
   h2 {

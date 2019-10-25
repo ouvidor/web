@@ -18,7 +18,7 @@ export default function MapPage({
   const [manifestations, setManifestations] = useState(manifestationsState);
   const [tags] = useState([
     { id: 1, title: 'banana' },
-    { id: 2, title: 'maçâ' },
+    { id: 2, title: 'maçã' },
     { id: 3, title: 'melancia' },
   ]);
   const [loading, setLoading] = useState(loadingState);
