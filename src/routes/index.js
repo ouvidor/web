@@ -31,7 +31,7 @@ export default function Routes() {
       <AuthRoute path="/recent" isPrivate component={RecentsPage} />
       <AuthRoute path="/create" isPrivate component={CreatePage} />
       <AuthRoute path="/statistics" isPrivate component={StatisticsPage} />
-      <AuthRoute path="/send" isPrivate component={SendPage} />
+      <AuthRoute path="/send/:id?" isPrivate component={SendPage} />
       <AuthRoute path="/email" isPrivate component={EmailPage} />
       <AuthRoute path="/settings" isPrivate component={SettingsPage} />
       <AuthRoute path="/profile" isPrivate component={ProfilePage} />
