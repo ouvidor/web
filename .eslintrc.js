@@ -38,6 +38,9 @@ module.exports = {
     'camelcase': [2, {"ignoreDestructuring": true, "properties": "never"}],
 
     // aceitar ++
-    'no-plusplus': 'off'
+    'no-plusplus': 'off',
+
+    // aceitar sobrescrever um parâmetro
+    "no-param-reassign": 'off'
   },
 };
