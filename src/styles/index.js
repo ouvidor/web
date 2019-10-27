@@ -15,4 +15,8 @@ export const Background = styled.div`
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin: 20px;
   }
+
+  header {
+    max-width: 500px;
+  }
 `;

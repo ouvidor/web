@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const ManifestationList = styled.ul`
   background: rgb(11, 118, 218);
+  margin-top: 20px;
   padding: 15px 20px;
   border-radius: 8px;
 
