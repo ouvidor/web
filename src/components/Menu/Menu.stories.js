@@ -15,11 +15,11 @@ storiesOf('MENU|Barra de menu', module)
   ))
   .add('como admin líder', () => (
     <StaticRouter>
-      <Menu adminLeaderStatus />
+      <Menu isAdminMasterState />
     </StaticRouter>
   ))
   .add('com botão ativo', () => (
     <StaticRouter location="/map">
-      <Menu adminLeaderStatus />
+      <Menu isAdminMasterState />
     </StaticRouter>
   ));

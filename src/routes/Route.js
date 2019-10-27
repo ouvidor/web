@@ -7,16 +7,25 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
+import decodeJWT from 'jwt-decode';
 
 import DefaultLayout from '../pages/_layouts/DefaultLayout';
 
 export default function RouteWrapper({
   component: Component,
   isPrivate,
+  isSuperPrivate,
   ...rest
 }) {
+  // se receber isSuperPrivate o isPrivate passa a ser verdadeiro
+  if (isSuperPrivate) {
+    isPrivate = true;
+  }
+
   // ouve o estado de login do admin
-  const signed = useSelector(state => state.auth.signed);
+  const { signed, token } = useSelector(state => state.auth);
+  const tokenPayload = token && decodeJWT(token);
+  const role = tokenPayload.role && tokenPayload.role[0];
 
   // caso não esteja logado e acesse uma rota privada redireciona para a página de login
   if (!signed && isPrivate) {
@@ -26,6 +35,11 @@ export default function RouteWrapper({
   // caso esteja logado e tente acessar uma rota publica redireciona para a rota privada
   if (signed && !isPrivate) {
     // TODO criar rota
+    return <Redirect to="/map" />;
+  }
+
+  // caso a rota seja apenas para master e o admin não for master redireciona para 'map'
+  if (isSuperPrivate && role.title !== 'master') {
     return <Redirect to="/map" />;
   }
 
@@ -53,9 +67,11 @@ RouteWrapper.propTypes = {
   component: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
     .isRequired,
   isPrivate: PropTypes.bool,
+  isSuperPrivate: PropTypes.bool,
 };
 
 // caso não receba a prop, esse valor será aplicado
 RouteWrapper.defaultProps = {
-  isPrivate: false,
+  isPrivate: null,
+  isSuperPrivate: null,
 };

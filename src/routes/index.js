@@ -33,7 +33,7 @@ export default function Routes() {
       <AuthRoute path="/statistics" isPrivate component={StatisticsPage} />
       <AuthRoute path="/send/:id?" isPrivate component={SendPage} />
       <AuthRoute path="/email" isPrivate component={EmailPage} />
-      <AuthRoute path="/settings" isPrivate component={SettingsPage} />
+      <AuthRoute path="/settings" isSuperPrivate component={SettingsPage} />
       <AuthRoute path="/profile" isPrivate component={ProfilePage} />
 
       <Route render={() => <Redirect pathname="/" />} />

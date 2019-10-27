@@ -17,6 +17,7 @@ import {
   MdSettings,
   MdFace,
 } from 'react-icons/md';
+import decodeJWT from 'jwt-decode';
 
 import { Container, Item, ActiveIndicator } from './styles';
 
@@ -29,10 +30,12 @@ const CustomLink = ({ to, Icon, activePath }) => (
   </Item>
 );
 
-export default function Menu({ adminLeaderStatus }) {
-  const isAdminLeader = useSelector(
-    state => adminLeaderStatus || state.admin.isLeader
-  );
+export default function Menu({ isAdminMasterState }) {
+  // pega o token e checa a Role
+  const token = useSelector(state => state.auth.token);
+  const tokenPayload = token && decodeJWT(token);
+  const role = tokenPayload && tokenPayload.role[0];
+  const isAdminMaster = role.title === 'master' || isAdminMasterState;
 
   const { pathname } = useLocation();
 
@@ -45,7 +48,7 @@ export default function Menu({ adminLeaderStatus }) {
         <CustomLink to="/statistics" Icon={MdEqualizer} activePath={pathname} />
         <CustomLink to="/send" Icon={MdSend} activePath={pathname} />
         <CustomLink to="/email" Icon={MdEmail} activePath={pathname} />
-        {isAdminLeader && (
+        {isAdminMaster && (
           <CustomLink to="/settings" Icon={MdSettings} activePath={pathname} />
         )}
       </ul>
@@ -56,8 +59,8 @@ export default function Menu({ adminLeaderStatus }) {
   );
 }
 
-Menu.propTypes = { adminLeaderStatus: PropTypes.bool };
-Menu.defaultProps = { adminLeaderStatus: false };
+Menu.propTypes = { isAdminMasterState: PropTypes.bool };
+Menu.defaultProps = { isAdminMasterState: false };
 
 CustomLink.propTypes = {
   to: PropTypes.string.isRequired,
