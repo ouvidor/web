@@ -5,6 +5,5 @@ export const Wrapper = styled.div`
   min-height: 100vh;
   background: linear-gradient(#fff, #000);
   display: flex;
-
-  padding-left: 50px;
+  padding-left: 68px;
 `;

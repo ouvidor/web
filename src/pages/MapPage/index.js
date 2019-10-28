@@ -59,10 +59,10 @@ export default function MapPage({
           </List>
         </Body>
 
-        <MapView
+        {process.env.REACT_APP_MAPBOX_ACCESS_TOKEN &&  <MapView
           token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
           manifestationsState={manifestations}
-        />
+        />}
       </BodyWrapper>
     </Container>
   );
