@@ -57,4 +57,10 @@ export const ActiveIndicator = styled.div`
   background: #eaedf2;
   position: absolute;
   left: 58px;
+  animation: ANIMATION 0.2s;
+
+  @keyframes ANIMATION {
+    0% { opacity: 0.2; }
+    100% { opacity: 1; }
+  }
 `;
