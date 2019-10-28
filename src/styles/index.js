@@ -9,14 +9,11 @@ export const Background = styled.div`
   h2 {
     color: #2d2d2d;
     font-variant-ligatures: none;
+    margin-bottom: 20px;
   }
 
   hr {
     border: 1px solid rgba(0, 0, 0, 0.1);
     margin: 20px;
-  }
-
-  header {
-    max-width: 500px;
   }
 `;

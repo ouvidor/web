@@ -1,5 +1,13 @@
 import styled from 'styled-components';
 
+export const Container = styled.div`
+  margin: 15px 20px;
+
+  > header {
+    max-width: 500px;
+  }
+`;
+
 export const ManifestationList = styled.ul`
   background: rgb(11, 118, 218);
   margin-top: 20px;
