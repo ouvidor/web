@@ -9,6 +9,15 @@ export const Container = styled.div`
 export const BodyWrapper = styled.div`
   display: flex;
   flex: 1;
+  > section {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 24px;
+    color: #fff;
+  }
 `;
 
 export const Body = styled.div`
