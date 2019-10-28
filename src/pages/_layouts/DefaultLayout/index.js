@@ -9,10 +9,12 @@ import { Wrapper } from './styles';
 
 export default function DefaultLayout({ children }) {
   return (
-    <Wrapper>
+    <>
       <Menu />
-      {children}
-    </Wrapper>
+      <Wrapper>
+        {children}
+      </Wrapper>
+    </>
   );
 }
 

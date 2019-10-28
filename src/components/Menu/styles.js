@@ -10,6 +10,8 @@ export const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
+  z-index: 1;
+  position: fixed;
 
   svg {
     fill: #fff;

@@ -25,7 +25,7 @@ export default function RouteWrapper({
   // ouve o estado de login do admin
   const { signed, token } = useSelector(state => state.auth);
   const tokenPayload = token && decodeJWT(token);
-  const role = tokenPayload.role && tokenPayload.role[0];
+  const role = tokenPayload && tokenPayload.role && tokenPayload.role[0];
 
   // caso não esteja logado e acesse uma rota privada redireciona para a página de login
   if (!signed && isPrivate) {

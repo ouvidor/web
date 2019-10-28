@@ -35,7 +35,7 @@ export default function Menu({ isAdminMasterState }) {
   const token = useSelector(state => state.auth.token);
   const tokenPayload = token && decodeJWT(token);
   const role = tokenPayload && tokenPayload.role[0];
-  const isAdminMaster = role.title === 'master' || isAdminMasterState;
+  const isAdminMaster = role && role.title === 'master' || isAdminMasterState;
 
   const { pathname } = useLocation();
 
