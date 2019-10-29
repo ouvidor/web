@@ -18,18 +18,12 @@ const manifestationsState = [Manifestation];
 // TODO stories da página Map não ocupam a página toda
 storiesOf('PAGE|Map', module)
   .add('default', () => (
-    <>
-      <GlobalStyle />
-      <Wrapper>
-        <Map />
-      </Wrapper>
-    </>
+    <Wrapper>
+      <Map />
+    </Wrapper>
   ))
   .add('com manifestações', () => (
-    <>
-      <GlobalStyle />
-      <Wrapper>
-        <Map manifestationsState={manifestationsState} />
-      </Wrapper>
-    </>
+    <Wrapper>
+      <Map manifestationsState={manifestationsState} />
+    </Wrapper>
   ));

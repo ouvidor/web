@@ -35,3 +35,37 @@ export const suggestions = [
   { id: 2, title: 'Saneamento' },
   { id: 3, title: 'Criminalidade' },
 ];
+
+export const categories = [
+  { id: 1, title: 'Saneamento' },
+  { id: 2, title: 'Criminalidade' },
+  { id: 3, title: 'Saúde' },
+];
+
+export const types = [
+  { id: 1, title: 'Reclamação' },
+  { id: 2, title: 'Elogio' },
+  { id: 3, title: 'Solicitação de informação' },
+  { id: 4, title: 'Denúncia' },
+  { id: 5, title: 'Elogio' },
+  { id: 6, title: 'Sugestão' },
+];
+
+export const secretariats = [
+  { id: 1, title: 'Secretaria de Saúde', email: 'gov.saude@gmail.com' },
+  {
+    id: 2,
+    title: 'Secretaria de Saneamento',
+    email: 'gov.saneamento@gmail.com',
+  },
+  { id: 3, title: 'Secretaria de Segurança', email: 'gov.seguranca@gmail.com' },
+  { id: 4, title: 'Secretaria de Turismo', email: 'gov.turismo@gmail.com' },
+  { id: 5, title: 'Secretaria do Cidadão', email: 'gov.cidadao@gmail.com' },
+  { id: 6, title: 'Secretaria da Fazenda', email: 'gov.fazenda@gmail.com' },
+];
+
+export const status = [
+  { id: 1, title: 'Enviado para secretaria' },
+  { id: 2, title: 'Em progresso' },
+  { id: 3, title: 'Fechada' },
+];
