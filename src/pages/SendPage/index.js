@@ -29,7 +29,7 @@ export default function SendPage({ match, manifestationState }) {
       });
     }
     fetchManifestation();
-  }, []);
+  }, [id]);
 
   function handleFetch() {}
 

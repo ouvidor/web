@@ -59,10 +59,14 @@ export default function MapPage({
           </List>
         </Body>
 
-        {process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ? (<MapView
-          token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-          manifestationsState={manifestations}
-        />) : (<section>Sem a chave de acesso ao mapa</section>)}
+        {process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ? (
+          <MapView
+            token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+            manifestationsState={manifestations}
+          />
+        ) : (
+          <section>Sem a chave de acesso ao mapa</section>
+        )}
       </BodyWrapper>
     </Container>
   );

@@ -11,9 +11,7 @@ export default function DefaultLayout({ children }) {
   return (
     <>
       <Menu />
-      <Wrapper>
-        {children}
-      </Wrapper>
+      <Wrapper>{children}</Wrapper>
     </>
   );
 }
