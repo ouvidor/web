@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input, Textarea } from '@rocketseat/unform';
 
-import { Container } from './styles';
+// import { Container } from './styles';
 // import api from '../../services/api';
+import { Background } from '../../styles';
 import Tag from '../../components/Tag';
 import Select from '../../components/Select';
 
@@ -38,7 +39,7 @@ export default function SendPage({ match, manifestationState }) {
   // renderiza o formulario de busca por protocolo
   if (!manifestation)
     return (
-      <Container>
+      <Background>
         <h1>Direcionar manifestação para secretária</h1>
         <Form onSubmit={handleFetch}>
           <Input
@@ -47,11 +48,11 @@ export default function SendPage({ match, manifestationState }) {
             label="Número de protocolo"
           />
         </Form>
-      </Container>
+      </Background>
     );
 
   return (
-    <Container>
+    <Background>
       <header>
         <button type="button">voltar</button>
         <span>protocolo: {manifestation.protocol}</span>
@@ -77,7 +78,7 @@ export default function SendPage({ match, manifestationState }) {
           </Form>
         </section>
       </div>
-    </Container>
+    </Background>
   );
 }
 

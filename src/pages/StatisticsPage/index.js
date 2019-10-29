@@ -1,7 +1,11 @@
 import React from 'react';
 
-import { Container } from './styles';
+import { Background } from '../../styles';
 
 export default function StatisticsPage() {
-  return <Container>Estatisticas</Container>;
+  return (
+    <Background>
+      <h1>Estatisticas</h1>
+    </Background>
+  );
 }
