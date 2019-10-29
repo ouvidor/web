@@ -1,28 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { MdCheck, MdClear } from 'react-icons/md';
 
 import { Container } from './styles';
-
-const SettingsItem = ({ handleSave, handleDelete, email, item }) => (
-  <li key={item && item.id}>
-    <input name="title" />
-    {email && <input name="email" />}
-    <button type="button" onClick={() => handleSave()} label="Enviar">
-      <MdCheck />
-    </button>
-    <button type="button" label="Enviar">
-      <MdClear />
-    </button>
-  </li>
-);
+import SettingsItem from './SettingsItem';
 
 export default function SettingsContainer({ items, email, title }) {
   const [isOpen, setIsOpen] = useState(false);
-
-  function handleSubmit(data) {
-    console.log(data);
-  }
 
   return (
     <Container>
@@ -32,27 +15,10 @@ export default function SettingsContainer({ items, email, title }) {
       {isOpen && (
         <div>
           <ul>
-            <SettingsItem handleSubmit={handleSubmit} email={email} />
-            {/* <li>
-              <Form onSubmit={handleSubmit}>
-                <Input name="title" />
-                {email && <Input name="email" />}
-                <button type="submit" label="Enviar">
-                  <MdCheck />
-                </button>
-              </Form>
-            </li> */}
+            <SettingsItem email={email} />
             {items &&
               items.map(item => (
-                <li key={item.id}>
-                  <Form initialData={item}>
-                    <Input name="title" />
-                    {email && <Input name="email" />}
-                    <button type="submit" label="Enviar">
-                      <MdCheck />
-                    </button>
-                  </Form>
-                </li>
+                <SettingsItem item={item} key={item.id} email={email} />
               ))}
           </ul>
         </div>
@@ -73,11 +39,3 @@ SettingsContainer.propTypes = {
 };
 
 SettingsContainer.defaultProps = { email: null };
-
-SettingsItem.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  email: PropTypes.bool,
-  item: PropTypes.shape({ id: PropTypes.number, title: PropTypes.string }),
-};
-
-SettingsItem.defaultProps = { email: null, item: null };

@@ -37,7 +37,7 @@ export default function SearchManifestationsForm({
 
 SearchManifestationsForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   tagsOptions: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
@@ -45,3 +45,5 @@ SearchManifestationsForm.propTypes = {
     })
   ).isRequired,
 };
+
+SearchManifestationsForm.defaultProps = { loading: false };
