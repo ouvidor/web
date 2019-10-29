@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
-import { MdCheck, MdClear } from 'react-icons/md';
 import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
 import { string, object } from 'yup';
 
-// import { Container } from './styles';
+import { Container, StyledMdCheck, StyledMdClear } from './styles';
 
-export default function SettingsItem({ email, item }) {
+export default function SettingsItem({ email, item, placeholder }) {
   // quando for 'false' é para excluir, quando for 'true' é pra salvar
   const [isSaving, setIsSaving] = useState(false);
 
   const validation = object().shape({
-    title: string().required(),
+    title: string().required('O titulo é necessário'),
     email: string()
-      .email()
+      .email('Insira um email válido')
       .when('$email', (checkIfEmail, passSchema) =>
-        checkIfEmail ? passSchema.required() : passSchema
+        checkIfEmail ? passSchema.required('O email é necessário') : passSchema
       ),
   });
 
@@ -40,29 +39,46 @@ export default function SettingsItem({ email, item }) {
   }
 
   return (
-    <li key={item && item.id}>
+    <Container key={item && item.id}>
       <Form
         initialData={item}
         onSubmit={handleSubmit}
-        schema={validation}
+        schema={isSaving && validation}
         context={{ email }}
       >
-        <Input name="title" />
-        {email && <Input name="email" />}
-        <button type="submit" onClick={() => setIsSaving(true)} label="Enviar">
-          <MdCheck />
-        </button>
-        <button type="submit" onClick={() => setIsSaving(false)} label="Enviar">
-          <MdClear />
-        </button>
+        <div>
+          <Input name="title" placeholder={placeholder} />
+        </div>
+        {email && (
+          <div>
+            <Input name="email" placeholder="Email" />
+          </div>
+        )}
+        <aside>
+          <button
+            type="submit"
+            onClick={() => setIsSaving(true)}
+            label="Enviar"
+          >
+            <StyledMdCheck />
+          </button>
+          <button
+            type="submit"
+            onClick={() => setIsSaving(false)}
+            label="Enviar"
+          >
+            <StyledMdClear />
+          </button>
+        </aside>
       </Form>
-    </li>
+    </Container>
   );
 }
 
 SettingsItem.propTypes = {
   email: PropTypes.bool,
   item: PropTypes.shape({ id: PropTypes.number, title: PropTypes.string }),
+  placeholder: PropTypes.string,
 };
 
-SettingsItem.defaultProps = { email: null, item: null };
+SettingsItem.defaultProps = { email: null, item: null, placeholder: null };

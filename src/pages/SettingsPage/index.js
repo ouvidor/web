@@ -25,17 +25,27 @@ export default function SettingsPage() {
       <SettingsContainer
         items={categories}
         title="Categorias de manifestações"
+        placeholder="Uma categoria"
       />
 
       <SettingsContainer
         items={secretariats}
         email
         title="Secretarias municipais"
+        placeholder="Nome da secretaria"
       />
 
-      <SettingsContainer items={types} title="Tipos de manifestações" />
+      <SettingsContainer
+        items={types}
+        title="Tipos de manifestações"
+        placeholder="Título da manifestação"
+      />
 
-      <SettingsContainer items={status} title="Status de manifestações" />
+      <SettingsContainer
+        items={status}
+        title="Status de manifestações"
+        placeholder="Título do status"
+      />
     </Background>
   );
 }

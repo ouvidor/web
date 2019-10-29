@@ -1,21 +1,30 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { Container } from './styles';
 import SettingsItem from './SettingsItem';
 
-export default function SettingsContainer({ items, email, title }) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function SettingsContainer({
+  items,
+  email,
+  title,
+  placeholder,
+}) {
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <Container>
       <button type="button" onClick={() => setIsOpen(!isOpen)}>
-        {title}
+        <div>
+          {title}
+          {isOpen ? <GoChevronUp /> : <GoChevronDown />}
+        </div>
       </button>
       {isOpen && (
         <div>
           <ul>
-            <SettingsItem email={email} />
+            <SettingsItem email={email} placeholder={placeholder} />
             {items &&
               items.map(item => (
                 <SettingsItem item={item} key={item.id} email={email} />
@@ -36,6 +45,7 @@ SettingsContainer.propTypes = {
   ).isRequired,
   email: PropTypes.bool,
   title: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
 };
 
-SettingsContainer.defaultProps = { email: null };
+SettingsContainer.defaultProps = { email: null, placeholder: null };
