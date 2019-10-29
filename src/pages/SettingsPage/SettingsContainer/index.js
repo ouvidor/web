@@ -11,7 +11,7 @@ export default function SettingsContainer({
   title,
   placeholder,
 }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   return (
     <Container>
