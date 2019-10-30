@@ -12,6 +12,7 @@ export const Container = styled.div`
   padding: 10px 0;
   z-index: 1;
   position: fixed;
+  overflow: hidden;
 
   svg {
     fill: #fff;
@@ -57,14 +58,14 @@ export const ActiveIndicator = styled.div`
   background: #eaedf2;
   position: absolute;
   left: 58px;
-  animation: ANIMATION 0.2s;
+  animation: ANIMATION .2s;
 
   @keyframes ANIMATION {
     0% {
-      opacity: 0.2;
+      left: 69px;
     }
     100% {
-      opacity: 1;
+      left: 58px;
     }
   }
 `;
