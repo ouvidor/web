@@ -1,11 +1,18 @@
+/**
+ * Container retratil para editar os items do sistema
+ */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { CircleSpinner } from 'react-spinners-kit';
+import { MdClear } from 'react-icons/md';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { Container } from './styles';
 import SettingsItem from './SettingsItem';
 
 export default function SettingsContainer({
+  loading,
+  error,
   items,
   email,
   title,
@@ -23,13 +30,22 @@ export default function SettingsContainer({
       </button>
       {isOpen && (
         <div>
-          <ul>
-            <SettingsItem email={email} placeholder={placeholder} />
-            {items &&
-              items.map(item => (
-                <SettingsItem item={item} key={item.id} email={email} />
-              ))}
-          </ul>
+          {error && (
+            <div>
+              <MdClear />
+              Não conseguiu ter acesso
+            </div>
+          )}
+          {loading && <CircleSpinner color="#000" />}
+          {items.length !== 0 && (
+            <ul>
+              <SettingsItem email={email} placeholder={placeholder} />
+              {items &&
+                items.map(item => (
+                  <SettingsItem item={item} key={item.id} email={email} />
+                ))}
+            </ul>
+          )}
         </div>
       )}
     </Container>
@@ -37,6 +53,8 @@ export default function SettingsContainer({
 }
 
 SettingsContainer.propTypes = {
+  loading: PropTypes.bool,
+  error: PropTypes.bool,
   items: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -48,4 +66,9 @@ SettingsContainer.propTypes = {
   placeholder: PropTypes.string,
 };
 
-SettingsContainer.defaultProps = { email: null, placeholder: null };
+SettingsContainer.defaultProps = {
+  loading: false,
+  error: false,
+  email: null,
+  placeholder: null,
+};

@@ -35,5 +35,9 @@ export const Container = styled.div`
   > div {
     padding: 0 15px;
     margin: 10px 0;
+
+    div {
+      color: blue;
+    }
   }
 `;
