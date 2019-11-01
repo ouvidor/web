@@ -1,112 +1,63 @@
 /**
  * Nessa página o Admin Master configura os dados que podem mudar com o tempo.
  */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { toast } from 'react-toastify';
 
 import SettingsContainer from './SettingsContainer';
-import { Background } from '../../styles';
-import api from '../../services/api';
+
+import { Background, Container } from './styles';
 
 export default function SettingsPage({
   categoriesState,
   secretariatsState,
   typesState,
   statusState,
-  loadingState,
-  errorState,
+  rolesState,
 }) {
-  // loading states
-  const [loadingCategories, setLoadingCategories] = useState(loadingState);
-  const [loadingSecretariats, setLoadingSecretariats] = useState(loadingState);
-  const [loadingTypes, setLoadingTypes] = useState(loadingState);
-  const [loadingStatus, setLoadingStatus] = useState(loadingState);
-
-  // error states
-  const [errorCategories, setErrorCategories] = useState(errorState);
-  const [errorSecretariats, setErrorSecretariats] = useState(errorState);
-  const [errorTypes, setErrorTypes] = useState(errorState);
-  const [errorStatus, setErrorStatus] = useState(errorState);
-
-  // arrays de dados do sistema
-  const [categories, setCategories] = useState(categoriesState);
-  const [secretariats, setSecretariats] = useState(secretariatsState);
-  const [types, setTypes] = useState(typesState);
-  const [status, setStatus] = useState(statusState);
-
-  // função para buscar na API
-  async function fetchAndSet(path, setItem, setLoading, setError) {
-    setLoading(true);
-    setError(false);
-    try {
-      const { data } = await api.get(path);
-      setItem(data);
-      setLoading(false);
-      setError(false);
-    } catch (err) {
-      toast.error(`Ocorreu um erro na busca por ${path}`);
-      setError(true);
-      setLoading(false);
-    }
-  }
-
-  // pega todos os dados na API quando for carregar a página
-  useEffect(() => {
-    fetchAndSet(
-      'categories',
-      setCategories,
-      setLoadingCategories,
-      setErrorCategories
-    );
-    fetchAndSet(
-      'secretariats',
-      setSecretariats,
-      setLoadingSecretariats,
-      setErrorSecretariats
-    );
-    fetchAndSet('types', setTypes, setLoadingTypes, setErrorTypes);
-    fetchAndSet('status', setStatus, setLoadingStatus, setErrorStatus);
-  }, []);
-
   return (
     <Background>
-      <header>
-        <h1>Configurações</h1>
-      </header>
+      <Container>
+        <header>
+          <h1>Configurações</h1>
+        </header>
 
-      <SettingsContainer
-        items={categories}
-        title="Categorias de manifestações"
-        placeholder="Nova categoria"
-        loading={loadingCategories}
-        error={errorCategories}
-      />
+        <SettingsContainer
+          itemsState={categoriesState}
+          title="Categorias de manifestações"
+          placeholder="Nova categoria"
+          urlPath="category"
+        />
 
-      <SettingsContainer
-        items={secretariats}
-        email
-        title="Secretarias municipais"
-        placeholder="Nova secretaria"
-        loading={loadingSecretariats}
-        error={errorSecretariats}
-      />
+        <SettingsContainer
+          items={secretariatsState}
+          email
+          title="Secretarias municipais"
+          placeholder="Nova secretaria"
+          urlPath="secretary"
+        />
 
-      <SettingsContainer
-        items={types}
-        title="Tipos de manifestações"
-        placeholder="Novo tipo de manifestação"
-        loading={loadingTypes}
-        error={errorTypes}
-      />
+        <SettingsContainer
+          items={typesState}
+          title="Tipos de manifestações"
+          placeholder="Novo tipo de manifestação"
+          urlPath="type"
+        />
 
-      <SettingsContainer
-        items={status}
-        title="Status de manifestações"
-        placeholder="Novo status para manifestações"
-        loading={loadingStatus}
-        error={errorStatus}
-      />
+        <SettingsContainer
+          items={statusState}
+          title="Status de manifestações"
+          placeholder="Novo status para manifestações"
+          urlPath="status"
+        />
+
+        <SettingsContainer
+          items={rolesState}
+          title="Níveis de acesso ao sistema"
+          placeholder="Novo nível"
+          urlPath="role"
+        />
+      </Container>
     </Background>
   );
 }
@@ -128,15 +79,19 @@ SettingsPage.propTypes = {
   statusState: PropTypes.arrayOf(
     PropTypes.shape({ id: PropTypes.number, title: PropTypes.string })
   ),
-  loadingState: PropTypes.bool,
-  errorState: PropTypes.bool,
+  rolesState: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      level: PropTypes.number,
+    })
+  ),
 };
 
 SettingsPage.defaultProps = {
+  rolesState: [],
   categoriesState: [],
   secretariatsState: [],
   typesState: [],
   statusState: [],
-  loadingState: false,
-  errorState: false,
 };

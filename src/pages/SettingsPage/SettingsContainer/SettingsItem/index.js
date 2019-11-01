@@ -2,10 +2,18 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
 import { string, object } from 'yup';
+import { toast } from 'react-toastify';
 
+import api from '../../../../services/api';
 import { Container, StyledMdCheck, StyledMdClear } from './styles';
 
-export default function SettingsItem({ email, item, placeholder }) {
+export default function SettingsItem({
+  email,
+  item,
+  refreshList,
+  placeholder,
+  urlPath,
+}) {
   // quando for 'false' é para excluir, quando for 'true' é pra salvar
   const [isSaving, setIsSaving] = useState(false);
 
@@ -18,24 +26,34 @@ export default function SettingsItem({ email, item, placeholder }) {
       ),
   });
 
-  function handleSubmit(data, { resetForm }) {
-    if (!item) {
-      // criar um novo item
-      if (isSaving) {
-        console.log('irá criar um novo item');
-      } else {
-        // limpar formulário
+  async function handleSubmit(data, { resetForm }) {
+    try {
+      if (!item) {
+        // criar um novo item
+        if (isSaving) {
+          const response = await api.post(urlPath, data);
+          toast.success(`Item "${response.data.title}" criado com sucesso`);
+        }
         resetForm();
-        console.log('formulário limpado');
+        refreshList();
+        return;
+      }
+
+      if (isSaving) {
+        // atualizando item existente
+        const response = await api.put(`${urlPath}/${item.id}`, data);
+        toast.success(`Item "${response.data.title}" atualizado com sucesso`);
+      } else {
+        // excluindo item
+        const response = await api.delete(`${urlPath}/${item.id}`);
+        toast.success(`Item "${response.data.title}" excluido com sucesso`);
+      }
+    } catch ({ response }) {
+      if (response) {
+        toast.error(response.data.error);
       }
     }
-    // atualizando item existente
-    else if (isSaving) {
-      console.log('está editando');
-      console.log(data);
-    } else {
-      console.log('excluindo item!');
-    }
+    refreshList();
   }
 
   return (
@@ -79,6 +97,8 @@ SettingsItem.propTypes = {
   email: PropTypes.bool,
   item: PropTypes.shape({ id: PropTypes.number, title: PropTypes.string }),
   placeholder: PropTypes.string,
+  refreshList: PropTypes.func.isRequired,
+  urlPath: PropTypes.string.isRequired,
 };
 
 SettingsItem.defaultProps = { email: null, item: null, placeholder: null };
