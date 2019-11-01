@@ -39,7 +39,7 @@ export default function RouteWrapper({
   }
 
   // caso a rota seja apenas para master e o admin não for master redireciona para 'map'
-  if (isSuperPrivate && role.title !== 'master') {
+  if (isSuperPrivate && role.level !== 1) {
     return <Redirect to="/map" />;
   }
 
