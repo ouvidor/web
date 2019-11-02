@@ -3,13 +3,14 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 
 import { useField } from '@rocketseat/unform';
-import styles from './styles';
+import { basic, alternative } from './styles';
 
 export default function ReactSelect({
   name,
   label,
   options,
   multiple,
+  alternativeStyle,
   ...rest
 }) {
   const ref = useRef(null);
@@ -52,7 +53,7 @@ export default function ReactSelect({
 
       <Select
         name={fieldName}
-        styles={styles}
+        styles={alternativeStyle ? alternative : basic}
         aria-label={fieldName}
         options={options}
         isMulti={multiple}
@@ -80,9 +81,11 @@ ReactSelect.propTypes = {
     })
   ).isRequired,
   multiple: PropTypes.bool,
+  alternativeStyle: PropTypes.bool,
 };
 
 ReactSelect.defaultProps = {
   label: null,
   multiple: false,
+  alternativeStyle: false,
 };
