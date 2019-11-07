@@ -8,6 +8,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: all 0.3s;
 
   span {
     user-select: none;
@@ -15,7 +16,7 @@ export const Container = styled.div`
   }
 
   &:hover {
-    box-shadow: 0px 0px 5px rgb(11, 118, 218, 0.2);
+    box-shadow: 0px 3px 8px rgb(11, 118, 218, 0.2);
   }
 `;
 

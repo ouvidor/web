@@ -23,6 +23,11 @@ export const BodyWrapper = styled.div`
 export const Body = styled.div`
   background: #eaedf2;
   padding: 10px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
 `;
 
-export const List = styled.ul``;
+export const List = styled.ul`
+  margin-top: 20px;
+`;

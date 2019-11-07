@@ -1,53 +1,43 @@
 import styled from 'styled-components';
 
-export const Container = styled.article`
+export const Container = styled.li`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 457px;
+  min-width: 100%;
+  max-width: 100%;
   background-color: #fff;
   border-radius: 8px;
   padding: 10px;
   position: relative;
 
   &:hover {
-    box-shadow: 0px 0px 5px rgb(11, 118, 218, 0.2);
+    box-shadow: 0px 4px 12px rgb(11, 118, 218, 0.2);
   }
 
-  header {
+  section {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
-    section {
-      display: flex;
-      flex: 7;
+    h1 {
+      font-weight: bold;
+      font-size: 16px;
+      color: #0e508d;
+      max-width: 100%;
+      flex: 1;
 
-      h1 {
-        font-weight: bold;
-        font-size: 16px;
-        color: #0e508d;
-        width: 350px;
-
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    article {
-      display: flex;
-      flex: 1;
-      align-items: center;
-      justify-content: flex-end;
-
-      div {
-        height: 12px;
-        width: 12px;
-        background-color: green;
-        border-radius: 50%;
-      }
+    div {
+      height: 12px;
+      width: 12px;
+      background-color: green;
+      border-radius: 50%;
     }
   }
 `;

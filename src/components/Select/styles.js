@@ -5,13 +5,16 @@ export const basic = {
     color: state.isSelected ? '#0b76da' : 'rgb(0, 0, 0, 0.8)',
     padding: 5,
   }),
-  control: (provided, state) => ({
+  control: provided => ({
     ...provided,
     borderRadius: 8,
     background: '#fff',
-    border: '1px solid rgba(0,0,0,0.1)',
+    border: 'none',
     display: 'flex',
-    boxShadow: state.isFocused ? '0 0 8px rgb(11, 118, 218, 0.2)' : 'none',
+    transition: 'all 0.3s',
+    '&:hover': {
+      boxShadow: '0 4px 8px rgb(11, 118, 218, 0.1)',
+    },
   }),
   singleValue: (provided, state) => {
     const opacity = state.isDisabled ? 0.5 : 1;

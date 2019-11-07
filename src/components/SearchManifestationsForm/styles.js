@@ -13,7 +13,7 @@ export const TextInput = styled.div`
   transition: box-shadow 0.3s;
 
   &:hover {
-    box-shadow: 0px 0px 5px rgb(11, 118, 218, 0.2);
+    box-shadow: 0px 4px 12px rgb(11, 118, 218, 0.1);
   }
 
   input {

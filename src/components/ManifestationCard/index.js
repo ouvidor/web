@@ -9,14 +9,10 @@ export default function ManifestationCard({ manifestation }) {
 
   return (
     <Container>
-      <header>
-        <section>
-          <h1>{title}</h1>
-        </section>
-        <article>
-          <div />
-        </article>
-      </header>
+      <section>
+        <h1>{title}</h1>
+        <div />
+      </section>
 
       <TagList>{tags && tags.map(tag => <Tag key={tag} tag={tag} />)}</TagList>
     </Container>
@@ -37,7 +33,7 @@ ManifestationCard.propTypes = {
 
 ManifestationCard.defaultProps = {
   manifestation: {
-    title: 'Título',
+    title: '',
     tags: [],
   },
 };
