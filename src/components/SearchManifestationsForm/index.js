@@ -1,22 +1,50 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from '@rocketseat/unform';
 import { CircleSpinner } from 'react-spinners-kit';
 import { MdSearch } from 'react-icons/md';
 import { object, string, array } from 'yup';
 import PropTypes from 'prop-types';
 
+import { toast } from 'react-toastify';
 import Select from '../Select';
 import { StyledForm, TextInput } from './styles';
+import api from '../../services/api';
 
-export default function SearchManifestationsForm({
-  onSubmit,
-  loading,
-  tagsOptions,
-}) {
+export default function SearchManifestationsForm({ onSubmit, loading }) {
   const validationSchema = object().shape({
     text: string().required('Esse campo é necessário'),
     tags: array(),
   });
+  const [options, setOptions] = useState([]);
+
+  async function fetchFromAPI(pathUrl) {
+    const { data } = await api.get(pathUrl);
+    return data;
+  }
+
+  // pega as categorias e tipos e coloca nas opções
+  useEffect(() => {
+    const loadOptions = async () => {
+      try {
+        const types = await fetchFromAPI('type');
+        const categories = await fetchFromAPI('category');
+
+        // filtrar as opções pois está juntando
+        let counter = 0;
+        const unfilteredOptions = [...types, ...categories];
+        const filteredOptions = unfilteredOptions.map(option => {
+          option = { ...option, dbId: option.id, id: counter };
+          counter += 1;
+          return option;
+        });
+
+        setOptions(filteredOptions);
+      } catch (error) {
+        toast.error('Não pôde buscar as opções de pesquisa do servidor');
+      }
+    };
+    loadOptions();
+  }, []);
 
   return (
     <StyledForm onSubmit={onSubmit} schema={validationSchema}>
@@ -30,7 +58,7 @@ export default function SearchManifestationsForm({
           )}
         </button>
       </TextInput>
-      <Select name="tags" options={tagsOptions} multiple />
+      <Select name="options" options={options} multiple />
     </StyledForm>
   );
 }
@@ -38,12 +66,6 @@ export default function SearchManifestationsForm({
 SearchManifestationsForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   loading: PropTypes.bool,
-  tagsOptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-    })
-  ).isRequired,
 };
 
 SearchManifestationsForm.defaultProps = { loading: false };

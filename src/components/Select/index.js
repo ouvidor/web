@@ -62,7 +62,7 @@ export default function ReactSelect({
         getOptionValue={option => option.id}
         getOptionLabel={option => option.title}
         isSearchable
-        placeholder="Tags..."
+        placeholder="Opções..."
         {...rest}
       />
 

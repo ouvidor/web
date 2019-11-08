@@ -6,6 +6,7 @@ import SearchManifestationsForm from '../../components/SearchManifestationsForm'
 import Pagination from '../../components/Pagination';
 import MapView from '../../components/MapView';
 import ManifestationCard from '../../components/ManifestationCard';
+import api from '../../services/api';
 
 export default function MapPage({
   manifestationsState,
@@ -16,11 +17,6 @@ export default function MapPage({
   const [page, setPage] = useState(pageState);
   const [maxPage] = useState(maxPageState);
   const [manifestations, setManifestations] = useState(manifestationsState);
-  const [tags] = useState([
-    { id: 1, title: 'banana' },
-    { id: 2, title: 'maçã' },
-    { id: 3, title: 'melancia' },
-  ]);
   const [loading, setLoading] = useState(loadingState);
 
   useEffect(() => {
@@ -28,9 +24,11 @@ export default function MapPage({
     setManifestations(manifestationsState);
   }, [manifestationsState]);
 
-  function handleSubmit() {
+  async function handleSubmit(data) {
     setLoading(true);
-    // fazer a pesquisa
+    const response = await api.get(`manifestation`);
+    console.log(data);
+    console.log(response.data);
     setLoading(false);
   }
 
@@ -38,11 +36,7 @@ export default function MapPage({
     <Container>
       <BodyWrapper>
         <Body>
-          <SearchManifestationsForm
-            onSubmit={handleSubmit}
-            loading={loading}
-            tagsOptions={tags}
-          />
+          <SearchManifestationsForm onSubmit={handleSubmit} loading={loading} />
 
           <Pagination
             page={page}

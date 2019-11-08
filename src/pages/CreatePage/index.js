@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Input, Textarea } from '@rocketseat/unform';
 import * as Yup from 'yup';
 
@@ -6,6 +6,7 @@ import { Background } from '../../styles';
 import { Container, InputContainer } from './styles';
 import Select from '../../components/Select';
 import FilesInput from '../../components/FilesInput';
+import api from '../../services/api';
 
 export default function CreatePage() {
   const validationSchema = Yup.object().shape({
@@ -19,9 +20,19 @@ export default function CreatePage() {
     location: Yup.string(),
     files_id: Yup.number(),
   });
+  const [types, setTypes] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-  const types = [{ id: 1, title: 'Denuncia' }];
-  const categories = [{ id: 1, title: 'Saneamento' }];
+  async function fetchFromAPI(path) {
+    const response = await api.get(path);
+    console.log(response.body);
+    return response.body;
+  }
+
+  useEffect(() => {
+    setTypes(fetchFromAPI('type'));
+    setCategories(fetchFromAPI('category'));
+  }, []);
 
   function handleSubmit(data) {
     // criar manifestação

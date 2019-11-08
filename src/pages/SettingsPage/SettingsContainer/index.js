@@ -48,7 +48,7 @@ export default function SettingsContainer({
 
   useEffect(() => {
     getItemFromAPI(urlPath);
-  }, []);
+  }, [urlPath]);
 
   return (
     <Container>

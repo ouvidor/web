@@ -81,7 +81,7 @@ export const Container = styled.div`
           /* react-select */
           > div {
             width: 100%;
-            margin-right: 20px;
+            margin-right: 5px;
           }
 
           button {
