@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Textarea } from '@rocketseat/unform';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import { Background } from '../../styles';
 import { Container, InputContainer } from './styles';
@@ -15,7 +16,9 @@ export default function CreatePage() {
       .max(900, 'É permitido apenas 900 caracteres na descrição')
       .required('A descrição é necessária'),
     // apenas o id
-    category: Yup.number().required('A categoria é necessária'),
+    category: Yup.array()
+      .of(Yup.number())
+      .required('A categoria é necessária'),
     type: Yup.number().required('O tipo é necessário'),
     location: Yup.string(),
     files_id: Yup.number(),
@@ -23,15 +26,21 @@ export default function CreatePage() {
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  async function fetchFromAPI(path) {
-    const response = await api.get(path);
-    console.log(response.body);
-    return response.body;
+  async function fetchFromAPI(pathUrl) {
+    const { data } = await api.get(pathUrl);
+    return data;
   }
 
   useEffect(() => {
-    setTypes(fetchFromAPI('type'));
-    setCategories(fetchFromAPI('category'));
+    const loadOptions = async () => {
+      try {
+        setTypes(await fetchFromAPI('type'));
+        setCategories(await fetchFromAPI('category'));
+      } catch (error) {
+        toast.error('Não pôde buscar as opções de pesquisa do servidor');
+      }
+    };
+    loadOptions();
   }, []);
 
   function handleSubmit(data) {
@@ -64,6 +73,7 @@ export default function CreatePage() {
             name="category"
             label="Categorias"
             options={categories}
+            multiple
           />
           <Select
             placeholder="Tipos de manifestação"

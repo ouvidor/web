@@ -28,7 +28,6 @@ export default function SearchManifestationsForm({ onSubmit, loading }) {
       try {
         const types = await fetchFromAPI('type');
         const categories = await fetchFromAPI('category');
-
         // o id não vai ser importante, vai ser o title que vai ser usado para pesquisar no backend
         setOptions([...types, ...categories]);
       } catch (error) {
@@ -50,7 +49,7 @@ export default function SearchManifestationsForm({ onSubmit, loading }) {
           )}
         </button>
       </TextInput>
-      <Select name="options" options={options} multiple />
+      <Select name="options" options={options} multiple multipleTypes />
     </StyledForm>
   );
 }

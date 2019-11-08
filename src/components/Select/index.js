@@ -11,18 +11,30 @@ export default function ReactSelect({
   options,
   multiple,
   alternativeStyle,
+  multipleTypes,
   ...rest
 }) {
   const ref = useRef(null);
   const { fieldName, registerField, defaultValue, error } = useField(name);
 
+  // formatação do valor retornado
   function parseSelectValue(selectRef) {
+    // caso receba multiplos tipos de opções retorna o titulo, pois o id já não é tão importante
+    if (multipleTypes) {
+      const selectValue = selectRef.state.value;
+      if (!multiple) {
+        return selectValue ? selectValue.title : '';
+      }
+
+      return selectValue ? selectValue.map(option => option.title) : [];
+    }
+    // caso não receba multiplos tipos o id continua sendo importante
     const selectValue = selectRef.state.value;
     if (!multiple) {
-      return selectValue ? selectValue.title : '';
+      return selectValue ? selectValue.id : '';
     }
 
-    return selectValue ? selectValue.map(option => option.title) : [];
+    return selectValue ? selectValue.map(option => option.id) : [];
   }
 
   useEffect(() => {
@@ -83,10 +95,12 @@ ReactSelect.propTypes = {
   ).isRequired,
   multiple: PropTypes.bool,
   alternativeStyle: PropTypes.bool,
+  multipleTypes: PropTypes.bool,
 };
 
 ReactSelect.defaultProps = {
   label: null,
   multiple: false,
   alternativeStyle: false,
+  multipleTypes: false,
 };
