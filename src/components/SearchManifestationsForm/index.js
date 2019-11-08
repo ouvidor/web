@@ -13,7 +13,7 @@ import api from '../../services/api';
 export default function SearchManifestationsForm({ onSubmit, loading }) {
   const validationSchema = object().shape({
     text: string().required('Esse campo é necessário'),
-    tags: array(),
+    options: array().of(string()),
   });
   const [options, setOptions] = useState([]);
 
@@ -29,16 +29,8 @@ export default function SearchManifestationsForm({ onSubmit, loading }) {
         const types = await fetchFromAPI('type');
         const categories = await fetchFromAPI('category');
 
-        // filtrar as opções pois está juntando
-        let counter = 0;
-        const unfilteredOptions = [...types, ...categories];
-        const filteredOptions = unfilteredOptions.map(option => {
-          option = { ...option, dbId: option.id, id: counter };
-          counter += 1;
-          return option;
-        });
-
-        setOptions(filteredOptions);
+        // o id não vai ser importante, vai ser o title que vai ser usado para pesquisar no backend
+        setOptions([...types, ...categories]);
       } catch (error) {
         toast.error('Não pôde buscar as opções de pesquisa do servidor');
       }

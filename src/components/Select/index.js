@@ -19,10 +19,10 @@ export default function ReactSelect({
   function parseSelectValue(selectRef) {
     const selectValue = selectRef.state.value;
     if (!multiple) {
-      return selectValue ? selectValue.id : '';
+      return selectValue ? selectValue.title : '';
     }
 
-    return selectValue ? selectValue.map(option => option.id) : [];
+    return selectValue ? selectValue.map(option => option.title) : [];
   }
 
   useEffect(() => {
@@ -60,6 +60,7 @@ export default function ReactSelect({
         defaultValue={getDefaultValue()}
         ref={ref}
         getOptionValue={option => option.id}
+        // o texto que aparece
         getOptionLabel={option => option.title}
         isSearchable
         placeholder="Opções..."

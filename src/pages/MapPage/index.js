@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { toast } from 'react-toastify';
 import { Container, BodyWrapper, Body, List } from './styles';
 import SearchManifestationsForm from '../../components/SearchManifestationsForm';
 import Pagination from '../../components/Pagination';
@@ -26,9 +27,12 @@ export default function MapPage({
 
   async function handleSubmit(data) {
     setLoading(true);
-    const response = await api.get(`manifestation`);
-    console.log(data);
-    console.log(response.data);
+    try {
+      const response = await api.get(`manifestation`, { params: data });
+      setManifestations(response.data);
+    } catch (error) {
+      toast.error('Não foi possivel buscar por manifestações');
+    }
     setLoading(false);
   }
 
