@@ -38,7 +38,6 @@ export const Container = styled.li`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
 
     > div {
       width: 100%;

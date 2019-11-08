@@ -11,9 +11,23 @@ export const TextInput = styled.div`
   margin-bottom: 6px;
   border-radius: 8px;
   transition: box-shadow 0.3s;
+  position: relative;
 
   &:hover {
     box-shadow: 0px 4px 12px rgb(11, 118, 218, 0.1);
+  }
+
+  span {
+    border-radius: 8px;
+    padding: 2px 8px;
+    position: absolute;
+    left: 2px;
+    top: 25px;
+    background-color: #ffdfdf;
+    color: #c44543;
+    border: 1px solid #c44543;
+    box-shadow: 0 2px 4px rgba(196, 69, 67, 0.5);
+    z-index: 1;
   }
 
   input {
