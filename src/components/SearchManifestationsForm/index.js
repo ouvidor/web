@@ -12,7 +12,7 @@ import api from '../../services/api';
 
 export default function SearchManifestationsForm({ onSubmit, loading }) {
   const validationSchema = object().shape({
-    text: string().required('Esse campo é necessário'),
+    text: string(),
     options: array().of(string()),
   });
   const [options, setOptions] = useState([]);

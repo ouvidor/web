@@ -11,6 +11,10 @@ export const Container = styled.li`
   padding: 10px;
   position: relative;
 
+  & + li {
+    margin-top: 10px;
+  }
+
   &:hover {
     box-shadow: 0px 4px 12px rgb(11, 118, 218, 0.2);
   }

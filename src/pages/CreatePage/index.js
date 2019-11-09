@@ -16,10 +16,10 @@ export default function CreatePage() {
       .max(900, 'É permitido apenas 900 caracteres na descrição')
       .required('A descrição é necessária'),
     // apenas o id
-    category: Yup.array()
+    categories_id: Yup.array()
       .of(Yup.number())
       .required('A categoria é necessária'),
-    type: Yup.number().required('O tipo é necessário'),
+    type_id: Yup.number().required('O tipo é necessário'),
     location: Yup.string(),
     files_id: Yup.number(),
   });
@@ -46,6 +46,17 @@ export default function CreatePage() {
   function handleSubmit(data) {
     // criar manifestação
     console.log(data);
+    async function createManifestation() {
+      try {
+        const response = await api.post('/manifestation', data);
+        toast.success(
+          `Manifestação "${response.data.title}" criada com sucesso!`
+        );
+      } catch (error) {
+        toast.error('Não foi possivel criar a manifestação');
+      }
+    }
+    createManifestation();
   }
 
   return (
@@ -70,14 +81,14 @@ export default function CreatePage() {
           </InputContainer>
           <Select
             placeholder="Categorias das manifestações"
-            name="category"
+            name="categories_id"
             label="Categorias"
             options={categories}
             multiple
           />
           <Select
             placeholder="Tipos de manifestação"
-            name="type"
+            name="type_id"
             label="Tipos"
             options={types}
           />
