@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { toast } from 'react-toastify';
-import { Container, BodyWrapper, Body, List } from './styles';
+import { Container, BodyWrapper, Body, List, Scroll } from './styles';
 import SearchManifestationsForm from '../../components/SearchManifestationsForm';
 import Pagination from '../../components/Pagination';
 import MapView from '../../components/MapView';
@@ -28,7 +28,9 @@ export default function MapPage({
   async function handleSubmit(data) {
     setLoading(true);
     try {
-      const response = await api.get(`manifestation`, { params: data });
+      const response = await api.get(`manifestation`, {
+        params: { ...data, page },
+      });
       setManifestations(response.data);
     } catch (error) {
       toast.error('Não foi possivel buscar por manifestações');
@@ -49,12 +51,14 @@ export default function MapPage({
             loading={loading}
           />
 
-          <List>
-            {manifestations &&
-              manifestations.map(m => (
-                <ManifestationCard key={m.id} manifestation={m} />
-              ))}
-          </List>
+          <Scroll>
+            <List>
+              {manifestations &&
+                manifestations.map(m => (
+                  <ManifestationCard key={m.id} manifestation={m} />
+                ))}
+            </List>
+          </Scroll>
         </Body>
 
         {process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ? (

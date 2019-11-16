@@ -3,7 +3,6 @@ import { storiesOf } from '@storybook/react';
 import styled from 'styled-components';
 
 import Map from './index';
-import GlobalStyle from '../../styles/global';
 
 import { Manifestation } from '../../util/Examples';
 

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import PerfectScrollBar from 'react-perfect-scrollbar';
 
 export const Container = styled.div`
   width: 100%;
@@ -23,11 +24,21 @@ export const BodyWrapper = styled.div`
 export const Body = styled.div`
   background: #eaedf2;
   padding: 10px;
+  min-width: 300px;
   max-width: 300px;
+  max-height: 100vh;
   display: flex;
+  align-items: center;
   flex-direction: column;
 `;
 
 export const List = styled.ul`
-  margin-top: 20px;
+  max-width: 100%;
+  max-height: 100%;
+`;
+
+export const Scroll = styled(PerfectScrollBar)`
+  margin-top: 10px;
+  max-width: 100%;
+  padding: 5px 0px 0 0;
 `;
