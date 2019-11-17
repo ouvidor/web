@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-
 import { toast } from 'react-toastify';
+
 import { Container, BodyWrapper, Body, List, Scroll } from './styles';
 import SearchManifestationsForm from '../../components/SearchManifestationsForm';
 import Pagination from '../../components/Pagination';
@@ -9,46 +8,61 @@ import MapView from '../../components/MapView';
 import ManifestationCard from '../../components/ManifestationCard';
 import api from '../../services/api';
 
-export default function MapPage({
-  manifestationsState,
-  loadingState,
-  pageState,
-  maxPageState,
-}) {
-  const [page, setPage] = useState(pageState);
-  const [maxPage] = useState(maxPageState);
-  const [manifestations, setManifestations] = useState(manifestationsState);
-  const [loading, setLoading] = useState(loadingState);
+export default function MapPage() {
+  const [page, setPage] = useState(1);
+  const [maxPage, setMaxPage] = useState(1);
+  const [manifestations, setManifestations] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [loadingPage, setLoadingPage] = useState(false);
+  const [searchData, setSearchData] = useState({});
 
-  useEffect(() => {
-    // TODO função para pegar os dados da api
-    setManifestations(manifestationsState);
-  }, [manifestationsState]);
-
-  async function handleSubmit(data) {
-    setLoading(true);
+  async function handleSubmit() {
     try {
       const response = await api.get(`manifestation`, {
-        params: { ...data, page },
+        params: { ...searchData, page },
       });
-      setManifestations(response.data);
+      setManifestations(response.data.rows);
+      setMaxPage(response.data.last_page);
     } catch (error) {
       toast.error('Não foi possivel buscar por manifestações');
     }
-    setLoading(false);
   }
+
+  useEffect(() => {
+    async function fetchManifestations() {
+      console.log('searchData');
+      setLoading(true);
+      await handleSubmit();
+      setLoading(false);
+    }
+
+    fetchManifestations();
+  }, [searchData]);
+
+  useEffect(() => {
+    async function fetchNextPage() {
+      setLoadingPage(true);
+      await handleSubmit();
+      setLoadingPage(false);
+    }
+
+    fetchNextPage();
+  }, [page]);
 
   return (
     <Container>
       <BodyWrapper>
         <Body>
-          <SearchManifestationsForm onSubmit={handleSubmit} loading={loading} />
+          <SearchManifestationsForm
+            onSubmit={setSearchData}
+            loading={loading}
+          />
 
           <Pagination
             page={page}
             setPage={setPage}
             maxPage={maxPage}
-            loading={loading}
+            loading={loadingPage}
           />
 
           <Scroll>
@@ -73,28 +87,3 @@ export default function MapPage({
     </Container>
   );
 }
-
-MapPage.propTypes = {
-  manifestationsState: PropTypes.arrayOf(
-    PropTypes.shape({
-      title: PropTypes.string,
-      tags: PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.number,
-          label: PropTypes.string,
-        })
-      ),
-      upvotes: PropTypes.number,
-    })
-  ),
-  loadingState: PropTypes.bool,
-  pageState: PropTypes.number,
-  maxPageState: PropTypes.number,
-};
-
-MapPage.defaultProps = {
-  manifestationsState: [],
-  loadingState: false,
-  pageState: 1,
-  maxPageState: 1,
-};

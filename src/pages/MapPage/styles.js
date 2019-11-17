@@ -39,6 +39,7 @@ export const List = styled.ul`
 
 export const Scroll = styled(PerfectScrollBar)`
   margin-top: 10px;
+  min-width: 100%;
   max-width: 100%;
   padding: 5px 0px 0 0;
 `;
