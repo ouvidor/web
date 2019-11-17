@@ -30,7 +30,6 @@ export default function MapPage() {
 
   useEffect(() => {
     async function fetchManifestations() {
-      console.log('searchData');
       setLoading(true);
       await handleSubmit();
       setLoading(false);

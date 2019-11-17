@@ -5,7 +5,7 @@ import { MdAttachFile } from 'react-icons/md';
 // import api from '../../services/api';
 import { Container, ContainerPlaceholder } from './styles';
 
-export default function BannerInput() {
+export default function FileInput() {
   // defaultValue começa vazio, portanto é assincrono
   const { defaultValue, registerField } = useField('file');
   const [file, setFile] = useState(defaultValue && defaultValue.id);
