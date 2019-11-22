@@ -8,6 +8,7 @@ export const Container = styled.li`
   max-width: 100%;
   background-color: #fff;
   border-radius: 8px;
+  border: 2px solid #eee;
   padding: 10px;
   cursor: pointer;
   position: relative;
@@ -18,11 +19,23 @@ export const Container = styled.li`
   }
 
   &:hover {
-    box-shadow: 0px 4px 12px rgb(11, 118, 218, 0.2);
+    border: 2px solid #ddd;
   }
 
   &:active {
     background: rgba(255, 255, 255, 0.8);
+  }
+
+  > span {
+    font-weight: bold;
+    font-size: 16px;
+    color: #0e508d;
+    max-width: 100%;
+    flex: 1;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   section {
@@ -32,19 +45,7 @@ export const Container = styled.li`
     align-items: center;
     width: 100%;
 
-    span {
-      font-weight: bold;
-      font-size: 16px;
-      color: #0e508d;
-      max-width: 100%;
-      flex: 1;
-
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    div {
+    > div {
       height: 12px;
       width: 12px;
       background-color: green;

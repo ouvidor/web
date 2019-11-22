@@ -3,13 +3,19 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 333px;
-  width: 500px;
-  background-color: white;
+  height: 340px;
+  width: 100%;
+  max-width: 500px;
+  background-color: #fff;
+  border: 2px solid #ddd;
   border-radius: 8px;
-  box-shadow: 0px 0px 10px rgb(11, 118, 218, 0.2);
   padding: 15px;
   position: relative;
+  transition: all 0.3s;
+
+  &:hover {
+    border: 2px solid #ccc;
+  }
 `;
 
 export const Header = styled.header`

@@ -11,14 +11,14 @@ export default function ManifestationCard({ manifestation, handleClick }) {
 
   return (
     <Container onClick={handleClick}>
-      <section>
-        <span>{title}</span>
-        <div />
-      </section>
+      <span>{title}</span>
 
-      <TagList>
-        {tags && tags.map(tag => <Tag key={tag.title} tag={tag} />)}
-      </TagList>
+      <section>
+        <div />
+        <TagList>
+          {tags && tags.map(tag => <Tag key={tag.title} tag={tag} />)}
+        </TagList>
+      </section>
     </Container>
   );
 }
