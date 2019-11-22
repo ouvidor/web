@@ -9,7 +9,9 @@ export const Container = styled.li`
   background-color: #fff;
   border-radius: 8px;
   padding: 10px;
+  cursor: pointer;
   position: relative;
+  transition: all 0.3s;
 
   & + li {
     margin-top: 10px;
@@ -19,13 +21,18 @@ export const Container = styled.li`
     box-shadow: 0px 4px 12px rgb(11, 118, 218, 0.2);
   }
 
+  &:active {
+    background: rgba(255, 255, 255, 0.8);
+  }
+
   section {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 
-    h1 {
+    span {
       font-weight: bold;
       font-size: 16px;
       color: #0e508d;
@@ -47,6 +54,7 @@ export const Container = styled.li`
 `;
 
 export const TagList = styled.ul`
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

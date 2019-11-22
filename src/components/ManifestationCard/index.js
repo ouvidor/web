@@ -4,15 +4,15 @@ import PropTypes from 'prop-types';
 import Tag from '../Tag';
 import { Container, TagList } from './styles';
 
-export default function ManifestationCard({ manifestation }) {
+export default function ManifestationCard({ manifestation, handleClick }) {
   const { title, categories, type } = manifestation;
 
   const tags = [...categories, type];
 
   return (
-    <Container>
+    <Container onClick={handleClick}>
       <section>
-        <h1>{title}</h1>
+        <span>{title}</span>
         <div />
       </section>
 
@@ -37,4 +37,5 @@ ManifestationCard.propTypes = {
       title: PropTypes.string,
     }),
   }).isRequired,
+  handleClick: PropTypes.func.isRequired,
 };
