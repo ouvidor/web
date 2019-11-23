@@ -56,8 +56,8 @@ MapView.propTypes = {
   manifestationsState: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-      latitude: PropTypes.number,
-      longitude: PropTypes.number,
+      latitude: PropTypes.string,
+      longitude: PropTypes.string,
     })
   ),
 };

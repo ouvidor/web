@@ -10,10 +10,21 @@ import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 import Tag from '../Tag';
-import { Container, Header, DetailsContainer, Footer } from './styles';
+import { Container, Header, DetailsContainer, Footer, TagList } from './styles';
 
 export default function Manifestation({ manifestation }) {
-  const { title, tags, description, date, location, protocol } = manifestation;
+  const {
+    title,
+    categories,
+    type,
+    description,
+    date,
+    location,
+    protocol,
+  } = manifestation;
+
+  const tags = [...categories, type];
+
   const formattedDate =
     date &&
     format(parseISO(date), "dd 'de' MMMM 'de' yyyy", {
@@ -48,10 +59,13 @@ export default function Manifestation({ manifestation }) {
         <span>protocolo: {protocol}</span>
 
         <section>
-          <div>{tags && tags.map(tag => <Tag key={tag} tag={tag} />)}</div>
+          <TagList>
+            {tags && tags.map(tag => <Tag key={tag.title} tag={tag} />)}
+          </TagList>
+
           <button type="button" onClick={openAttached}>
             <MdAttachFile color="black" size="14" />
-            &nbsp;Anexos
+            Anexos
           </button>
         </section>
       </Header>
@@ -86,28 +100,19 @@ export default function Manifestation({ manifestation }) {
 Manifestation.propTypes = {
   manifestation: PropTypes.shape({
     title: PropTypes.string,
-    tags: PropTypes.arrayOf(
+    description: PropTypes.string,
+    categories: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.number,
         title: PropTypes.string,
       })
     ),
-    upvotes: PropTypes.number,
-    description: PropTypes.string,
+    type: PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+    }),
     date: PropTypes.string,
     location: PropTypes.string,
     protocol: PropTypes.string,
-  }),
-};
-
-Manifestation.defaultProps = {
-  manifestation: {
-    title: 'Título',
-    tags: [],
-    upvotes: 0,
-    description: '',
-    date: '',
-    location: '',
-    protocol: '0',
-  },
+  }).isRequired,
 };

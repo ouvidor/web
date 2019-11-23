@@ -37,23 +37,17 @@ export const Header = styled.header`
 
   section {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     margin-top: 10px;
 
     span {
       font-size: 12px;
-    }
-    ul {
-      list-style: none;
-      padding: 0px;
-      margin: 0px;
     }
 
     button {
       display: flex;
       align-items: center;
       background-color: white;
-      border: none;
       padding: 2px 10px;
       border-radius: 8px;
       border: 0.8px solid #0b76da;
@@ -64,6 +58,18 @@ export const Header = styled.header`
         box-shadow: 0 0 4px rgba(11, 118, 218, 0.5);
       }
     }
+  }
+`;
+
+export const TagList = styled.ul`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  list-style: none;
+
+  span {
+    font-size: 12px;
   }
 `;
 

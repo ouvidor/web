@@ -32,10 +32,6 @@ export const Container = styled.div`
       margin-bottom: 0px;
     }
 
-    ul {
-      margin-bottom: 15px;
-    }
-
     p {
       line-height: 1.6;
       width: 70%;
@@ -105,6 +101,18 @@ export const Container = styled.div`
         }
       }
     }
+  }
+`;
+
+export const TagList = styled.ul`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  list-style: none;
+
+  span {
+    font-size: 12px;
   }
 `;
 

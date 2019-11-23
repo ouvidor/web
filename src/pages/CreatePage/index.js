@@ -45,7 +45,6 @@ export default function CreatePage() {
 
   function handleSubmit(data) {
     // criar manifestação
-    console.log(data);
     async function createManifestation() {
       try {
         const response = await api.post('/manifestation', data);

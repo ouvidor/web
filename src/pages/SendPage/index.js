@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Form, Input, Textarea } from '@rocketseat/unform';
 import { MdChevronLeft } from 'react-icons/md';
 
-import { StyledForm, Container } from './styles';
+import { StyledForm, Container, TagList } from './styles';
 // import api from '../../services/api';
 import { Background } from '../../styles';
 import Tag from '../../components/Tag';
@@ -26,8 +26,11 @@ export default function SendPage({ match, manifestationState }) {
         title: 'Problemas na rua da restinga',
         description:
           'Há um buraco na rua da restinga vai fazer 3 anos já. BlablablaBlablablaBlablabla BlablablaBlablabla Há um buraco na rua da restinga vai fazer 3 anos já. BlablablaBlablablaBlablabla BlablablaBlablablaHá um buraco na rua da restinga vai fazer 3 anos já. BlablablaBlablablaBlablabla BlablablaBlablablaHá um buraco na rua da restinga vai fazer 3 anos já. BlablablaBlablablaBlablabla BlablablaBlablablaHá um buraco na rua da restinga vai fazer 3 anos já. BlablablaBlablablaBlablabla BlablablaBlablabla',
-        type: 1,
-        category: 2,
+        type: {
+          id: 1,
+          title: 'Reclamação',
+        },
+        categories: [{ id: 1, title: 'Saúde' }],
         protocol: '2016028589725',
       });
     }
@@ -67,10 +70,12 @@ export default function SendPage({ match, manifestationState }) {
         <div>
           <h1>{manifestation.title}</h1>
 
-          <ul>
-            {manifestation.type && <Tag tag={{ id: 1, name: 'Reclamação' }} />}
-            {manifestation.category && <Tag tag={{ id: 1, name: 'Rua' }} />}
-          </ul>
+          <TagList>
+            {manifestation.categories &&
+              [...manifestation.categories, manifestation.type].map(tag => (
+                <Tag key={tag.title} tag={tag} />
+              ))}
+          </TagList>
           <p>{manifestation.description}</p>
 
           <section>

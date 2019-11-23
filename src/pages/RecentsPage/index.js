@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 import { MdClear } from 'react-icons/md';
 
-import SearchManifestationsForm from '../../components/SearchManifestationsForm';
-import Pagination from '../../components/Pagination';
-import api from '../../services/api';
 import { Background } from '../../styles';
 import {
   Container,
@@ -13,8 +10,12 @@ import {
   NoSelectedContainer,
   Grid,
 } from './styles';
+import SearchManifestationsForm from '../../components/SearchManifestationsForm';
+import Pagination from '../../components/Pagination';
 import ManifestationCard from '../../components/ManifestationCard';
 import Manifestation from '../../components/Manifestation';
+import api from '../../services/api';
+import { usePrevious } from '../../hooks';
 
 export default function RecentsPage() {
   const [page, setPage] = useState(1);
@@ -24,46 +25,40 @@ export default function RecentsPage() {
   const [searchData, setSearchData] = useState({});
   const [manifestations, setManifestations] = useState([]);
   const [selected, setSelected] = useState(null);
+  const prevPage = usePrevious(page);
+  const prevSearchData = usePrevious(searchData);
 
   function handleClick(manifestation) {
     setSelected(manifestation);
   }
 
-  async function handleSubmit() {
-    try {
-      // passa isRead: 0, para pegar as manifestações que não foram lidas
-      const response = await api.get(`manifestation`, {
-        params: { ...searchData, page, isRead: 0 },
-      });
+  // callback memoizado
+  const fetchManifestations = useCallback(
+    async setLoad => {
+      setLoad(true);
+      try {
+        // passa isRead: 0, para pegar as manifestações que não foram lidas
+        const response = await api.get(`manifestation`, {
+          params: { ...searchData, page, isRead: 0 },
+        });
+        setManifestations(response.data.rows);
+        setMaxPage(response.data.last_page);
+      } catch (error) {
+        toast.error('Não foi possivel buscar por manifestações');
+      }
+      setLoad(false);
+    },
+    [page, searchData]
+  );
 
-      setManifestations(response.data.rows);
-      setMaxPage(response.data.last_page);
-    } catch (error) {
-      toast.error('Não foi possivel buscar por manifestações');
-    }
-  }
-
-  // quando pesquisa
   useEffect(() => {
-    async function fetchManifestations() {
-      setLoading(true);
-      await handleSubmit();
-      setLoading(false);
+    if (prevPage !== page) {
+      fetchManifestations(setLoadingPage);
     }
-
-    fetchManifestations();
-  }, [searchData]);
-
-  // quando passa a página
-  useEffect(() => {
-    async function fetchNextPage() {
-      setLoadingPage(true);
-      await handleSubmit();
-      setLoadingPage(false);
+    if (prevSearchData !== searchData) {
+      fetchManifestations(setLoading);
     }
-
-    fetchNextPage();
-  }, [page]);
+  }, [fetchManifestations, searchData, page, prevPage, prevSearchData]);
 
   return (
     <Background>
