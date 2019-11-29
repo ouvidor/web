@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import {
   MdAttachFile,
   MdDateRange,
@@ -13,7 +14,10 @@ import Tag from '../Tag';
 import { Container, Header, DetailsContainer, Footer, TagList } from './styles';
 
 export default function Manifestation({ manifestation }) {
+  const history = useHistory();
+
   const {
+    id,
     title,
     categories,
     type,
@@ -40,7 +44,7 @@ export default function Manifestation({ manifestation }) {
   }
 
   function handleSend() {
-    console.log('pagina para direcionar secretaría');
+    history.push(`/send/${id}`);
   }
 
   return (
@@ -99,6 +103,7 @@ export default function Manifestation({ manifestation }) {
 
 Manifestation.propTypes = {
   manifestation: PropTypes.shape({
+    id: PropTypes.number,
     title: PropTypes.string,
     description: PropTypes.string,
     categories: PropTypes.arrayOf(
