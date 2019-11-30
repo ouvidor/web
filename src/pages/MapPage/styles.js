@@ -43,3 +43,16 @@ export const Scroll = styled(PerfectScrollBar)`
   max-width: 100%;
   padding: 5px 0px 0 0;
 `;
+
+export const MapWrapper = styled.section`
+  flex: 1;
+  position: relative;
+`;
+
+export const DragContainer = styled.div`
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+`;

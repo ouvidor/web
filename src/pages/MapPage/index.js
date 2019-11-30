@@ -1,11 +1,20 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { toast } from 'react-toastify';
 
-import { Container, BodyWrapper, Body, List, Scroll } from './styles';
+import {
+  Container,
+  BodyWrapper,
+  Body,
+  List,
+  Scroll,
+  MapWrapper,
+  DragContainer,
+} from './styles';
 import SearchManifestationsForm from '../../components/SearchManifestationsForm';
 import Pagination from '../../components/Pagination';
 import MapView from '../../components/MapView';
 import ManifestationCard from '../../components/ManifestationCard';
+import Manifestation from '../../components/Manifestation';
 import api from '../../services/api';
 import { usePrevious } from '../../hooks';
 
@@ -13,6 +22,7 @@ export default function MapPage() {
   const [page, setPage] = useState(1);
   const [maxPage, setMaxPage] = useState(1);
   const [manifestations, setManifestations] = useState([]);
+  const [selecteds, setSelecteds] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingPage, setLoadingPage] = useState(false);
   const [searchData, setSearchData] = useState({});
@@ -69,7 +79,7 @@ export default function MapPage() {
                   <ManifestationCard
                     key={m.id}
                     manifestation={m}
-                    handleClick={() => {}}
+                    handleClick={() => setSelecteds([...selecteds, m])}
                   />
                 ))}
             </List>
@@ -77,10 +87,16 @@ export default function MapPage() {
         </Body>
 
         {process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ? (
-          <MapView
-            token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-            manifestations={manifestations}
-          />
+          <MapWrapper>
+            <DragContainer>
+              {selecteds &&
+                selecteds.map(m => <Manifestation manifestation={m} />)}
+            </DragContainer>
+            <MapView
+              token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
+              manifestations={manifestations}
+            />
+          </MapWrapper>
         ) : (
           <section>Sem a chave de acesso ao mapa</section>
         )}
