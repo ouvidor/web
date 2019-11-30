@@ -24,15 +24,18 @@ export const Header = styled.header`
     flex-direction: row;
     justify-content: space-between;
 
-    h1 {
+  h1 {
       font-weight: bold;
       font-size: 18px;
       margin-bottom: 0;
+      color: #000;
     }
   }
 
   > span {
     font-size: 12px;
+    color: #000;
+    font-weight: normal;
   }
 
   section {
@@ -76,6 +79,9 @@ export const TagList = styled.ul`
 export const DetailsContainer = styled.div`
   p {
     margin-top: 12px;
+    color: #000;
+    font-size: 14px;
+    font-weight: normal;
   }
 
   div {
