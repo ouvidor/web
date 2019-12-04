@@ -9,6 +9,7 @@ import {
 } from 'react-icons/md';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import Draggable from 'react-draggable';
 
 import Tag from '../Tag';
 import { Container, Header, DetailsContainer, Footer, TagList } from './styles';
@@ -35,10 +36,6 @@ export default function Manifestation({ manifestation }) {
       locale: pt,
     });
 
-  function openConfig() {
-    console.log('abrindo configs');
-  }
-
   function openAttached() {
     console.log('pagina de anexo');
   }
@@ -48,56 +45,53 @@ export default function Manifestation({ manifestation }) {
   }
 
   return (
-    <Container>
-      <Header>
-        <div>
-          <h1>{title}</h1>
-          <MdMoreVert
-            color="black"
-            size="18"
-            onClick={openConfig}
-            cursor="pointer"
-          />
-        </div>
+    <Draggable handle=".handler">
+      <Container>
+        <Header>
+          <div>
+            <h1>{title}</h1>
+            <MdMoreVert cursor="pointer" className="handler" />
+          </div>
 
-        <span>protocolo: {protocol}</span>
+          <span>protocolo: {protocol}</span>
 
-        <section>
-          <TagList>
-            {tags && tags.map(tag => <Tag key={tag.title} tag={tag} />)}
-          </TagList>
+          <section>
+            <TagList>
+              {tags && tags.map(tag => <Tag key={tag.title} tag={tag} />)}
+            </TagList>
 
-          <button type="button" onClick={openAttached}>
-            <MdAttachFile color="black" size="14" />
-            Anexos
+            <button type="button" onClick={openAttached}>
+              <MdAttachFile color="black" size="14" />
+              Anexos
+            </button>
+          </section>
+        </Header>
+
+        <DetailsContainer>
+          <p>{description}</p>
+          <br />
+
+          {formattedDate && (
+            <div>
+              <MdDateRange size="14px" />
+              Data: {formattedDate}
+            </div>
+          )}
+          {location && (
+            <div>
+              <MdLocationOn size="14px" />
+              Local: {location}
+            </div>
+          )}
+        </DetailsContainer>
+
+        <Footer>
+          <button type="button" onClick={handleSend}>
+            Direcionar para secretária
           </button>
-        </section>
-      </Header>
-
-      <DetailsContainer>
-        <p>{description}</p>
-        <br />
-
-        {formattedDate && (
-          <div>
-            <MdDateRange size="14px" />
-            Data: {formattedDate}
-          </div>
-        )}
-        {location && (
-          <div>
-            <MdLocationOn size="14px" />
-            Local: {location}
-          </div>
-        )}
-      </DetailsContainer>
-
-      <Footer>
-        <button type="button" onClick={handleSend}>
-          Direcionar para secretária
-        </button>
-      </Footer>
-    </Container>
+        </Footer>
+      </Container>
+    </Draggable>
   );
 }
 

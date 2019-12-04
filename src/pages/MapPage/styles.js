@@ -52,7 +52,7 @@ export const MapWrapper = styled.section`
 export const DragContainer = styled.div`
   position: absolute;
   z-index: 2;
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   pointer-events: none;
 `;

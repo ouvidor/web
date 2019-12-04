@@ -12,6 +12,7 @@
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-draggable": "^4.1.0",
     "react-icons": "^3.7.0",
     "react-map-gl": "^5.0.10",
     "react-perfect-scrollbar": "^1.5.3",

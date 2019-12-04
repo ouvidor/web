@@ -35,7 +35,7 @@ export default function MapView({ token, viewState, manifestations }) {
         latitude: Number(m.latitude),
         longitude: Number(m.longitude),
       }));
-  });
+  }, [manifestations]);
 
   return (
     <MapWrapper ref={containerRef}>

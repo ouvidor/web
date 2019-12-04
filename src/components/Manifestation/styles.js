@@ -11,7 +11,9 @@ export const Container = styled.div`
   border-radius: 8px;
   padding: 15px;
   position: relative;
-  transition: all 0.3s;
+  transition: border 0.3s;
+  pointer-events: all;
+  cursor: default;
 
   &:hover {
     border: 2px solid #ccc;
@@ -24,11 +26,19 @@ export const Header = styled.header`
     flex-direction: row;
     justify-content: space-between;
 
-  h1 {
+    h1 {
       font-weight: bold;
       font-size: 18px;
       margin-bottom: 0;
       color: #000;
+    }
+
+    svg {
+      fill: #000;
+      width: 18px;
+      height: 18px;
+      pointer-events: all;
+      cursor: grab;
     }
   }
 
@@ -55,11 +65,7 @@ export const Header = styled.header`
       border-radius: 8px;
       border: 0.8px solid #0b76da;
       font-size: 12px;
-      transition: box-shadow 0.2s;
-
-      &:hover {
-        box-shadow: 0 0 4px rgba(11, 118, 218, 0.5);
-      }
+      pointer-events: all;
     }
   }
 `;
@@ -110,6 +116,7 @@ export const Footer = styled.footer`
     cursor: pointer;
     font-size: 12px;
     transition: box-shadow 0.2s;
+    pointer-events: all;
 
     &:hover {
       box-shadow: 0 0 8px rgba(11, 118, 218, 0.5);
