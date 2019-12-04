@@ -14,7 +14,7 @@ import Draggable from 'react-draggable';
 import Tag from '../Tag';
 import { Container, Header, DetailsContainer, Footer, TagList } from './styles';
 
-export default function Manifestation({ manifestation }) {
+export default function Manifestation({ manifestation, draggable }) {
   const history = useHistory();
 
   const {
@@ -50,7 +50,7 @@ export default function Manifestation({ manifestation }) {
         <Header>
           <div>
             <h1>{title}</h1>
-            <MdMoreVert cursor="pointer" className="handler" />
+            {draggable && <MdMoreVert cursor="pointer" className="handler" />}
           </div>
 
           <span>protocolo: {protocol}</span>
@@ -96,6 +96,7 @@ export default function Manifestation({ manifestation }) {
 }
 
 Manifestation.propTypes = {
+  draggable: PropTypes.bool,
   manifestation: PropTypes.shape({
     id: PropTypes.number,
     title: PropTypes.string,
@@ -115,3 +116,5 @@ Manifestation.propTypes = {
     protocol: PropTypes.string,
   }).isRequired,
 };
+
+Manifestation.defaultProps = { draggable: false };

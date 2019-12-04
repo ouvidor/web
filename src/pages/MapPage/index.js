@@ -90,7 +90,9 @@ export default function MapPage() {
           <MapWrapper>
             <DragContainer>
               {selecteds &&
-                selecteds.map(m => <Manifestation manifestation={m} />)}
+                selecteds.map(m => (
+                  <Manifestation draggable manifestation={m} />
+                ))}
             </DragContainer>
             <MapView
               token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
