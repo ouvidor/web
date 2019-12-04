@@ -5,6 +5,7 @@ export const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 export const BodyWrapper = styled.div`
@@ -53,6 +54,8 @@ export const DragContainer = styled.div`
   position: absolute;
   z-index: 2;
   max-width: 100%;
+  min-width: 100%;
   max-height: 100%;
+  min-height: 100%;
   pointer-events: none;
 `;

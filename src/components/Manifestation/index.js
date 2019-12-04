@@ -1,12 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
-import {
-  MdAttachFile,
-  MdDateRange,
-  MdLocationOn,
-  MdMoreVert,
-} from 'react-icons/md';
+import { MdAttachFile, MdDateRange, MdLocationOn } from 'react-icons/md';
+import { IoMdMove } from 'react-icons/io';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Draggable from 'react-draggable';
@@ -50,7 +46,7 @@ export default function Manifestation({ manifestation, draggable }) {
         <Header>
           <div>
             <h1>{title}</h1>
-            {draggable && <MdMoreVert cursor="pointer" className="handler" />}
+            {draggable && <IoMdMove cursor="pointer" className="handler" />}
           </div>
 
           <span>protocolo: {protocol}</span>

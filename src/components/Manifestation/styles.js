@@ -34,9 +34,10 @@ export const Header = styled.header`
     }
 
     svg {
+      margin-left: 20px;
       fill: #000;
-      width: 18px;
-      height: 18px;
+      width: 24px;
+      height: 24px;
       pointer-events: all;
       cursor: grab;
     }
