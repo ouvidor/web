@@ -58,4 +58,12 @@ export const DragContainer = styled.div`
   max-height: 100%;
   min-height: 100%;
   pointer-events: none;
+
+  > div {
+    position: relative;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100%;
+    min-height: 100%;
+  }
 `;

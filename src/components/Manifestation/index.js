@@ -10,7 +10,7 @@ import Draggable from 'react-draggable';
 import Tag from '../Tag';
 import { Container, Header, DetailsContainer, Footer, TagList } from './styles';
 
-export default function Manifestation({ manifestation, draggable }) {
+export default function Manifestation({ manifestation, draggable, pos }) {
   const history = useHistory();
 
   const {
@@ -41,7 +41,7 @@ export default function Manifestation({ manifestation, draggable }) {
   }
 
   return (
-    <Draggable handle=".handler">
+    <Draggable defaultPosition={{ x: pos * 20, y: pos * 20 }} handle=".handler">
       <Container>
         <Header>
           <div>

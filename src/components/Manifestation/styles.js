@@ -10,7 +10,7 @@ export const Container = styled.div`
   border: 2px solid #ddd;
   border-radius: 8px;
   padding: 15px;
-  position: relative;
+  position: absolute;
   transition: border 0.3s;
   pointer-events: all;
   cursor: default;
