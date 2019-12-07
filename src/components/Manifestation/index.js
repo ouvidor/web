@@ -92,6 +92,7 @@ export default function Manifestation({ manifestation, draggable, pos }) {
 }
 
 Manifestation.propTypes = {
+  pos: PropTypes.number,
   draggable: PropTypes.bool,
   manifestation: PropTypes.shape({
     id: PropTypes.number,
@@ -113,4 +114,4 @@ Manifestation.propTypes = {
   }).isRequired,
 };
 
-Manifestation.defaultProps = { draggable: false };
+Manifestation.defaultProps = { draggable: false, pos: 0 };
