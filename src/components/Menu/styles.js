@@ -58,7 +58,7 @@ export const ActiveIndicator = styled.div`
   background: #eaedf2;
   position: absolute;
   left: 58px;
-  animation: ANIMATION .2s;
+  animation: ANIMATION 0.2s;
 
   @keyframes ANIMATION {
     0% {

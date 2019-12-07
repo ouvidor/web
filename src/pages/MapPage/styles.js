@@ -5,6 +5,7 @@ export const Container = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 `;
 
 export const BodyWrapper = styled.div`
@@ -42,4 +43,27 @@ export const Scroll = styled(PerfectScrollBar)`
   min-width: 100%;
   max-width: 100%;
   padding: 5px 0px 0 0;
+`;
+
+export const MapWrapper = styled.section`
+  flex: 1;
+  position: relative;
+`;
+
+export const DragContainer = styled.div`
+  position: absolute;
+  z-index: 2;
+  max-width: 100%;
+  min-width: 100%;
+  max-height: 100%;
+  min-height: 100%;
+  pointer-events: none;
+
+  > div {
+    position: relative;
+    max-width: 100%;
+    min-width: 100%;
+    max-height: 100%;
+    min-height: 100%;
+  }
 `;

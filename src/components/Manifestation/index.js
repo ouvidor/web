@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  MdAttachFile,
-  MdDateRange,
-  MdLocationOn,
-  MdMoreVert,
-} from 'react-icons/md';
+import { useHistory } from 'react-router-dom';
+import { MdAttachFile, MdDateRange, MdLocationOn } from 'react-icons/md';
+import { IoMdMove } from 'react-icons/io';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import Draggable from 'react-draggable';
 
 import Tag from '../Tag';
 import { Container, Header, DetailsContainer, Footer, TagList } from './styles';
 
-export default function Manifestation({ manifestation }) {
+export default function Manifestation({ manifestation, draggable, pos }) {
+  const history = useHistory();
+
   const {
+    id,
     title,
     categories,
     type,
@@ -31,74 +32,70 @@ export default function Manifestation({ manifestation }) {
       locale: pt,
     });
 
-  function openConfig() {
-    console.log('abrindo configs');
-  }
-
   function openAttached() {
     console.log('pagina de anexo');
   }
 
   function handleSend() {
-    console.log('pagina para direcionar secretaría');
+    history.push(`/send/${id}`);
   }
 
   return (
-    <Container>
-      <Header>
-        <div>
-          <h1>{title}</h1>
-          <MdMoreVert
-            color="black"
-            size="18"
-            onClick={openConfig}
-            cursor="pointer"
-          />
-        </div>
+    <Draggable defaultPosition={{ x: pos * 20, y: pos * 20 }} handle=".handler">
+      <Container>
+        <Header>
+          <div>
+            <h1>{title}</h1>
+            {draggable && <IoMdMove cursor="pointer" className="handler" />}
+          </div>
 
-        <span>protocolo: {protocol}</span>
+          <span>protocolo: {protocol}</span>
 
-        <section>
-          <TagList>
-            {tags && tags.map(tag => <Tag key={tag.title} tag={tag} />)}
-          </TagList>
+          <section>
+            <TagList>
+              {tags && tags.map(tag => <Tag key={tag.title} tag={tag} />)}
+            </TagList>
 
-          <button type="button" onClick={openAttached}>
-            <MdAttachFile color="black" size="14" />
-            Anexos
+            <button type="button" onClick={openAttached}>
+              <MdAttachFile color="black" size="14" />
+              Anexos
+            </button>
+          </section>
+        </Header>
+
+        <DetailsContainer>
+          <p>{description}</p>
+          <br />
+
+          {formattedDate && (
+            <div>
+              <MdDateRange size="14px" />
+              Data: {formattedDate}
+            </div>
+          )}
+          {location && (
+            <div>
+              <MdLocationOn size="14px" />
+              Local: {location}
+            </div>
+          )}
+        </DetailsContainer>
+
+        <Footer>
+          <button type="button" onClick={handleSend}>
+            Direcionar para secretária
           </button>
-        </section>
-      </Header>
-
-      <DetailsContainer>
-        <p>{description}</p>
-        <br />
-
-        {formattedDate && (
-          <div>
-            <MdDateRange size="14px" />
-            Data: {formattedDate}
-          </div>
-        )}
-        {location && (
-          <div>
-            <MdLocationOn size="14px" />
-            Local: {location}
-          </div>
-        )}
-      </DetailsContainer>
-
-      <Footer>
-        <button type="button" onClick={handleSend}>
-          Direcionar para secretária
-        </button>
-      </Footer>
-    </Container>
+        </Footer>
+      </Container>
+    </Draggable>
   );
 }
 
 Manifestation.propTypes = {
+  pos: PropTypes.number,
+  draggable: PropTypes.bool,
   manifestation: PropTypes.shape({
+    id: PropTypes.number,
     title: PropTypes.string,
     description: PropTypes.string,
     categories: PropTypes.arrayOf(
@@ -116,3 +113,5 @@ Manifestation.propTypes = {
     protocol: PropTypes.string,
   }).isRequired,
 };
+
+Manifestation.defaultProps = { draggable: false, pos: 0 };

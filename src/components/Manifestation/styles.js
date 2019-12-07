@@ -10,8 +10,10 @@ export const Container = styled.div`
   border: 2px solid #ddd;
   border-radius: 8px;
   padding: 15px;
-  position: relative;
-  transition: all 0.3s;
+  position: absolute;
+  transition: border 0.3s;
+  pointer-events: all;
+  cursor: default;
 
   &:hover {
     border: 2px solid #ccc;
@@ -28,11 +30,23 @@ export const Header = styled.header`
       font-weight: bold;
       font-size: 18px;
       margin-bottom: 0;
+      color: #000;
+    }
+
+    svg {
+      margin-left: 20px;
+      fill: #000;
+      width: 24px;
+      height: 24px;
+      pointer-events: all;
+      cursor: grab;
     }
   }
 
   > span {
     font-size: 12px;
+    color: #000;
+    font-weight: normal;
   }
 
   section {
@@ -52,11 +66,7 @@ export const Header = styled.header`
       border-radius: 8px;
       border: 0.8px solid #0b76da;
       font-size: 12px;
-      transition: box-shadow 0.2s;
-
-      &:hover {
-        box-shadow: 0 0 4px rgba(11, 118, 218, 0.5);
-      }
+      pointer-events: all;
     }
   }
 `;
@@ -76,6 +86,9 @@ export const TagList = styled.ul`
 export const DetailsContainer = styled.div`
   p {
     margin-top: 12px;
+    color: #000;
+    font-size: 14px;
+    font-weight: normal;
   }
 
   div {
@@ -104,6 +117,7 @@ export const Footer = styled.footer`
     cursor: pointer;
     font-size: 12px;
     transition: box-shadow 0.2s;
+    pointer-events: all;
 
     &:hover {
       box-shadow: 0 0 8px rgba(11, 118, 218, 0.5);
