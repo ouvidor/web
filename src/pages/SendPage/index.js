@@ -1,45 +1,53 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input, Textarea } from '@rocketseat/unform';
-import { MdChevronLeft } from 'react-icons/md';
+import { Form, Input } from '@rocketseat/unform';
+import { toast } from 'react-toastify';
 
 import { StyledForm, Container, TagList } from './styles';
-// import api from '../../services/api';
+import api from '../../services/api';
 import { Background } from '../../styles';
 import Tag from '../../components/Tag';
 import Select from '../../components/Select';
 
-export default function SendPage({ match, manifestationState }) {
+export default function SendPage({ match }) {
   const { id } = match.params;
-  const [manifestation, setManifestation] = useState(manifestationState);
+  const [manifestation, setManifestation] = useState(null);
+  const [secretariats, setSecretariats] = useState([]);
 
   // busca pela manifestação
   useEffect(() => {
     async function fetchManifestation() {
-      if (!id) return;
-      // const result = await api.get(`/manifestation/${id}`);
-      // if (!result && !result.data) return;
+      try {
+        if (!id) return;
+        let result = await api.get(`/manifestation/${id}`);
+        if (!result && !result.data) {
+          throw new Error();
+        }
+        setManifestation(result.data);
 
-      // setManifestation(result.data);
-      setManifestation({
-        id: 1,
-        title: 'Problemas na rua da restinga',
-        description:
-          'Há um buraco na rua da restinga vai fazer 3 anos já. BlablablaBlablablaBlablabla BlablablaBlablabla Há um buraco na rua da restinga vai fazer 3 anos já. BlablablaBlablablaBlablabla BlablablaBlablablaHá um buraco na rua da restinga vai fazer 3 anos já. BlablablaBlablablaBlablabla BlablablaBlablablaHá um buraco na rua da restinga vai fazer 3 anos já. BlablablaBlablablaBlablabla BlablablaBlablablaHá um buraco na rua da restinga vai fazer 3 anos já. BlablablaBlablablaBlablabla BlablablaBlablabla',
-        type: {
-          id: 1,
-          title: 'Reclamação',
-        },
-        categories: [{ id: 1, title: 'Saúde' }],
-        protocol: '2016028589725',
-      });
+        // pega as secretarias
+        result = await api.get('/secretary');
+        setSecretariats(result.data);
+      } catch (err) {
+        toast.error('Não pôde exibir a manifestação, erro de conexão');
+      }
     }
     fetchManifestation();
   }, [id]);
 
   function handleFetch() {}
 
-  function handleSend() {}
+  async function handleSend(data) {
+    data = { ...data, email: data.secretary.email };
+    delete data.secretary;
+
+    try {
+      await api.post('/email', data);
+      toast.success('Email enviado com sucesso');
+    } catch (err) {
+      toast.error('O email não pôde ser enviado, erro de conexão');
+    }
+  }
 
   // renderiza o formulario de busca por protocolo
   if (!manifestation)
@@ -61,10 +69,6 @@ export default function SendPage({ match, manifestationState }) {
     <Background>
       <Container>
         <header>
-          <button type="button">
-            <MdChevronLeft />
-            voltar
-          </button>
           <span>protocolo: {manifestation.protocol}</span>
         </header>
         <div>
@@ -89,8 +93,15 @@ export default function SendPage({ match, manifestationState }) {
               />
             </header>
             <Form onSubmit={handleSend}>
-              <Textarea
-                name="mailBody"
+              <Input
+                name="title"
+                placeholder="Título do email"
+                maxLength={145}
+              />
+
+              <Input
+                multiline
+                name="text"
                 placeholder="Corpo do email"
                 maxLength={1200}
               />
@@ -98,8 +109,9 @@ export default function SendPage({ match, manifestationState }) {
                 <Select
                   name="secretary"
                   placeholder="Para qual secretaria enviar?"
-                  options={[{ id: 1, title: 'Secretaria de Saúde' }]}
+                  options={secretariats}
                   alternativeStyle
+                  returnObject
                 />
                 <button type="submit">Enviar</button>
               </footer>
@@ -117,15 +129,4 @@ SendPage.propTypes = {
       id: PropTypes.string,
     }),
   }).isRequired,
-  manifestationState: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    type: PropTypes.number,
-    category: PropTypes.number,
-  }),
-};
-
-SendPage.defaultProps = {
-  manifestationState: null,
 };

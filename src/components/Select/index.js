@@ -12,6 +12,7 @@ export default function ReactSelect({
   multiple,
   alternativeStyle,
   multipleTypes,
+  returnObject,
   ...rest
 }) {
   const ref = useRef(null);
@@ -28,6 +29,17 @@ export default function ReactSelect({
 
       return selectValue ? selectValue.map(option => option.title) : [];
     }
+
+    // caso queira retornar o objeto inteiro
+    if (returnObject) {
+      const selectValue = selectRef.state.value;
+      if (!multiple) {
+        return selectValue || '';
+      }
+
+      return selectValue || [];
+    }
+
     // caso não receba multiplos tipos o id continua sendo importante
     const selectValue = selectRef.state.value;
     if (!multiple) {
@@ -96,6 +108,7 @@ ReactSelect.propTypes = {
   multiple: PropTypes.bool,
   alternativeStyle: PropTypes.bool,
   multipleTypes: PropTypes.bool,
+  returnObject: PropTypes.bool,
 };
 
 ReactSelect.defaultProps = {
@@ -103,4 +116,5 @@ ReactSelect.defaultProps = {
   multiple: false,
   alternativeStyle: false,
   multipleTypes: false,
+  returnObject: false,
 };

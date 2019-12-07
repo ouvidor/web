@@ -28,11 +28,11 @@ export const Container = styled.div`
   /* corpo */
   > div {
     h1 {
-      margin-top: 15px;
-      margin-bottom: 0px;
+      margin: 5px 0;
     }
 
     p {
+      margin-top: 10px;
       line-height: 1.6;
       width: 70%;
     }
@@ -59,14 +59,19 @@ export const Container = styled.div`
       }
 
       form {
+        input,
         textarea {
           background: #eaedf2;
           border: none;
           border-radius: 8px;
           padding: 10px;
-          resize: none;
-          height: 200px;
           width: 100%;
+          margin-bottom: 5px;
+        }
+
+        textarea {
+          resize: none;
+          height: 160px;
         }
 
         > footer {
