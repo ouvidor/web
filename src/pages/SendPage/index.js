@@ -9,50 +9,52 @@ import { Background } from '../../styles';
 import Tag from '../../components/Tag';
 import Select from '../../components/Select';
 
-export default function SendPage({ match }) {
+export default function SendPage({ match, history }) {
   const { id } = match.params;
   const [manifestation, setManifestation] = useState(null);
   const [secretariats, setSecretariats] = useState([]);
 
-  // busca atráves da id da manifestação
-  useEffect(() => {
-    async function fetchManifestation() {
+  const search = useCallback(
+    async ({ protocol, manifestationId }) => {
+      let result;
       try {
-        if (!id) return;
-        let result = await api.get(`/manifestation/${id}`);
-        if (!result && !result.data) {
-          throw new Error();
-        }
-        setManifestation(result.data);
+        if (manifestationId) {
+          result = await api
+            .get(`/manifestation/${manifestationId}`)
+            .catch(() => history.push('/send'));
 
-        // pega as secretarias
+          setManifestation(result.data);
+          return;
+        }
+
+        if (protocol && !manifestationId) {
+          result = await api.get(`/manifestation`, {
+            params: { text: protocol },
+          });
+          if (!result && !result.data && !result.data.rows[0]) {
+            throw new Error();
+          }
+          setManifestation(result.data.rows[0]);
+        }
+
         result = await api.get('/secretary');
         setSecretariats(result.data);
       } catch (err) {
-        toast.error('Não pôde exibir a manifestação, erro de conexão');
+        toast.error('Não pôde concluir a busca, erro na conexão');
       }
-    }
-    fetchManifestation();
-  }, [id]);
+    },
+    [history]
+  );
+
+  // busca atráves da id da manifestação
+  useEffect(() => {
+    search({ manifestationId: id });
+  }, [id, search]);
 
   // pesquisa pelo protocolo inserido
   async function handleFetch(data) {
     const { protocol } = data;
-    try {
-      let result = await api.get(`/manifestation`, {
-        params: { text: protocol },
-      });
-      if (!result && !result.data && !result.data.rows[0]) {
-        throw new Error();
-      }
-      setManifestation(result.data.rows[0]);
-
-      // pega as secretarias
-      result = await api.get('/secretary');
-      setSecretariats(result.data);
-    } catch (err) {
-      toast.error('Não pôde exibir a manifestação, erro de conexão');
-    }
+    search({ protocol });
   }
 
   // envio do email
@@ -147,5 +149,8 @@ SendPage.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+  }).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
   }).isRequired,
 };
