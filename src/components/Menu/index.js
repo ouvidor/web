@@ -21,14 +21,17 @@ import decodeJWT from 'jwt-decode';
 
 import { Container, Item, ActiveIndicator } from './styles';
 
-const CustomLink = ({ to, Icon, activePath }) => (
-  <Item>
-    <Link to={to}>
-      <Icon />
-    </Link>
-    {to === activePath && <ActiveIndicator />}
-  </Item>
-);
+function CustomLink({ to, Icon }) {
+  const { pathname } = useLocation();
+  return (
+    <Item>
+      <Link to={to}>
+        <Icon />
+      </Link>
+      {to === pathname && <ActiveIndicator />}
+    </Item>
+  );
+}
 
 export default function Menu({ isAdminMasterState }) {
   // pega o token e checa a Role
@@ -37,23 +40,20 @@ export default function Menu({ isAdminMasterState }) {
   const role = tokenPayload && tokenPayload.role[0];
   const isAdminMaster = (role && role.title === 'master') || isAdminMasterState;
 
-  const { pathname } = useLocation();
-
   return (
     <Container>
       <ul>
-        <CustomLink to="/map" Icon={MdMap} activePath={pathname} />
-        <CustomLink to="/recent" Icon={MdVisibility} activePath={pathname} />
-        <CustomLink to="/create" Icon={MdCreate} activePath={pathname} />
-        <CustomLink to="/statistics" Icon={MdEqualizer} activePath={pathname} />
-        <CustomLink to="/send" Icon={MdSend} activePath={pathname} />
-        <CustomLink to="/email" Icon={MdEmail} activePath={pathname} />
-        {isAdminMaster && (
-          <CustomLink to="/settings" Icon={MdSettings} activePath={pathname} />
-        )}
+        <CustomLink to="/map" Icon={MdMap} />
+        <CustomLink to="/recent" Icon={MdVisibility} />
+        <CustomLink to="/create" Icon={MdCreate} />
+        <CustomLink to="/statistics" Icon={MdEqualizer} />
+        <CustomLink to="/send" Icon={MdSend} />
+        <CustomLink to="/status" Icon={MdSend} />
+        <CustomLink to="/email" Icon={MdEmail} />
+        {isAdminMaster && <CustomLink to="/settings" Icon={MdSettings} />}
       </ul>
       <ul>
-        <CustomLink to="/profile" Icon={MdFace} activePath={pathname} />
+        <CustomLink to="/profile" Icon={MdFace} />
       </ul>
     </Container>
   );
@@ -65,5 +65,4 @@ Menu.defaultProps = { isAdminMasterState: false };
 CustomLink.propTypes = {
   to: PropTypes.string.isRequired,
   Icon: PropTypes.func.isRequired,
-  activePath: PropTypes.string.isRequired,
 };
