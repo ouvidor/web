@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
@@ -14,7 +14,7 @@ export default function SendPage({ match }) {
   const [manifestation, setManifestation] = useState(null);
   const [secretariats, setSecretariats] = useState([]);
 
-  // busca pela manifestação
+  // busca atráves da id da manifestação
   useEffect(() => {
     async function fetchManifestation() {
       try {
@@ -35,8 +35,27 @@ export default function SendPage({ match }) {
     fetchManifestation();
   }, [id]);
 
-  function handleFetch() {}
+  // pesquisa pelo protocolo inserido
+  async function handleFetch(data) {
+    const { protocol } = data;
+    try {
+      let result = await api.get(`/manifestation`, {
+        params: { text: protocol },
+      });
+      if (!result && !result.data && !result.data.rows[0]) {
+        throw new Error();
+      }
+      setManifestation(result.data.rows[0]);
 
+      // pega as secretarias
+      result = await api.get('/secretary');
+      setSecretariats(result.data);
+    } catch (err) {
+      toast.error('Não pôde exibir a manifestação, erro de conexão');
+    }
+  }
+
+  // envio do email
   async function handleSend(data) {
     data = { ...data, email: data.secretary.email };
     delete data.secretary;
