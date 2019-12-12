@@ -96,6 +96,7 @@ export default function MapPage() {
                       draggable
                       pos={selecteds.length}
                       manifestation={m}
+                      key={m.id}
                     />
                   ))}
               </div>

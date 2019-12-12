@@ -40,6 +40,10 @@ export default function Manifestation({ manifestation, draggable, pos }) {
     history.push(`/send/${id}`);
   }
 
+  function handleStatus() {
+    history.push(`/status/${id}`);
+  }
+
   return (
     <Draggable defaultPosition={{ x: pos * 20, y: pos * 20 }} handle=".handler">
       <Container>
@@ -82,6 +86,9 @@ export default function Manifestation({ manifestation, draggable, pos }) {
         </DetailsContainer>
 
         <Footer>
+          <button type="button" onClick={handleStatus}>
+            Gerenciar Status
+          </button>
           <button type="button" onClick={handleSend}>
             Direcionar para secretária
           </button>

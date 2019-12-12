@@ -122,5 +122,9 @@ export const Footer = styled.footer`
     &:hover {
       box-shadow: 0 0 8px rgba(11, 118, 218, 0.5);
     }
+
+    & + button {
+      margin-left: 10px;
+    }
   }
 `;

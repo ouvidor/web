@@ -19,6 +19,7 @@ import RecentsPage from '../pages/RecentsPage';
 import CreatePage from '../pages/CreatePage';
 import StatisticsPage from '../pages/StatisticsPage';
 import SendPage from '../pages/SendPage';
+import StatusPage from '../pages/StatusPage';
 import EmailPage from '../pages/EmailPage';
 import SettingsPage from '../pages/SettingsPage';
 import ProfilePage from '../pages/ProfilePage';
@@ -32,6 +33,7 @@ export default function Routes() {
       <AuthRoute path="/create" isPrivate component={CreatePage} />
       <AuthRoute path="/statistics" isPrivate component={StatisticsPage} />
       <AuthRoute path="/send/:id?" isPrivate component={SendPage} />
+      <AuthRoute path="/status/:id?" isPrivate component={StatusPage} />
       <AuthRoute path="/email" isPrivate component={EmailPage} />
       <AuthRoute path="/settings" isSuperPrivate component={SettingsPage} />
       <AuthRoute path="/profile" isPrivate component={ProfilePage} />
