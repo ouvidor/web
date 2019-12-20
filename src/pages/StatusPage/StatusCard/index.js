@@ -5,26 +5,33 @@ import pt from 'date-fns/locale/pt';
 
 import { Container, Title, Date } from './styles';
 
-export default function StatusCard({ status }) {
+export default function StatusCard({ manifestationStatus, handleSelect }) {
   const formattedDate = useMemo(() => {
-    const date = format(parseISO(status.created_at), "dd 'de' MMMM 'de' yyyy", {
-      locale: pt,
-    });
+    const date = format(
+      parseISO(manifestationStatus.created_at),
+      "dd 'de' MMMM 'de' yyyy",
+      {
+        locale: pt,
+      }
+    );
     return date;
-  }, [status.created_at]);
+  }, [manifestationStatus.created_at]);
 
   return (
-    <Container>
-      <Title>{status.title}</Title>
+    <Container onClick={handleSelect}>
+      <Title>{manifestationStatus.status.title}</Title>
       <Date>{formattedDate}</Date>
     </Container>
   );
 }
 
 StatusCard.propTypes = {
-  status: PropTypes.shape({
+  manifestationStatus: PropTypes.shape({
     title: PropTypes.string,
     description: PropTypes.string,
     created_at: PropTypes.string,
+    status: PropTypes.shape({
+      title: PropTypes.string,
+    }),
   }).isRequired,
 };

@@ -2,6 +2,8 @@ import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
 import { toast } from 'react-toastify';
+import { format, parseISO } from 'date-fns';
+import pt from 'date-fns/locale/pt';
 
 import { StyledForm, Container, TagList } from './styles';
 import api from '../../services/api';
@@ -15,28 +17,26 @@ export default function SendPage({ match, history }) {
   const [secretariats, setSecretariats] = useState([]);
 
   const search = useCallback(
-    async ({ protocol, manifestationId }) => {
+    async idOrProtocol => {
+      if (!idOrProtocol) return;
+
       let result;
       try {
-        if (manifestationId) {
-          result = await api
-            .get(`/manifestation/${manifestationId}`)
-            .catch(() => history.push('/send'));
+        // busca pela manifestação
+        result = await api
+          .get(`/manifestation/${idOrProtocol}`)
+          .catch(() => history.push('/send'));
 
-          setManifestation(result.data);
-          return;
-        }
-
-        if (protocol && !manifestationId) {
-          result = await api.get(`/manifestation`, {
-            params: { text: protocol },
+        // formatar a data
+        const date =
+          result.data.created_at &&
+          format(parseISO(result.data.created_at), "dd 'de' MMMM 'de' yyyy", {
+            locale: pt,
           });
-          if (!result && !result.data && !result.data.rows[0]) {
-            throw new Error();
-          }
-          setManifestation(result.data.rows[0]);
-        }
+        const formattedData = { ...result.data, formattedDate: date };
+        setManifestation(formattedData);
 
+        // busca pelas secretarias
         result = await api.get('/secretary');
         setSecretariats(result.data);
       } catch (err) {
@@ -48,13 +48,12 @@ export default function SendPage({ match, history }) {
 
   // busca atráves da id da manifestação
   useEffect(() => {
-    search({ manifestationId: id });
+    search(id);
   }, [id, search]);
 
   // pesquisa pelo protocolo inserido
   async function handleFetch(data) {
-    const { protocol } = data;
-    search({ protocol });
+    search(data.protocol);
   }
 
   // envio do email
@@ -102,6 +101,10 @@ export default function SendPage({ match, history }) {
               ))}
           </TagList>
           <p>{manifestation.description}</p>
+
+          <footer>
+            <span>{manifestation.formattedDate}</span>
+          </footer>
 
           <section>
             <header>

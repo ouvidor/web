@@ -74,7 +74,6 @@ export default function ReactSelect({
   return (
     <>
       {label && <label htmlFor={fieldName}>{label}</label>}
-
       <Select
         name={fieldName}
         styles={alternativeStyle ? alternative : basic}
