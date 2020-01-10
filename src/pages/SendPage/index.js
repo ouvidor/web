@@ -7,11 +7,12 @@ import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import * as Yup from 'yup';
 
-import { StyledForm, Container, TagList } from './styles';
+import { Container, TagList } from './styles';
 import api from '../../services/api';
 import { Background } from '../../styles';
 import Tag from '../../components/Tag';
 import Select from '../../components/Select';
+import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
 
 export default function SendPage({ match, history }) {
   const { id } = match.params;
@@ -19,11 +20,7 @@ export default function SendPage({ match, history }) {
   const [manifestation, setManifestation] = useState(null);
   const [secretariats, setSecretariats] = useState([]);
 
-  const searchProtocolValidation = Yup.object().shape({
-    protocol: Yup.string().required('O protocolo é necessário'),
-  });
-
-  const emailValidation = Yup.object().shape({
+  const validationSchema = Yup.object().shape({
     title: Yup.string()
       .max(145, 'No máximo 145 caracteres')
       .required('Um título é necessário'),
@@ -89,24 +86,10 @@ export default function SendPage({ match, history }) {
   if (!manifestation)
     return (
       <Background>
-        <h1>Direcionar manifestação para secretária</h1>
-        <Formik
-          initialValues={{ protocol: '' }}
-          validationSchema={searchProtocolValidation}
-          onSubmit={handleFetch}
-        >
-          {() => (
-            <StyledForm>
-              <Field
-                type="text"
-                placeholder="Exemplo: 20190330111"
-                name="protocol"
-                label="Número de protocolo"
-              />
-              <button type="submit">Buscar</button>
-            </StyledForm>
-          )}
-        </Formik>
+        <SearchManifestationByProtocol
+          label="Direcionar manifestação para secretária"
+          handleFetch={handleFetch}
+        />
       </Background>
     );
 
@@ -143,7 +126,7 @@ export default function SendPage({ match, history }) {
             </header>
             <Formik
               initialValues={{ title: '', text: '', secretary: null }}
-              validationSchema={emailValidation}
+              validationSchema={validationSchema}
               onSubmit={handleSend}
             >
               {({
