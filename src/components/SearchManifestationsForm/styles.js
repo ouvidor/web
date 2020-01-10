@@ -1,12 +1,12 @@
 import styled from 'styled-components';
-import { Form } from '@rocketseat/unform';
+import { Form } from 'formik';
 
 export const StyledForm = styled(Form)`
   width: 100%;
   margin-bottom: 12px;
 `;
 
-export const TextInput = styled.div`
+export const TextInputContainer = styled.div`
   display: flex;
   margin-bottom: 6px;
   border-radius: 8px;

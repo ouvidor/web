@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Input } from '@rocketseat/unform';
+import { Formik, Field } from 'formik';
 import { CircleSpinner } from 'react-spinners-kit';
 import { MdSearch } from 'react-icons/md';
 import { object, string, array } from 'yup';
@@ -7,15 +7,16 @@ import PropTypes from 'prop-types';
 
 import { toast } from 'react-toastify';
 import Select from '../Select';
-import { StyledForm, TextInput } from './styles';
+import { StyledForm, TextInputContainer } from './styles';
 import api from '../../services/api';
 
 export default function SearchManifestationsForm({ onSubmit, loading }) {
+  const [options, setOptions] = useState([]);
+
   const validationSchema = object().shape({
     text: string(),
     options: array().of(string()),
   });
-  const [options, setOptions] = useState([]);
 
   async function fetchFromAPI(pathUrl) {
     const { data } = await api.get(pathUrl);
@@ -38,19 +39,36 @@ export default function SearchManifestationsForm({ onSubmit, loading }) {
   }, []);
 
   return (
-    <StyledForm onSubmit={onSubmit} schema={validationSchema}>
-      <TextInput>
-        <Input name="text" placeholder="Protocolo ou título" />
-        <button type="submit">
-          {loading ? (
-            <CircleSpinner size={15} color="rgba(255, 255, 255, 0.6)" />
-          ) : (
-            <MdSearch />
-          )}
-        </button>
-      </TextInput>
-      <Select name="options" options={options} multiple multipleTypes />
-    </StyledForm>
+    <Formik
+      initialValues={{ text: '', options: [] }}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
+      {({ values, errors, touched, setFieldValue, setFieldTouched }) => (
+        <StyledForm>
+          <TextInputContainer>
+            <Field name="text" type="text" placeholder="Protocolo ou título" />
+            <button type="submit">
+              {loading ? (
+                <CircleSpinner size={15} color="rgba(255, 255, 255, 0.6)" />
+              ) : (
+                <MdSearch />
+              )}
+            </button>
+          </TextInputContainer>
+          <Select
+            name="options"
+            options={options}
+            multiple
+            value={values.options}
+            onChange={setFieldValue}
+            onBlur={setFieldTouched}
+            error={errors.options}
+            touched={touched.options}
+          />
+        </StyledForm>
+      )}
+    </Formik>
   );
 }
 
