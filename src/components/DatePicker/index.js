@@ -1,44 +1,49 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React from 'react';
 import ReactDatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
-import { useField } from '@rocketseat/unform';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
-export default function DatePicker({ name, placeholder }) {
-  const ref = useRef(null);
-  const { fieldName, registerField, defaultValue, error } = useField(name);
-  const [selected, setSelected] = useState(defaultValue);
+export default function DatePicker({
+  onChange,
+  onBlur,
+  name,
+  value,
+  placeholder,
+  error,
+  touched,
+}) {
+  function handleChange(option) {
+    onChange(name, option);
+  }
 
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: ref.current,
-      path: 'props.selected',
-      clearValue: pickerRef => {
-        pickerRef.clear();
-      },
-    });
-  }, [ref.current, fieldName]); // eslint-disable-line
+  function handleBlur() {
+    onBlur(name, true);
+  }
 
   return (
     <>
       <ReactDatePicker
-        name={fieldName}
-        selected={selected}
+        name={name}
+        selected={value}
         placeholderText={placeholder}
         autoComplete="off"
-        onChange={date => setSelected(date)}
+        onChange={handleChange}
+        onBlur={handleBlur}
         timeFormat="HH:mm"
         dateFormat="dd/MM/yyyy"
-        ref={ref}
       />
-      {error && <span>{error}</span>}
+      {!!error && touched && <span>{error}</span>}
     </>
   );
 }
 
 DatePicker.propTypes = {
+  onChange: PropTypes.func.isRequired,
+  onBlur: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  error: PropTypes.string.isRequired,
+  touched: PropTypes.bool.isRequired,
 };

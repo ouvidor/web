@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 
@@ -17,6 +17,8 @@ export default function ReactSelect({
   touched,
   ...rest
 }) {
+  const [selections, setSelections] = useState([]);
+
   function handleChange(v) {
     onChange(name, v);
   }
@@ -24,6 +26,19 @@ export default function ReactSelect({
   function handleBlur() {
     onBlur(name, true);
   }
+
+  ReactSelect.defaultProps = {
+    label: null,
+    multiple: false,
+    alternativeStyle: false,
+    error: undefined,
+    touched: undefined,
+    onChange: (fieldName, values) => {
+      setSelections(values);
+    },
+    onBlur: () => {},
+    value: undefined,
+  };
 
   return (
     <>
@@ -39,7 +54,7 @@ export default function ReactSelect({
         getOptionLabel={option => option.title}
         isSearchable
         placeholder="Opções..."
-        value={value}
+        value={value || selections}
         onChange={handleChange}
         onBlur={handleBlur}
         {...rest}
@@ -61,14 +76,9 @@ ReactSelect.propTypes = {
   ).isRequired,
   multiple: PropTypes.bool,
   alternativeStyle: PropTypes.bool,
-  onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
-  value: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-    })
-  ).isRequired,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+  value: PropTypes.shape({}),
   error: PropTypes.string,
   touched: PropTypes.oneOfType([
     PropTypes.bool,
@@ -79,12 +89,4 @@ ReactSelect.propTypes = {
       })
     ),
   ]),
-};
-
-ReactSelect.defaultProps = {
-  label: null,
-  multiple: false,
-  alternativeStyle: false,
-  error: undefined,
-  touched: undefined,
 };
