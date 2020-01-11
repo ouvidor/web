@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 
-import { basic, alternative } from './styles';
+import { basic, alternative, Container } from './styles';
 
 export default function ReactSelect({
   label,
@@ -41,7 +41,7 @@ export default function ReactSelect({
   };
 
   return (
-    <>
+    <Container>
       {label && <label htmlFor={name}>{label}</label>}
       <Select
         id={name}
@@ -61,7 +61,7 @@ export default function ReactSelect({
       />
 
       {!!error && touched && <span>{error}</span>}
-    </>
+    </Container>
   );
 }
 
@@ -78,8 +78,16 @@ ReactSelect.propTypes = {
   alternativeStyle: PropTypes.bool,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
-  value: PropTypes.shape({}),
-  error: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.shape({ id: PropTypes.number, title: PropTypes.string })
+    ),
+    PropTypes.shape({ id: PropTypes.number, title: PropTypes.string }),
+  ]),
+  error: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
   touched: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.arrayOf(

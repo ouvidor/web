@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Textarea } from '@rocketseat/unform';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import { Background } from '../../styles';
-import { Container, InputContainer } from './styles';
+import { Container } from './styles';
 import Select from '../../components/Select';
-import FilesInput from '../../components/FilesInput';
+import Field from '../../components/Field';
+// import FilesInput from '../../components/FilesInput';
 import api from '../../services/api';
 
 export default function CreatePage() {
@@ -16,10 +17,13 @@ export default function CreatePage() {
       .max(900, 'É permitido apenas 900 caracteres na descrição')
       .required('A descrição é necessária'),
     // apenas o id
-    categories_id: Yup.array()
-      .of(Yup.number())
+    categories: Yup.array()
+      .of(Yup.object().shape({ id: Yup.number(), title: Yup.string() }))
       .required('A categoria é necessária'),
-    type_id: Yup.number().required('O tipo é necessário'),
+    type: Yup.object()
+      .shape({ id: Yup.number(), title: Yup.string() })
+      .required('O tipo é necessário')
+      .nullable(),
     location: Yup.string(),
     files_id: Yup.number(),
   });
@@ -47,12 +51,17 @@ export default function CreatePage() {
     // criar manifestação
     async function createManifestation() {
       try {
-        const response = await api.post('/manifestation', data);
-        toast.success(
-          `Manifestação "${response.data.title}" criada com sucesso!`
-        );
-      } catch (error) {
-        toast.error('Não foi possivel criar a manifestação');
+        const response = await api.post('/manifestation', data).catch(error => {
+          toast.error(error.response.data.error);
+        });
+        console.log(response.data);
+        if (response.data) {
+          toast.success(
+            `Manifestação "${response.data.title}" criada com sucesso!`
+          );
+        }
+      } catch (err) {
+        console.error(err);
       }
     }
     createManifestation();
@@ -62,45 +71,77 @@ export default function CreatePage() {
     <Background>
       <Container>
         <h1>Criar manifestação</h1>
-        <Form onSubmit={handleSubmit} schema={validationSchema}>
-          <InputContainer>
-            <span>Título</span>
-            <Input
-              name="title"
-              placeholder="Um título que sumarize a manifestação"
-            />
-          </InputContainer>
-          <InputContainer>
-            <span>Descrição</span>
-            <Textarea
-              name="description"
-              placeholder="Descreva a manifestação"
-              maxLength="900"
-            />
-          </InputContainer>
-          <Select
-            placeholder="Categorias das manifestações"
-            name="categories_id"
-            label="Categorias"
-            options={categories}
-            multiple
-          />
-          <Select
-            placeholder="Tipos de manifestação"
-            name="type_id"
-            label="Tipos"
-            options={types}
-          />
+        <Formik
+          initialValues={{
+            title: '',
+            description: '',
+            categories: [],
+            type: null,
+            location: '',
+          }}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+        >
+          {({ values, errors, touched, setFieldValue, setFieldTouched }) => (
+            <Form>
+              <Field
+                label="Título"
+                type="text"
+                name="title"
+                placeholder="Um título que sumarize a manifestação"
+              />
+              <Field
+                label="Descrição"
+                component="textarea"
+                name="description"
+                placeholder="Descreva a manifestação"
+                maxLength="900"
+              />
+              <Select
+                placeholder="Categorias das manifestações"
+                name="categories"
+                label="Categorias"
+                options={categories}
+                multiple
+                onlyId
+                value={values.categories}
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.categories}
+                touched={touched.categories}
+              />
 
-          <FilesInput name="file_id" />
+              <Select
+                placeholder="Tipos de manifestação"
+                name="type"
+                label="Tipos"
+                options={types}
+                onlyId
+                value={values.type}
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+                error={errors.type}
+                touched={touched.type}
+              />
 
-          <InputContainer>
-            <span>Local</span>
-            <Input name="location" placeholder="O local" />
-          </InputContainer>
+              {/* <FilesInput
+                name="filesId"
+                value={values.filesId}
+                onChange={setFieldValue}
+                onBlur={setFieldTouched}
+              /> */}
 
-          <button type="submit">Criar manifestação</button>
-        </Form>
+              <Field
+                label="Local"
+                type="text"
+                name="location"
+                placeholder="O local"
+              />
+
+              <button type="submit">Criar manifestação</button>
+            </Form>
+          )}
+        </Formik>
       </Container>
     </Background>
   );
