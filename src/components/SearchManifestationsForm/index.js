@@ -15,7 +15,9 @@ export default function SearchManifestationsForm({ onSubmit, loading }) {
 
   const validationSchema = object().shape({
     text: string(),
-    options: array().of(string()),
+    options: array()
+      .of(string())
+      .nullable(),
   });
 
   async function fetchFromAPI(pathUrl) {
@@ -60,6 +62,7 @@ export default function SearchManifestationsForm({ onSubmit, loading }) {
             name="options"
             options={options}
             multiple
+            multipleTypes
             value={values.options}
             onChange={setFieldValue}
             onBlur={setFieldTouched}
