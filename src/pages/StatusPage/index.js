@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -8,7 +8,8 @@ import pt from 'date-fns/locale/pt';
 import api from '../../services/api';
 import Tag from '../../components/Tag';
 import Select from '../../components/Select';
-import DatePicker from '../../components/DatePicker';
+import Field from '../../components/Field';
+// import DatePicker from '../../components/DatePicker';
 import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
 import { Background } from '../../styles';
 import {
@@ -27,7 +28,6 @@ export default function StatusPage({ match, history }) {
   const [statusHistory, setStatusHistory] = useState([]);
   const [status, setStatus] = useState([]);
   const [selected, setSelected] = useState(null);
-  const [selectValue, setSelectValue] = useState(null);
   const [isEditing, setEditing] = useState(false);
 
   const search = useCallback(
@@ -47,7 +47,7 @@ export default function StatusPage({ match, history }) {
           format(parseISO(result.data.created_at), "dd 'de' MMMM 'de' yyyy", {
             locale: pt,
           });
-        const formattedData = { ...result.data, formattedDate: 'date' };
+        const formattedData = { ...result.data, formattedDate: date };
         setManifestation(formattedData);
 
         // buscar historico de status da manifestação
@@ -82,16 +82,41 @@ export default function StatusPage({ match, history }) {
   function handleSelect(manifestationStatus) {
     setEditing(true);
     setSelected(manifestationStatus);
-    setSelectValue({
-      id: manifestationStatus.status_id,
-      title: manifestationStatus.status.title,
-    });
-    console.log(selectValue);
   }
 
   function handleCreate() {
     setEditing(false);
     setSelected(null);
+  }
+
+  async function handleSubmit(data) {
+    const formattedData = { ...data, status_id: data.status.id };
+
+    if (isEditing) {
+      api
+        .put(`manifestation/status/${selected.id}`, formattedData)
+        .then(() => {
+          toast.success(
+            `Status da manifestação "${manifestation.title}" editado com sucesso`
+          );
+          search(id);
+        })
+        .catch(error => {
+          toast.error(error.response.data.error);
+        });
+    } else {
+      api
+        .post(`/manifestation/${id}/status`, formattedData)
+        .then(response => {
+          toast.success(
+            `Status "${response.data.title}" criado para a manifestação "${manifestation.title}"`
+          );
+          search(id);
+        })
+        .catch(error => {
+          toast.error(error.response.data.error);
+        });
+    }
   }
 
   function getInitialValues() {
@@ -137,6 +162,7 @@ export default function StatusPage({ match, history }) {
         <Formik
           initialValues={getInitialValues()}
           key={JSON.stringify(selected)}
+          onSubmit={handleSubmit}
         >
           {({
             values,

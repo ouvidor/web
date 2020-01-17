@@ -14,10 +14,10 @@ export const TagList = styled.ul`
 `;
 
 export const GridContainer = styled.div`
-  max-height: 95vh;
+  max-height: 100%;
   display: grid;
   grid-template-columns: 70% 30%;
-  grid-template-rows: 0.5fr 1fr;
+  grid-template-rows: 0.34fr 1fr;
   grid-gap: 8px;
   grid-template-areas: 'manifestation history' 'status history';
 
