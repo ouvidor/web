@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const Background = styled.div`
+  height: 100%;
+  min-height: 100vh;
   background: #eaedf2;
   flex: 1;
   padding: 15px 20px;

@@ -44,6 +44,19 @@ DatePicker.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  error: PropTypes.string.isRequired,
-  touched: PropTypes.bool.isRequired,
+  error: PropTypes.string,
+  touched: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.bool,
+        title: PropTypes.bool,
+      })
+    ),
+  ]),
+};
+
+DatePicker.defaultProps = {
+  error: undefined,
+  touched: undefined,
 };

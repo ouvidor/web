@@ -15,6 +15,7 @@ export default function ReactSelect({
   onBlur,
   error,
   touched,
+  multipleTypes,
   ...rest
 }) {
   const [selections, setSelections] = useState([]);
@@ -27,10 +28,17 @@ export default function ReactSelect({
     onBlur(name, true);
   }
 
+  function parseOptionValue(option) {
+    if (multipleTypes) return option;
+
+    return option.id;
+  }
+
   ReactSelect.defaultProps = {
     label: null,
     multiple: false,
     alternativeStyle: false,
+    multipleTypes: false,
     error: undefined,
     touched: undefined,
     onChange: (fieldName, values) => {
@@ -49,7 +57,7 @@ export default function ReactSelect({
         isMulti={multiple}
         styles={alternativeStyle ? alternative : basic}
         aria-label={name}
-        getOptionValue={option => option.id}
+        getOptionValue={parseOptionValue}
         // o texto que aparece
         getOptionLabel={option => option.title}
         isSearchable
@@ -76,6 +84,7 @@ ReactSelect.propTypes = {
   ).isRequired,
   multiple: PropTypes.bool,
   alternativeStyle: PropTypes.bool,
+  multipleTypes: PropTypes.bool,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   value: PropTypes.oneOfType([
@@ -96,5 +105,9 @@ ReactSelect.propTypes = {
         title: PropTypes.bool,
       })
     ),
+    PropTypes.shape({
+      id: PropTypes.bool,
+      title: PropTypes.bool,
+    }),
   ]),
 };

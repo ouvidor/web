@@ -66,6 +66,7 @@ export default function RecentsPage() {
       fetchManifestations(setLoadingPage);
     }
     if (prevSearchData !== searchData) {
+      setPage(1);
       fetchManifestations(setLoading);
     }
   }, [fetchManifestations, searchData, page, prevPage, prevSearchData]);

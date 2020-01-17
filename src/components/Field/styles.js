@@ -31,7 +31,7 @@ export const Container = styled.div`
     padding: 2px 8px;
     position: absolute;
     right: 10px;
-    top: 50px;
+    top: ${props => (props.height ? `${props.height - 15}px` : `50px`)};
     background-color: #ffdfdf;
     color: #c44543;
     border: 1px solid #c44543;

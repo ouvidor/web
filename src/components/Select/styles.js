@@ -8,7 +8,7 @@ export const Container = styled.div`
     padding: 2px 8px;
     position: absolute;
     right: 10px;
-    top: 50px;
+    top: ${props => props.height || '50px'};
     background-color: #ffdfdf;
     color: #c44543;
     border: 1px solid #c44543;
@@ -22,6 +22,7 @@ export const basic = {
     ...provided,
     borderBottom: '1px dotted rgb(11, 118, 218, 0.2)',
     color: state.isSelected ? '#0b76da' : 'rgb(0, 0, 0, 0.8)',
+    background: state.isSelected ? 'rgb(11, 118, 218, 0.2)' : '#fff',
     padding: 5,
   }),
   control: provided => ({
@@ -51,6 +52,7 @@ export const alternative = {
     ...provided,
     borderBottom: '1px dotted rgb(11, 118, 218, 0.2)',
     color: state.isSelected ? '#0b76da' : 'rgb(0, 0, 0, 0.8)',
+    background: state.isSelected ? 'rgb(11, 118, 218, 0.2)' : '#fff',
     padding: 5,
   }),
   control: provided => ({

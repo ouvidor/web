@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { ImpulseSpinner } from 'react-spinners-kit';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -12,6 +12,7 @@ import api from '../../services/api';
 import { Background } from '../../styles';
 import Tag from '../../components/Tag';
 import Select from '../../components/Select';
+import Field from '../../components/Field';
 import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
 
 export default function SendPage({ match, history }) {
@@ -139,7 +140,6 @@ export default function SendPage({ match, history }) {
                 <Form>
                   <Field
                     name="title"
-                    type="text"
                     placeholder="Título do email"
                     maxLength={145}
                   />

@@ -19,7 +19,8 @@ export default function CreatePage() {
     // apenas o id
     categories: Yup.array()
       .of(Yup.object().shape({ id: Yup.number(), title: Yup.string() }))
-      .required('A categoria é necessária'),
+      .required('A categoria é necessária')
+      .nullable(),
     type: Yup.object()
       .shape({ id: Yup.number(), title: Yup.string() })
       .required('O tipo é necessário')
@@ -50,11 +51,19 @@ export default function CreatePage() {
   function handleSubmit(data) {
     // criar manifestação
     async function createManifestation() {
+      // montar a requisição de forma correta
+      const formattedData = {
+        ...data,
+        type_id: data.type.id,
+        categories_id: data.categories.map(category => category.id),
+      };
       try {
-        const response = await api.post('/manifestation', data).catch(error => {
-          toast.error(error.response.data.error);
-        });
-        console.log(response.data);
+        const response = await api
+          .post('/manifestation', formattedData)
+          .catch(error => {
+            toast.error(error.response.data.error);
+          });
+
         if (response.data) {
           toast.success(
             `Manifestação "${response.data.title}" criada com sucesso!`
@@ -64,6 +73,7 @@ export default function CreatePage() {
         console.error(err);
       }
     }
+
     createManifestation();
   }
 
