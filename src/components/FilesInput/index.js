@@ -1,77 +1,64 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useField } from '@rocketseat/unform';
-import { MdAttachFile } from 'react-icons/md';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import Dropzone from 'react-dropzone';
 
-// import api from '../../services/api';
-import { Container, ContainerPlaceholder } from './styles';
+import api from '../../services/api';
 
-export default function FileInput() {
-  // defaultValue começa vazio, portanto é assincrono
-  const { defaultValue, registerField } = useField('file');
-  const [file, setFile] = useState(defaultValue && defaultValue.id);
-  const [preview, setPreview] = useState(defaultValue && defaultValue.url);
-  const ref = useRef();
+export default function FilesInput({ onChange, name, label }) {
+  const [files, setFiles] = useState([]);
 
-  useEffect(() => {
-    if (ref.current) {
-      setFile(defaultValue && defaultValue.id);
-      setPreview(defaultValue && defaultValue.url);
-      registerField({
-        name: 'file_id',
-        ref: ref.current,
-        path: 'dataset.file',
-      });
-    }
-    // se não colocar isso aqui o unform fica atualizando toda hora
-    // eslint-disable-next-line
-  }, [ref.current, defaultValue]);
+  FilesInput.defaultProps = {
+    label: undefined,
+    onChange: (fieldName, values) => {
+      setFiles(values);
+    },
+    onBlur: () => {},
+    value: undefined,
+  };
 
-  async function handleChange(event) {
-    const formData = new FormData();
-    const { files } = event.target;
+  async function handleUpload(acceptedFiles) {
+    const filesIds = [];
+    acceptedFiles.forEach(async file => {
+      const data = new FormData();
 
-    // anexa os arquivos no FormData
-    for (let index = 0; index < files.length; index++) {
-      // se não tiver um arquivo nesse indice retorna
-      if (!files[index]) return;
+      data.append('file', file);
+      /**
+       * Fazer upload do arquivo e pegar o id que o arquivo recebeu no banco de dados
+       */
+      const response = await api.post(`/files`, data);
+      filesIds.push(response.data.id);
+    });
 
-      formData.append('file', files[index]);
-    }
+    setFiles(acceptedFiles);
 
-    // const response = await api.post('files', formData);
-    // const { id, url } = response.data;
-    // setFile(id);
-    // setPreview(url);
-    console.log(formData);
+    onChange(name, filesIds);
   }
 
-  // a label deve conter um input dentro
-  // 'htmlFor' deve conter o 'id' do input
   return (
-    <Container>
-      <label htmlFor="file">
-        {preview ? (
-          <img src={preview} alt="file" />
-        ) : (
-          <ContainerPlaceholder>
-            <div>
-              <MdAttachFile size={40} color="rgba(0,0,0, 0.5)" />
-              <span>Anexe arquivos</span>
-            </div>
-          </ContainerPlaceholder>
+    <>
+      {label && <label htmlFor={name}>{label}</label>}
+      <Dropzone onDrop={handleUpload}>
+        {({ getRootProps, getInputProps }) => (
+          <div {...getRootProps()} style={{ border: '1px dotted red' }}>
+            <input {...getInputProps()} id={name} />
+            {files.length <= 0 ? (
+              <p>
+                Arraste arquivos ou clique aqui para fazer o upload de arquivos
+              </p>
+            ) : (
+              files.map(file => <p>{file.name}</p>)
+            )}
+          </div>
         )}
-
-        <input
-          type="file"
-          id="file"
-          accept="*"
-          data-file={file}
-          onChange={handleChange}
-          ref={ref}
-          // permite varios arquivos
-          multiple
-        />
-      </label>
-    </Container>
+      </Dropzone>
+    </>
   );
 }
+
+FilesInput.propTypes = {
+  value: PropTypes.any,
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func,
+};
