@@ -36,10 +36,20 @@ export default function RecentsPage() {
   const fetchManifestations = useCallback(
     async setLoad => {
       setLoad(true);
+
+      // pegando apenas o titulo das opções
+      let formattedData;
+      if (searchData.options) {
+        formattedData = {
+          text: searchData.text,
+          options: searchData.options.map(option => option.title),
+        };
+      }
+
       try {
         // passa isRead: 0, para pegar as manifestações que não foram lidas
         const response = await api.get(`manifestation`, {
-          params: { ...searchData, page, isRead: 0 },
+          params: { ...formattedData, page, isRead: 0 },
         });
         setManifestations(response.data.rows);
         setMaxPage(response.data.last_page);
@@ -56,6 +66,7 @@ export default function RecentsPage() {
       fetchManifestations(setLoadingPage);
     }
     if (prevSearchData !== searchData) {
+      setPage(1);
       fetchManifestations(setLoading);
     }
   }, [fetchManifestations, searchData, page, prevPage, prevSearchData]);

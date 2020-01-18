@@ -1,20 +1,32 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input } from '@rocketseat/unform';
+import { ImpulseSpinner } from 'react-spinners-kit';
+import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
+import * as Yup from 'yup';
 
-import { StyledForm, Container, TagList } from './styles';
+import { Container, TagList } from './styles';
 import api from '../../services/api';
 import { Background } from '../../styles';
 import Tag from '../../components/Tag';
 import Select from '../../components/Select';
+import Field from '../../components/Field';
+import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
 
 export default function SendPage({ match, history }) {
   const { id } = match.params;
+  const [loading, setLoading] = useState(false);
   const [manifestation, setManifestation] = useState(null);
   const [secretariats, setSecretariats] = useState([]);
+
+  const validationSchema = Yup.object().shape({
+    title: Yup.string()
+      .max(145, 'No máximo 145 caracteres')
+      .required('Um título é necessário'),
+    text: Yup.string().required('O conteudo do email é necessário'),
+  });
 
   const search = useCallback(
     async idOrProtocol => {
@@ -58,6 +70,7 @@ export default function SendPage({ match, history }) {
 
   // envio do email
   async function handleSend(data) {
+    setLoading(true);
     data = { ...data, email: data.secretary.email };
     delete data.secretary;
 
@@ -67,21 +80,17 @@ export default function SendPage({ match, history }) {
     } catch (err) {
       toast.error('O email não pôde ser enviado, erro de conexão');
     }
+    setLoading(false);
   }
 
   // renderiza o formulario de busca por protocolo
   if (!manifestation)
     return (
       <Background>
-        <h1>Direcionar manifestação para secretária</h1>
-        <StyledForm onSubmit={handleFetch}>
-          <Input
-            placeholder="Exemplo: 20190330111"
-            name="protocol"
-            label="Número de protocolo"
-          />
-          <button type="submit">Buscar</button>
-        </StyledForm>
+        <SearchManifestationByProtocol
+          label="Direcionar manifestação para secretária"
+          handleFetch={handleFetch}
+        />
       </Background>
     );
 
@@ -116,30 +125,57 @@ export default function SendPage({ match, history }) {
                 alternativeStyle
               />
             </header>
-            <Form onSubmit={handleSend}>
-              <Input
-                name="title"
-                placeholder="Título do email"
-                maxLength={145}
-              />
+            <Formik
+              initialValues={{ title: '', text: '', secretary: null }}
+              validationSchema={validationSchema}
+              onSubmit={handleSend}
+            >
+              {({
+                values,
+                errors,
+                touched,
+                setFieldValue,
+                setFieldTouched,
+              }) => (
+                <Form>
+                  <Field
+                    name="title"
+                    placeholder="Título do email"
+                    maxLength={145}
+                  />
 
-              <Input
-                multiline
-                name="text"
-                placeholder="Corpo do email"
-                maxLength={1200}
-              />
-              <footer>
-                <Select
-                  name="secretary"
-                  placeholder="Para qual secretaria enviar?"
-                  options={secretariats}
-                  alternativeStyle
-                  returnObject
-                />
-                <button type="submit">Enviar</button>
-              </footer>
-            </Form>
+                  <Field
+                    name="text"
+                    component="textarea"
+                    placeholder="Corpo do email"
+                  />
+                  <footer>
+                    <Select
+                      name="secretary"
+                      placeholder="Para qual secretaria enviar?"
+                      options={secretariats}
+                      alternativeStyle
+                      value={values.secretary}
+                      error={errors.secretary}
+                      touched={touched.secretary}
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                    />
+                    <button type="submit">
+                      {loading ? (
+                        <ImpulseSpinner
+                          frontColor="#fff"
+                          size={42}
+                          backColor="rgba(0,0,0,0.2)"
+                        />
+                      ) : (
+                        <>Enviar</>
+                      )}
+                    </button>
+                  </footer>
+                </Form>
+              )}
+            </Formik>
           </section>
         </div>
       </Container>

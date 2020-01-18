@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input } from '@rocketseat/unform';
+import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -8,10 +8,11 @@ import pt from 'date-fns/locale/pt';
 import api from '../../services/api';
 import Tag from '../../components/Tag';
 import Select from '../../components/Select';
-import DatePicker from '../../components/DatePicker';
+import Field from '../../components/Field';
+// import DatePicker from '../../components/DatePicker';
+import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
 import { Background } from '../../styles';
 import {
-  StyledForm,
   GridContainer,
   TagList,
   ManifestationContainer,
@@ -88,19 +89,49 @@ export default function StatusPage({ match, history }) {
     setSelected(null);
   }
 
+  async function handleSubmit(data) {
+    const formattedData = { ...data, status_id: data.status.id };
+
+    if (isEditing) {
+      api
+        .put(`manifestation/status/${selected.id}`, formattedData)
+        .then(() => {
+          toast.success(
+            `Status da manifestação "${manifestation.title}" editado com sucesso`
+          );
+          search(id);
+        })
+        .catch(error => {
+          toast.error(error.response.data.error);
+        });
+    } else {
+      api
+        .post(`/manifestation/${id}/status`, formattedData)
+        .then(response => {
+          toast.success(
+            `Status "${response.data.title}" criado para a manifestação "${manifestation.title}"`
+          );
+          search(id);
+        })
+        .catch(error => {
+          toast.error(error.response.data.error);
+        });
+    }
+  }
+
+  function getInitialValues() {
+    if (!selected) return { status: null, description: '', created_at: '' };
+    return selected;
+  }
+
   // renderiza o formulario de busca por protocolo
   if (!manifestation)
     return (
       <Background>
-        <h1>Histórico de status</h1>
-        <StyledForm onSubmit={handleFetch}>
-          <Input
-            placeholder="Exemplo: 20190330111"
-            name="protocol"
-            label="Número de protocolo"
-          />
-          <button type="submit">Buscar</button>
-        </StyledForm>
+        <SearchManifestationByProtocol
+          label="Histórico de status"
+          handleFetch={handleFetch}
+        />
       </Background>
     );
 
@@ -128,35 +159,89 @@ export default function StatusPage({ match, history }) {
           <footer>{manifestation.formattedDate}</footer>
         </ManifestationContainer>
 
-        <StatusContainer>
-          <Form
-            onSubmit={data => {
-              console.log(data);
-            }}
-            initialData={selected}
-          >
-            <Select
-              name="status_id"
-              options={status}
-              placeholder="Escolha um status"
-              alternativeStyle
-            />
+        <Formik
+          initialValues={getInitialValues()}
+          key={JSON.stringify(selected)}
+          onSubmit={handleSubmit}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            setFieldValue,
+            setFieldTouched,
+            setValues,
+          }) => (
+            <>
+              <StatusContainer>
+                <Form>
+                  <Select
+                    alternativeStyle
+                    name="status"
+                    options={status}
+                    placeholder="Escolha um status"
+                    value={values.status}
+                    onChange={setFieldValue}
+                    onBlur={setFieldTouched}
+                    error={errors.status}
+                    touched={touched.status}
+                  />
 
-            <Input
-              multiline
-              name="description"
-              placeholder="Corpo do texto da mudança de status da manifestação"
-              maxLength={610}
-            />
+                  <Field
+                    component="textarea"
+                    name="description"
+                    placeholder="Corpo do texto da mudança de status da manifestação"
+                    maxLength={610}
+                  />
 
-            <footer>
-              <DatePicker name="created_at" placeholder="Data do status" />
-              <button type="submit">Salvar</button>
-            </footer>
-          </Form>
-        </StatusContainer>
+                  <footer>
+                    {/* <DatePicker
+                      name="created_at"
+                      placeholder="Data do status"
+                      value={values.created_at}
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                      error={errors.created_at}
+                      touched={touched.created_at}
+                    /> */}
+                    <button type="submit">Salvar</button>
+                  </footer>
+                </Form>
+              </StatusContainer>
+              <HistoryContainer>
+                <button
+                  type="button"
+                  onClick={() => {
+                    handleCreate();
+                    setValues({
+                      status: null,
+                      description: '',
+                      created_at: '',
+                    });
+                  }}
+                >
+                  Adicionar novo status à manifestação
+                </button>
+                <Scroll>
+                  <ul>
+                    {statusHistory &&
+                      statusHistory.map(ms => (
+                        <StatusCard
+                          key={ms.id}
+                          manifestationStatus={ms}
+                          handleSelect={() => {
+                            handleSelect(ms, setValues);
+                          }}
+                        />
+                      ))}
+                  </ul>
+                </Scroll>
+              </HistoryContainer>
+            </>
+          )}
+        </Formik>
 
-        <HistoryContainer>
+        {/* <HistoryContainer>
           <button type="button" onClick={handleCreate}>
             Adicionar novo status à manifestação
           </button>
@@ -172,7 +257,7 @@ export default function StatusPage({ match, history }) {
                 ))}
             </ul>
           </Scroll>
-        </HistoryContainer>
+        </HistoryContainer> */}
       </GridContainer>
     </Background>
   );

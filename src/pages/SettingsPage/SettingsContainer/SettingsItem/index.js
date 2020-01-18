@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Form, Input } from '@rocketseat/unform';
+import { Formik, Form, Field } from 'formik';
 import { string, object } from 'yup';
 import { toast } from 'react-toastify';
 
@@ -56,39 +56,50 @@ export default function SettingsItem({
     refreshList();
   }
 
+  function getInitialValues() {
+    if (!item) {
+      if (email) return { title: '', email: '' };
+      return { title: '' };
+    }
+    return item;
+  }
+
   return (
     <Container key={item && item.id}>
-      <Form
-        initialData={item}
+      <Formik
+        initialValues={getInitialValues()}
         onSubmit={handleSubmit}
-        schema={isSaving && validation}
-        context={{ email }}
+        validationSchema={validation}
       >
-        <div>
-          <Input name="title" placeholder={placeholder} />
-        </div>
-        {email && (
-          <div>
-            <Input name="email" placeholder="Email" />
-          </div>
+        {() => (
+          <Form>
+            <div>
+              <Field name="title" placeholder={placeholder} />
+            </div>
+            {email && (
+              <div>
+                <Field name="email" placeholder="Email" />
+              </div>
+            )}
+            <aside>
+              <button
+                type="submit"
+                onClick={() => setIsSaving(true)}
+                label="Enviar"
+              >
+                <StyledMdCheck />
+              </button>
+              <button
+                type="submit"
+                onClick={() => setIsSaving(false)}
+                label="Enviar"
+              >
+                <StyledMdClear />
+              </button>
+            </aside>
+          </Form>
         )}
-        <aside>
-          <button
-            type="submit"
-            onClick={() => setIsSaving(true)}
-            label="Enviar"
-          >
-            <StyledMdCheck />
-          </button>
-          <button
-            type="submit"
-            onClick={() => setIsSaving(false)}
-            label="Enviar"
-          >
-            <StyledMdClear />
-          </button>
-        </aside>
-      </Form>
+      </Formik>
     </Container>
   );
 }

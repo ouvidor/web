@@ -33,9 +33,18 @@ export default function MapPage() {
   const fetchManifestations = useCallback(
     async setLoad => {
       setLoad(true);
+      // pegando apenas o titulo das opções
+      let formattedSearchData;
+      if (searchData.options) {
+        formattedSearchData = {
+          text: searchData.text,
+          options: searchData.options.map(option => option.title),
+        };
+      }
+
       try {
         const response = await api.get(`manifestation`, {
-          params: { ...searchData, page },
+          params: { ...formattedSearchData, page },
         });
         setManifestations(response.data.rows);
         setMaxPage(response.data.last_page);
@@ -52,6 +61,7 @@ export default function MapPage() {
       fetchManifestations(setLoadingPage);
     }
     if (prevSearchData !== searchData) {
+      setPage(1);
       fetchManifestations(setLoading);
     }
   }, [fetchManifestations, searchData, page, prevPage, prevSearchData]);
