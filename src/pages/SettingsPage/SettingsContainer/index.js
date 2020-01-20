@@ -13,18 +13,15 @@ import SettingsItem from './SettingsItem';
 import api from '../../../services/api';
 
 export default function SettingsContainer({
-  loadingState,
-  errorState,
-  itemsState,
   urlPath,
   email,
   title,
   placeholder,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [items, setItems] = useState(itemsState);
-  const [loading, setLoading] = useState(loadingState);
-  const [error, setError] = useState(errorState);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   async function getItemFromAPI(url) {
     setLoading(true);
@@ -94,14 +91,6 @@ export default function SettingsContainer({
 }
 
 SettingsContainer.propTypes = {
-  loadingState: PropTypes.bool,
-  errorState: PropTypes.bool,
-  itemsState: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string,
-    })
-  ),
   title: PropTypes.string.isRequired,
   urlPath: PropTypes.string.isRequired,
   email: PropTypes.bool,
@@ -109,9 +98,6 @@ SettingsContainer.propTypes = {
 };
 
 SettingsContainer.defaultProps = {
-  loadingState: false,
-  errorState: false,
-  itemsState: [],
   email: null,
   placeholder: null,
 };
