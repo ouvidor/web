@@ -61,13 +61,6 @@
     ]
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "^5.2.1",
-    "@storybook/addon-actions": "^5.2.1",
-    "@storybook/addon-console": "^1.2.1",
-    "@storybook/addon-docs": "^5.2.1",
-    "@storybook/addon-links": "^5.2.1",
-    "@storybook/addons": "^5.2.1",
-    "@storybook/react": "^5.2.1",
     "@testing-library/jest-dom": "^4.1.2",
     "@testing-library/react": "^9.3.0",
     "@types/jest": "^24.0.18",
