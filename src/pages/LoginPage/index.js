@@ -1,13 +1,15 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
-import { signInRequest } from '../../store/modules/auth/actions';
+import api from '../../services/api';
+import { SessionContext } from '../../store/session';
+import { signIn } from '../../store/session/actions';
 import { Wrapper, Container } from './styles';
 
 export default function Login() {
-  const dispatch = useDispatch();
+  const { dispatch } = useContext(SessionContext);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -16,8 +18,18 @@ export default function Login() {
     password: Yup.string().required('A senha é necessária'),
   });
 
-  function handleSubmit(data) {
-    dispatch(signInRequest(data.email, data.password));
+  async function handleSubmit({ email, password }) {
+    await api
+      .post('auth', { email, password })
+      .then(({ data }) => {
+        const { token, user } = data;
+
+        dispatch(signIn({ token, profile: user }));
+        toast.success(`Admin logado com sucesso!`);
+      })
+      .catch(error => {
+        toast.error(error.response.data.error);
+      });
   }
 
   return (

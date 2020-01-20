@@ -3,12 +3,12 @@
  * Contêm tratativas para redirecionar o usuário com base em seu status de login
  * Utiliza também de um componente Wrapper para estilizar todas as rotas privadas
  */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import decodeJWT from 'jwt-decode';
 
+import { SessionContext } from '../store/session';
 import DefaultLayout from '../pages/_layouts/DefaultLayout';
 
 export default function RouteWrapper({
@@ -23,17 +23,18 @@ export default function RouteWrapper({
   }
 
   // ouve o estado de login do admin
-  const { signed, token } = useSelector(state => state.auth);
+  const { session } = useContext(SessionContext);
+  const { isSigned, token } = session;
   const tokenPayload = token && decodeJWT(token);
   const role = tokenPayload && tokenPayload.role && tokenPayload.role[0];
 
   // caso não esteja logado e acesse uma rota privada redireciona para a página de login
-  if (!signed && isPrivate) {
+  if (!isSigned && isPrivate) {
     return <Redirect to="/" />;
   }
 
   // caso esteja logado e tente acessar uma rota publica redireciona para a rota privada
-  if (signed && !isPrivate) {
+  if (isSigned && !isPrivate) {
     // TODO criar rota
     return <Redirect to="/map" />;
   }
@@ -45,7 +46,7 @@ export default function RouteWrapper({
 
   // caso esteja logado renderiza o componente com um Wrapper
   // esse Wrapper criara o menu
-  if (signed) {
+  if (isSigned) {
     return (
       <Route
         {...rest}

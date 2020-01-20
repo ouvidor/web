@@ -1,11 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useContext } from 'react';
 
+import { SessionContext } from '../../store/session';
 import { Background } from '../../styles';
 import { ProfileContainer } from './styles';
 
 export default function ProfilePage() {
-  const profile = useSelector(state => state.admin.profile);
+  const { session } = useContext(SessionContext);
+  const { profile } = session;
 
   return (
     <Background>

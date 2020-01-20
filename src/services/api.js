@@ -9,4 +9,8 @@ const api = axios.create({
   baseURL: 'http://localhost:3003',
 });
 
+export const saveTokenAxios = token => {
+  api.defaults.headers.Authorization = `Bearer ${token}`;
+};
+
 export default api;
