@@ -18,15 +18,11 @@
     "react-icons": "^3.7.0",
     "react-map-gl": "^5.0.10",
     "react-perfect-scrollbar": "^1.5.3",
-    "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "react-select": "^3.0.8",
     "react-spinners-kit": "^1.9.0",
     "react-toastify": "^5.4.0",
-    "redux": "^4.0.4",
-    "redux-persist": "^6.0.0",
-    "redux-saga": "^1.1.1",
     "styled-components": "^4.3.2",
     "yup": "^0.27.0"
   },
@@ -61,9 +57,6 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.1.2",
-    "@testing-library/react": "^9.3.0",
-    "@types/jest": "^24.0.18",
     "axios-mock-adapter": "^1.17.0",
     "eslint": "^6.2.1",
     "eslint-config-airbnb": "^18.0.1",
@@ -73,7 +66,6 @@
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
-    "prettier": "^1.18.2",
-    "storybook": "^5.1.11"
+    "prettier": "^1.18.2"
   }
 }
