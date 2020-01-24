@@ -15,7 +15,7 @@ import Pagination from '../../components/Pagination';
 import MapView from '../../components/MapView';
 import ManifestationCard from '../../components/ManifestationCard';
 import Manifestation from '../../components/Manifestation';
-import api from '../../services/api';
+import Api from '../../services/api';
 import { usePrevious } from '../../hooks';
 
 export default function MapPage() {
@@ -43,11 +43,14 @@ export default function MapPage() {
       }
 
       try {
-        const response = await api.get(`manifestation`, {
+        // fetch manifestations
+        const data = await Api.get({
+          pathUrl: 'manifestation',
           params: { ...formattedSearchData, page },
         });
-        setManifestations(response.data.rows);
-        setMaxPage(response.data.last_page);
+
+        setManifestations(data.rows);
+        setMaxPage(data.last_page);
       } catch (error) {
         toast.error('Não foi possivel buscar por manifestações');
       }

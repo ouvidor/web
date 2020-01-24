@@ -8,7 +8,7 @@ import { Container } from './styles';
 import Select from '../../components/Select';
 import Field from '../../components/Field';
 // import FilesInput from '../../components/FilesInput';
-import api from '../../services/api';
+import Api from '../../services/api';
 
 export default function CreatePage() {
   const validationSchema = Yup.object().shape({
@@ -31,50 +31,32 @@ export default function CreatePage() {
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
 
-  async function fetchFromAPI(pathUrl) {
-    const { data } = await api.get(pathUrl);
-    return data;
-  }
-
   useEffect(() => {
     const loadOptions = async () => {
-      try {
-        setTypes(await fetchFromAPI('type'));
-        setCategories(await fetchFromAPI('category'));
-      } catch (error) {
-        toast.error('Não pôde buscar as opções de pesquisa do servidor');
-      }
+      setTypes(await Api.get({ pathUrl: 'type' }));
+      setCategories(await Api.get({ pathUrl: 'category' }));
     };
     loadOptions();
   }, []);
 
-  function handleSubmit(data) {
-    // criar manifestação
-    async function createManifestation() {
-      // montar a requisição de forma correta
-      const formattedData = {
-        ...data,
-        type_id: data.type.id,
-        categories_id: data.categories.map(category => category.id),
-      };
-      try {
-        const response = await api
-          .post('/manifestation', formattedData)
-          .catch(error => {
-            toast.error(error.response.data.error);
-          });
+  async function handleSubmit(data) {
+    // montar a requisição de forma correta
+    const formattedData = {
+      ...data,
+      type_id: data.type.id,
+      categories_id: data.categories.map(category => category.id),
+    };
 
-        if (response.data) {
-          toast.success(
-            `Manifestação "${response.data.title}" criada com sucesso!`
-          );
-        }
-      } catch (err) {
-        console.error(err);
-      }
+    const manifestationData = await Api.post({
+      pathUrl: '/manifestation',
+      data: formattedData,
+    });
+
+    if (manifestationData) {
+      toast.success(
+        `Manifestação "${manifestationData.title}" criada com sucesso!`
+      );
     }
-
-    createManifestation();
   }
 
   return (

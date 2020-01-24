@@ -8,7 +8,7 @@ import pt from 'date-fns/locale/pt';
 import * as Yup from 'yup';
 
 import { Container, TagList } from './styles';
-import api from '../../services/api';
+import Api from '../../services/api';
 import { Background } from '../../styles';
 import Tag from '../../components/Tag';
 import Select from '../../components/Select';
@@ -32,25 +32,31 @@ export default function SendPage({ match, history }) {
     async idOrProtocol => {
       if (!idOrProtocol) return;
 
-      let result;
       try {
         // busca pela manifestação
-        result = await api
-          .get(`/manifestation/${idOrProtocol}`)
-          .catch(() => history.push('/send'));
+        const manifestationData = await Api.get({
+          pathUrl: `/manifestation/${idOrProtocol}`,
+        });
+        if (manifestationData) {
+          history.push('/send');
+        }
 
         // formatar a data
         const date =
-          result.data.created_at &&
-          format(parseISO(result.data.created_at), "dd 'de' MMMM 'de' yyyy", {
-            locale: pt,
-          });
-        const formattedData = { ...result.data, formattedDate: date };
+          manifestationData.created_at &&
+          format(
+            parseISO(manifestationData.created_at),
+            "dd 'de' MMMM 'de' yyyy",
+            {
+              locale: pt,
+            }
+          );
+        const formattedData = { ...manifestationData, formattedDate: date };
         setManifestation(formattedData);
 
         // busca pelas secretarias
-        result = await api.get('/secretary');
-        setSecretariats(result.data);
+        const secretariatsData = await Api.get({ pathUrl: '/secretary' });
+        setSecretariats(secretariatsData);
       } catch (err) {
         toast.error('Não pôde concluir a busca, erro na conexão');
       }
@@ -74,12 +80,12 @@ export default function SendPage({ match, history }) {
     data = { ...data, email: data.secretary.email };
     delete data.secretary;
 
-    try {
-      await api.post('/email', data);
-      toast.success('Email enviado com sucesso');
-    } catch (err) {
-      toast.error('O email não pôde ser enviado, erro de conexão');
+    const mailResponseData = await Api.post({ pathUrl: '/email', data });
+
+    if (mailResponseData) {
+      toast.success(mailResponseData.message);
     }
+
     setLoading(false);
   }
 

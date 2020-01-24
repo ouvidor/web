@@ -2,7 +2,7 @@ import React, { createContext, useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import sessionReducer from './reducer';
 
-import { saveTokenAxios } from '../../services/api';
+import Api from '../../services/api';
 
 const initialState = {
   token: null,
@@ -21,7 +21,7 @@ export default function SessionContextProvider({ children }) {
     if (localData) {
       const parsedLocalData = JSON.parse(localData);
       const { token } = parsedLocalData;
-      saveTokenAxios(token); // coloca o token salvo no axios
+      Api.saveToken(token); // coloca o token salvo no axios
       return parsedLocalData;
     }
 
@@ -32,7 +32,7 @@ export default function SessionContextProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('session', JSON.stringify(session));
     // sempre que o token mudar ele é salvo na config do axios
-    saveTokenAxios(session.token);
+    Api.saveToken(session.token);
   }, [session]);
 
   return (

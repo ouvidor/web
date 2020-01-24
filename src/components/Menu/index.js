@@ -13,7 +13,6 @@ import {
   MdEqualizer,
   MdSend,
   MdMore,
-  MdEmail,
   MdSettings,
   MdFace,
 } from 'react-icons/md';
@@ -51,7 +50,6 @@ export default function Menu({ isAdminMasterState }) {
         <CustomLink to="/statistics" Icon={MdEqualizer} />
         <CustomLink to="/send" Icon={MdSend} />
         <CustomLink to="/status" Icon={MdMore} />
-        <CustomLink to="/email" Icon={MdEmail} />
         {isAdminMaster && <CustomLink to="/settings" Icon={MdSettings} />}
       </ul>
       <ul>

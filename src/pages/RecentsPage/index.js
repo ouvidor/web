@@ -14,7 +14,7 @@ import SearchManifestationsForm from '../../components/SearchManifestationsForm'
 import Pagination from '../../components/Pagination';
 import ManifestationCard from '../../components/ManifestationCard';
 import Manifestation from '../../components/Manifestation';
-import api from '../../services/api';
+import Api from '../../services/api';
 import { usePrevious } from '../../hooks';
 
 export default function RecentsPage() {
@@ -48,11 +48,13 @@ export default function RecentsPage() {
 
       try {
         // passa isRead: 0, para pegar as manifestações que não foram lidas
-        const response = await api.get(`manifestation`, {
+        const data = await Api.get({
+          pathUrl: 'manifestation',
           params: { ...formattedData, page, isRead: 0 },
         });
-        setManifestations(response.data.rows);
-        setMaxPage(response.data.last_page);
+
+        setManifestations(data.rows);
+        setMaxPage(data.last_page);
       } catch (error) {
         toast.error('Não foi possivel buscar por manifestações');
       }
