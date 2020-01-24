@@ -56,7 +56,7 @@ export default function FilesInput({ onChange, name, label }) {
 }
 
 FilesInput.propTypes = {
-  value: PropTypes.any,
+  value: PropTypes.number,
   name: PropTypes.string.isRequired,
   label: PropTypes.string,
   onChange: PropTypes.func,

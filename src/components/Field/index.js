@@ -14,7 +14,7 @@ export default function Field({ label, name, component, ...props }) {
 
   useEffect(() => {
     setHeight(containerRef.current.clientHeight);
-  });
+  }, []);
 
   return (
     <Container ref={containerRef} height={height}>

@@ -34,4 +34,5 @@ StatusCard.propTypes = {
       title: PropTypes.string,
     }),
   }).isRequired,
+  handleSelect: PropTypes.func.isRequired,
 };

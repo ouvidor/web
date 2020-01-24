@@ -23,7 +23,7 @@ export default function ProfilePage() {
           </p>
           <button type="button">Editar</button>
         </ProfileContainer>
-        {console.log(profile)}
+
         <hr />
         <h2>Outros administradores</h2>
         <ProfileContainer>
