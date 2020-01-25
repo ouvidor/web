@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import Select from '../Select';
 import { StyledForm, TextInputContainer } from './styles';
-import api from '../../services/api';
+import Api from '../../services/api';
 
 export default function SearchManifestationsForm({ onSubmit, loading }) {
   const [options, setOptions] = useState([]);
@@ -20,17 +20,12 @@ export default function SearchManifestationsForm({ onSubmit, loading }) {
       .nullable(),
   });
 
-  async function fetchFromAPI(pathUrl) {
-    const { data } = await api.get(pathUrl);
-    return data;
-  }
-
   // pega as categorias e tipos e coloca nas opções
   useEffect(() => {
     const loadOptions = async () => {
       try {
-        const types = await fetchFromAPI('type');
-        const categories = await fetchFromAPI('category');
+        const types = await Api.get({ pathUrl: 'type' });
+        const categories = await Api.get({ pathUrl: 'category' });
         // o id não vai ser importante, vai ser o title que vai ser usado para pesquisar no backend
         setOptions([...types, ...categories]);
       } catch (error) {

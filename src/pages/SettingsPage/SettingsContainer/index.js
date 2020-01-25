@@ -10,40 +10,75 @@ import { MdClear } from 'react-icons/md';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
 import { Container } from './styles';
 import SettingsItem from './SettingsItem';
-import api from '../../../services/api';
+import Api from '../../../services/api';
 
 export default function SettingsContainer({
-  loadingState,
-  errorState,
-  itemsState,
   urlPath,
   email,
   title,
   placeholder,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [items, setItems] = useState(itemsState);
-  const [loading, setLoading] = useState(loadingState);
-  const [error, setError] = useState(errorState);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  async function handleSubmit(data, isSaving) {
+    // excluindo item
+    if (!isSaving) {
+      const responseData = await Api.delete({
+        pathUrl: `${urlPath}/${data.id}`,
+      });
+      if (responseData) {
+        toast.success(`Item "${responseData.title}" excluido com sucesso`);
+        setItems(items.filter(item => item.id !== responseData.id));
+      }
+      return;
+    }
+
+    // cria um novo item
+    if (!data.id) {
+      const responseData = await Api.post({ pathUrl: `${urlPath}`, data });
+      if (responseData) {
+        toast.success(`Item "${responseData.title}" criado com sucesso`);
+        setItems([responseData, ...items]);
+      }
+      return;
+    }
+
+    // atualizar um item
+    const responseData = await Api.put({
+      pathUrl: `${urlPath}/${data.id}`,
+      data,
+    });
+    if (responseData) {
+      toast.success(`Item "${responseData.title}" atualizado com sucesso`);
+      setItems(
+        items.map(item => {
+          if (responseData.id === item.id) {
+            return responseData;
+          }
+          return item;
+        })
+      );
+    }
+  }
 
   async function getItemFromAPI(url) {
     setLoading(true);
     setError(false);
-    try {
-      const { data } = await api.get(url);
-      setItems(data);
-      setLoading(false);
-      setError(false);
-    } catch (err) {
-      toast.error(`Ocorreu um erro na busca por ${url}`);
-      setError(true);
-      setLoading(false);
-    }
-  }
 
-  async function refreshList() {
-    const { data } = await api.get(urlPath);
+    const data = await Api.get({ pathUrl: url });
+
+    if (!data) {
+      setLoading(false);
+      setError(true);
+      return;
+    }
+
     setItems(data);
+    setLoading(false);
+    setError(false);
   }
 
   useEffect(() => {
@@ -72,8 +107,7 @@ export default function SettingsContainer({
               <SettingsItem
                 email={email}
                 placeholder={placeholder}
-                urlPath={urlPath}
-                refreshList={refreshList}
+                handleSubmit={handleSubmit}
               />
               {items &&
                 items.map(item => (
@@ -81,8 +115,7 @@ export default function SettingsContainer({
                     item={item}
                     key={item.id}
                     email={email}
-                    urlPath={urlPath}
-                    refreshList={refreshList}
+                    handleSubmit={handleSubmit}
                   />
                 ))}
             </ul>
@@ -94,14 +127,6 @@ export default function SettingsContainer({
 }
 
 SettingsContainer.propTypes = {
-  loadingState: PropTypes.bool,
-  errorState: PropTypes.bool,
-  itemsState: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      title: PropTypes.string,
-    })
-  ),
   title: PropTypes.string.isRequired,
   urlPath: PropTypes.string.isRequired,
   email: PropTypes.bool,
@@ -109,9 +134,6 @@ SettingsContainer.propTypes = {
 };
 
 SettingsContainer.defaultProps = {
-  loadingState: false,
-  errorState: false,
-  itemsState: [],
   email: null,
   placeholder: null,
 };

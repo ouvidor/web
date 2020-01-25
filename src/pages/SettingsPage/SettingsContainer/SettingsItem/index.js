@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form } from 'formik';
 import { string, object } from 'yup';
-import { toast } from 'react-toastify';
 
-import api from '../../../../services/api';
+import Field from '../../../../components/Field';
 import { Container, StyledMdCheck, StyledMdClear } from './styles';
 
 export default function SettingsItem({
   email,
   item,
-  refreshList,
   placeholder,
-  urlPath,
+  handleSubmit,
 }) {
   // quando for 'false' é para excluir, quando for 'true' é pra salvar
   const [isSaving, setIsSaving] = useState(false);
@@ -26,34 +24,12 @@ export default function SettingsItem({
       ),
   });
 
-  async function handleSubmit(data, { resetForm }) {
-    try {
-      if (!item) {
-        // criar um novo item
-        if (isSaving) {
-          const response = await api.post(urlPath, data);
-          toast.success(`Item "${response.data.title}" criado com sucesso`);
-        }
-        resetForm();
-        refreshList();
-        return;
-      }
-
-      if (isSaving) {
-        // atualizando item existente
-        const response = await api.put(`${urlPath}/${item.id}`, data);
-        toast.success(`Item "${response.data.title}" atualizado com sucesso`);
-      } else {
-        // excluindo item
-        const response = await api.delete(`${urlPath}/${item.id}`);
-        toast.success(`Item "${response.data.title}" excluido com sucesso`);
-      }
-    } catch ({ response }) {
-      if (response) {
-        toast.error(response.data.error);
-      }
+  function onSubmit(data, { resetForm }) {
+    // botao de limpar
+    if (!item && !isSaving) {
+      resetForm();
     }
-    refreshList();
+    handleSubmit(data, isSaving);
   }
 
   function getInitialValues() {
@@ -68,19 +44,13 @@ export default function SettingsItem({
     <Container key={item && item.id}>
       <Formik
         initialValues={getInitialValues()}
-        onSubmit={handleSubmit}
+        onSubmit={onSubmit}
         validationSchema={validation}
       >
         {() => (
           <Form>
-            <div>
-              <Field name="title" placeholder={placeholder} />
-            </div>
-            {email && (
-              <div>
-                <Field name="email" placeholder="Email" />
-              </div>
-            )}
+            <Field name="title" placeholder={placeholder} />
+            {email && <Field name="email" placeholder="Email" />}
             <aside>
               <button
                 type="submit"
@@ -108,8 +78,7 @@ SettingsItem.propTypes = {
   email: PropTypes.bool,
   item: PropTypes.shape({ id: PropTypes.number, title: PropTypes.string }),
   placeholder: PropTypes.string,
-  refreshList: PropTypes.func.isRequired,
-  urlPath: PropTypes.string.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 SettingsItem.defaultProps = { email: null, item: null, placeholder: null };

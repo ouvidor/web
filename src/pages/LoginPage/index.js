@@ -1,13 +1,15 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Formik, Form, Field } from 'formik';
+import React, { useContext } from 'react';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
-import { signInRequest } from '../../store/modules/auth/actions';
+import Field from '../../components/Field';
+import Api from '../../services/api';
+import { SessionContext } from '../../store/session';
+import { signIn } from '../../store/session/actions';
 import { Wrapper, Container } from './styles';
 
 export default function Login() {
-  const dispatch = useDispatch();
+  const { dispatch } = useContext(SessionContext);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string()
@@ -16,8 +18,12 @@ export default function Login() {
     password: Yup.string().required('A senha é necessária'),
   });
 
-  function handleSubmit(data) {
-    dispatch(signInRequest(data.email, data.password));
+  async function handleSubmit({ email, password }) {
+    const { token, user } = await Api.post({
+      pathUrl: 'auth',
+      data: { email, password },
+    });
+    dispatch(signIn({ token, profile: user }));
   }
 
   return (
@@ -28,23 +34,11 @@ export default function Login() {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {({ touched, errors }) => (
+          {() => (
             <Form>
-              <div>
-                <Field name="email" type="email" placeholder="Seu email" />
-                {touched.email && errors.email && <span>{errors.email}</span>}
-              </div>
+              <Field name="email" type="email" placeholder="Seu email" />
 
-              <div>
-                <Field
-                  name="password"
-                  type="password"
-                  placeholder="Sua senha"
-                />
-                {touched.password && errors.password && (
-                  <span>{errors.password}</span>
-                )}
-              </div>
+              <Field name="password" type="password" placeholder="Sua senha" />
 
               <button type="submit">Login</button>
             </Form>

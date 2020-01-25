@@ -32,9 +32,7 @@ export default function Manifestation({ manifestation, draggable, pos }) {
       locale: pt,
     });
 
-  function openAttached() {
-    console.log('pagina de anexo');
-  }
+  function openAttached() {}
 
   function handleSend() {
     history.push(`/send/${id}`);

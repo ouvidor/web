@@ -1,11 +1,12 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useContext } from 'react';
 
+import { SessionContext } from '../../store/session';
 import { Background } from '../../styles';
 import { ProfileContainer } from './styles';
 
 export default function ProfilePage() {
-  const profile = useSelector(state => state.admin.profile);
+  const { session } = useContext(SessionContext);
+  const { profile } = session;
 
   return (
     <Background>
@@ -22,7 +23,7 @@ export default function ProfilePage() {
           </p>
           <button type="button">Editar</button>
         </ProfileContainer>
-        {console.log(profile)}
+
         <hr />
         <h2>Outros administradores</h2>
         <ProfileContainer>

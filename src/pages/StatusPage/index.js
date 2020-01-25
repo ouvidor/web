@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
-import api from '../../services/api';
+import Api from '../../services/api';
 import Tag from '../../components/Tag';
 import Select from '../../components/Select';
 import Field from '../../components/Field';
@@ -34,32 +34,45 @@ export default function StatusPage({ match, history }) {
     async idOrProtocol => {
       if (!idOrProtocol) return;
 
-      let result;
       try {
         // buscar dados da manifestação
-        result = await api
-          .get(`manifestation/${idOrProtocol}`)
-          .catch(() => history.push('/status'));
+        const manifestationData = await Api.get({
+          pathUrl: `manifestation/${idOrProtocol}`,
+        });
+
+        if (!manifestationData) {
+          history.push('/status');
+        }
 
         // formatar a data
         const date =
-          result.data.created_at &&
-          format(parseISO(result.data.created_at), "dd 'de' MMMM 'de' yyyy", {
-            locale: pt,
-          });
-        const formattedData = { ...result.data, formattedDate: date };
+          manifestationData.created_at &&
+          format(
+            parseISO(manifestationData.created_at),
+            "dd 'de' MMMM 'de' yyyy",
+            {
+              locale: pt,
+            }
+          );
+        const formattedData = {
+          ...manifestationData,
+          formattedDate: date,
+        };
         setManifestation(formattedData);
 
         // buscar historico de status da manifestação
-        result = await api
-          .get(`manifestation/${idOrProtocol}/status`)
-          .catch(() => history.push('/status'));
-        setStatusHistory(result.data);
-        console.log(result.data);
+        const manifestationStatusHistoryData = await Api.get({
+          pathUrl: `manifestation/${idOrProtocol}/status`,
+        });
+
+        if (!manifestationStatusHistoryData) {
+          history.push('/status');
+        }
+        setStatusHistory(manifestationStatusHistoryData);
 
         // buscar lista de status possíveis
-        result = await api.get('/status');
-        setStatus(result.data);
+        const statusData = await Api.get({ pathUrl: '/status' });
+        setStatus(statusData);
       } catch (err) {
         console.error(err);
         toast.error('Não pôde concluir a busca, erro na conexão');
@@ -93,29 +106,27 @@ export default function StatusPage({ match, history }) {
     const formattedData = { ...data, status_id: data.status.id };
 
     if (isEditing) {
-      api
-        .put(`manifestation/status/${selected.id}`, formattedData)
-        .then(() => {
-          toast.success(
-            `Status da manifestação "${manifestation.title}" editado com sucesso`
-          );
-          search(id);
-        })
-        .catch(error => {
-          toast.error(error.response.data.error);
-        });
+      const resultData = await Api.put({
+        pathUrl: `manifestation/status/${selected.id}`,
+        data: formattedData,
+      });
+      if (resultData) {
+        toast.success(
+          `Status da manifestação "${manifestation.title}" editado com sucesso`
+        );
+        search(id);
+      }
     } else {
-      api
-        .post(`/manifestation/${id}/status`, formattedData)
-        .then(response => {
-          toast.success(
-            `Status "${response.data.title}" criado para a manifestação "${manifestation.title}"`
-          );
-          search(id);
-        })
-        .catch(error => {
-          toast.error(error.response.data.error);
-        });
+      const resultData = await Api.put({
+        pathUrl: `/manifestation/${id}/status`,
+        data: formattedData,
+      });
+      if (resultData) {
+        toast.success(
+          `Status "${data.title}" criado para a manifestação "${manifestation.title}"`
+        );
+        search(id);
+      }
     }
   }
 
@@ -208,18 +219,9 @@ export default function StatusPage({ match, history }) {
                   </footer>
                 </Form>
               </StatusContainer>
+
               <HistoryContainer>
-                <button
-                  type="button"
-                  onClick={() => {
-                    handleCreate();
-                    setValues({
-                      status: null,
-                      description: '',
-                      created_at: '',
-                    });
-                  }}
-                >
+                <button type="button" onClick={handleCreate}>
                   Adicionar novo status à manifestação
                 </button>
                 <Scroll>
@@ -240,24 +242,6 @@ export default function StatusPage({ match, history }) {
             </>
           )}
         </Formik>
-
-        {/* <HistoryContainer>
-          <button type="button" onClick={handleCreate}>
-            Adicionar novo status à manifestação
-          </button>
-          <Scroll>
-            <ul>
-              {statusHistory &&
-                statusHistory.map(ms => (
-                  <StatusCard
-                    key={ms.id}
-                    manifestationStatus={ms}
-                    handleSelect={() => handleSelect(ms)}
-                  />
-                ))}
-            </ul>
-          </Scroll>
-        </HistoryContainer> */}
       </GridContainer>
     </Background>
   );
