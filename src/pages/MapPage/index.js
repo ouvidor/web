@@ -99,7 +99,7 @@ export default function MapPage() {
           </Scroll>
         </Body>
 
-        {process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ? (
+        {process.env.REACT_APP_GOOGLE_MAPS_KEY ? (
           <MapWrapper>
             <DragContainer>
               <div>
@@ -115,8 +115,10 @@ export default function MapPage() {
               </div>
             </DragContainer>
             <MapView
-              token={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN}
-              manifestations={manifestations}
+              items={manifestations}
+              selectItem={item => {
+                setSelecteds([...selecteds, item]);
+              }}
             />
           </MapWrapper>
         ) : (

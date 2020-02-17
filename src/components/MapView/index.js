@@ -1,84 +1,48 @@
-/**
- * Wrapper Component para o componente ReactMapGL
- * Pega as variaveis de ambiente para definir o mapa para a cidade
- * Caso a tela seja aumentada o mapa tenta se adaptar, mas não consegue muito bem
- * Se a tela for aumentada e depois diminuida, só irá voltar ao normal se recarregar a página
- */
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import ReactMapGL from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-import ManifestationPin from './ManifestationPin';
-import { MapWrapper } from './styles';
+import mapsConfig from '../../configs/map';
+import mapsStyle from '../../styles/map.json';
 
-export default function MapView({ token, viewState, manifestations }) {
-  const containerRef = useRef();
-  const [viewport, setViewPort] = useState(viewState);
-  const [style] = useState('mapbox://styles/rihor/ck0gyxxik03gv1cmqneje52e9');
-
-  // atualizar a viewport de acordo com o tamanho da tela
-  useEffect(() => {
-    setViewPort({
-      ...viewport,
-      width: containerRef.current.offsetWidth,
-      height: containerRef.current.offsetHeight,
-    });
-    // eslint-disable-next-line
-  }, [containerRef.current, window.innerHeight, window.innerWidth]);
-
-  const memoizedManifestations = useMemo(() => {
-    return manifestations
-      .filter(m => m.latitude && m.longitude)
-      .map(m => ({
-        ...m,
-        latitude: Number(m.latitude),
-        longitude: Number(m.longitude),
-      }));
-  }, [manifestations]);
+function MapView({ items, selectItem }) {
+  const { apiKey, initialPlace } = mapsConfig;
 
   return (
-    <MapWrapper ref={containerRef}>
-      <ReactMapGL
-        mapStyle={style}
-        mapboxApiAccessToken={token}
-        {...viewport}
-        onViewportChange={view => setViewPort(view)}
+    <LoadScript googleMapsApiKey={apiKey}>
+      <GoogleMap
+        onLoad={map => {
+          console.log(map);
+        }}
+        mapContainerStyle={{
+          height: '100%',
+          width: '100%',
+        }}
+        zoom={initialPlace.zoom}
+        center={{
+          lat: initialPlace.latitude,
+          lng: initialPlace.longitude,
+        }}
+        options={{ styles: mapsStyle }}
       >
-        {memoizedManifestations &&
-          memoizedManifestations.map(m => (
-            <ManifestationPin key={m.id} marker={m} />
-          ))}
-      </ReactMapGL>
-    </MapWrapper>
+        {items.map(item => (
+          <Marker
+            key={item.id}
+            position={{
+              lat: Number(item.latitude),
+              lng: Number(item.longitude),
+            }}
+            onClick={() => selectItem(item)}
+          />
+        ))}
+      </GoogleMap>
+    </LoadScript>
   );
 }
 
 MapView.propTypes = {
-  viewState: PropTypes.shape({
-    width: PropTypes.number,
-    height: PropTypes.number,
-    latitude: PropTypes.number,
-    longitude: PropTypes.number,
-    zoom: PropTypes.number,
-  }),
-  token: PropTypes.string.isRequired,
-  manifestations: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      latitude: PropTypes.string,
-      longitude: PropTypes.string,
-    })
-  ),
+  items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  selectItem: PropTypes.func.isRequired,
 };
 
-MapView.defaultProps = {
-  viewState: {
-    width: 0,
-    height: 0,
-    latitude: Number(process.env.REACT_APP_MAPBOX_LATITUDE),
-    longitude: Number(process.env.REACT_APP_MAPBOX_LONGITUDE),
-    zoom: Number(process.env.REACT_APP_MAPBOX_ZOOM),
-  },
-  manifestations: [],
-};
+export default MapView;

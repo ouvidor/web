@@ -47,6 +47,8 @@ export const Scroll = styled(PerfectScrollBar)`
 
 export const MapWrapper = styled.section`
   flex: 1;
+  width: 100%;
+  height: 100%;
   position: relative;
 `;
 
