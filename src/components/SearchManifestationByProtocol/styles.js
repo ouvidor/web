@@ -11,13 +11,12 @@ export const StyledForm = styled(Form)`
     padding: 5px 10px;
     background: #fff;
     border-radius: 8px;
-    border: 1px solid #ddd;
-    transition: all 0.3s;
+    border: 2px solid #fff;
+    transition: border 0.3s;
     width: 320px;
 
     &:hover {
-      border: 1px solid #0b76da;
-      box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+      border: 2px solid #ddd;
     }
   }
 

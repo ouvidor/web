@@ -25,23 +25,21 @@ export const basic = {
     background: state.isSelected ? 'rgb(11, 118, 218, 0.2)' : '#fff',
     padding: 5,
   }),
-  control: provided => ({
-    ...provided,
+  control: () => ({
     borderRadius: 8,
     background: '#fff',
-    border: 'none',
+    border: '2px solid #fff',
     display: 'flex',
     transition: 'all 0.3s',
     '&:hover': {
-      boxShadow: '0 4px 8px rgb(11, 118, 218, 0.1)',
+      border: '2px solid #ddd',
     },
   }),
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
-    const transition = 'opacity 300ms';
-
-    return { ...provided, opacity, transition };
-  },
+  singleValue: (provided, state) => ({
+    ...provided,
+    opacity: state.isDisabled ? 0.5 : 1,
+    transition: 'opacity 300ms',
+  }),
   menuList: () => ({}),
   // remove a linha que separada o controle
   indicatorSeparator: () => ({}),
@@ -55,12 +53,15 @@ export const alternative = {
     background: state.isSelected ? 'rgb(11, 118, 218, 0.2)' : '#fff',
     padding: 5,
   }),
-  control: provided => ({
-    ...provided,
+  control: () => ({
     borderRadius: 8,
     background: '#EAEDF2',
-    border: 'none',
+    border: '2px solid #EAEDF2',
     display: 'flex',
+    transition: 'all 0.3s',
+    '&:hover': {
+      border: '2px solid #ddd',
+    },
   }),
   singleValue: (provided, state) => {
     const opacity = state.isDisabled ? 0.5 : 1;

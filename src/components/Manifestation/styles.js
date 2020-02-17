@@ -7,16 +7,15 @@ export const Container = styled.div`
   width: 100%;
   max-width: 500px;
   background-color: #fff;
-  border: 2px solid #ddd;
+  border: 2px solid #fff;
   border-radius: 8px;
   padding: 15px;
   position: absolute;
-  transition: border 0.3s;
   pointer-events: all;
   cursor: default;
-
+  transition: border 0.3s;
   &:hover {
-    border: 2px solid #ccc;
+    border: 2px solid #ddd;
   }
 `;
 

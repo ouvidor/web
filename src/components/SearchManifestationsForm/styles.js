@@ -10,12 +10,7 @@ export const TextInputContainer = styled.div`
   display: flex;
   margin-bottom: 6px;
   border-radius: 8px;
-  transition: box-shadow 0.3s;
   position: relative;
-
-  &:hover {
-    box-shadow: 0px 4px 12px rgb(11, 118, 218, 0.1);
-  }
 
   span {
     border-radius: 8px;
@@ -35,8 +30,15 @@ export const TextInputContainer = styled.div`
     height: 35px;
     padding-left: 10px;
     background: #fff;
-    border: none;
+    border: 2px solid #fff;
+    border-right: none;
     border-radius: 8px 0 0 8px;
+    transition: border 0.3s;
+
+    &:hover {
+      border: 2px solid #ddd;
+      border-right: none;
+    }
   }
 
   button {

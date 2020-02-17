@@ -8,22 +8,16 @@ export const Container = styled.li`
   max-width: 100%;
   background-color: #fff;
   border-radius: 8px;
-  border: 2px solid #eee;
+  border: 2px solid #fff;
   padding: 10px;
   cursor: pointer;
   position: relative;
   transition: all 0.3s;
-
   & + li {
     margin-top: 10px;
   }
-
   &:hover {
     border: 2px solid #ddd;
-  }
-
-  &:active {
-    background: rgba(255, 255, 255, 0.8);
   }
 
   > span {

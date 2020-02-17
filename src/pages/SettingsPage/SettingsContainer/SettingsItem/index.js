@@ -28,8 +28,12 @@ export default function SettingsItem({
     // botao de limpar
     if (!item && !isSaving) {
       resetForm();
+    } else {
+      handleSubmit(data, isSaving);
+      if (!item) {
+        resetForm();
+      }
     }
-    handleSubmit(data, isSaving);
   }
 
   function getInitialValues() {

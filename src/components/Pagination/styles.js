@@ -2,21 +2,21 @@ import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
   background-color: #fff;
+  border: 2px solid #fff;
   border-radius: 8px;
   height: 40px;
   width: 250px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.3s;
+  transition: border 0.3s;
+  &:hover {
+    border: 2px solid #ddd;
+  }
 
   span {
     user-select: none;
     color: #0b76da;
-  }
-
-  &:hover {
-    box-shadow: 0px 3px 8px rgb(11, 118, 218, 0.2);
   }
 `;
 

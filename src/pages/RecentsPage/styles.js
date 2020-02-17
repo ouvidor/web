@@ -30,17 +30,16 @@ export const ManifestationContainer = styled.div`
 
 export const NoSelectedContainer = styled.div`
   background: #fff;
-  border: 2px solid #eee;
+  border: 2px solid #fff;
   border-radius: 8px;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s;
-
+  transition: border 0.3s;
   &:hover {
-    border: 2px solid #ccc;
+    border: 2px solid #ddd;
   }
 
   svg {

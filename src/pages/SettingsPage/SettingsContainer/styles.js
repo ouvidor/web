@@ -3,14 +3,13 @@ import styled from 'styled-components';
 export const Container = styled.div`
   background: #fff;
   margin-bottom: 10px;
-  border: 1px solid #ddd;
+  border: 2px solid #fff;
   border-radius: 8px;
   transition: all 0.3s;
-
   &:hover {
-    border: 1px solid #0b76da;
-    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    border: 2px solid #ddd;
   }
+
   > button {
     padding: 10px 28px 10px 15px;
     background: transparent;
