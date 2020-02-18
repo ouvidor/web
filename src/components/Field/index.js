@@ -8,7 +8,7 @@ import { useField } from 'formik';
 import { FieldError } from '../../styles';
 import { Container } from './styles';
 
-export default function Field({ label, name, component, ...props }) {
+function Field({ label, name, component, ...props }) {
   const [height, setHeight] = useState(0);
   const [field, meta] = useField({ ...props, name });
   const containerRef = useRef(null);
@@ -18,7 +18,7 @@ export default function Field({ label, name, component, ...props }) {
   }, []);
 
   return (
-    <Container ref={containerRef} height={height}>
+    <Container ref={containerRef}>
       {label && <label htmlFor={name}>{label}</label>}
       {component === 'textarea' ? (
         <textarea {...field} {...props} name={name} />
@@ -26,7 +26,7 @@ export default function Field({ label, name, component, ...props }) {
         <input {...field} {...props} name={name} />
       )}
       {meta.touched && meta.error ? (
-        <FieldError>{meta.error}</FieldError>
+        <FieldError height={height}>{meta.error}</FieldError>
       ) : null}
     </Container>
   );
@@ -42,3 +42,5 @@ Field.defaultProps = {
   label: undefined,
   component: 'text',
 };
+
+export default Field;
