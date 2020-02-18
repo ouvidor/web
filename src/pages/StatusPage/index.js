@@ -34,49 +34,45 @@ export default function StatusPage({ match, history }) {
     async idOrProtocol => {
       if (!idOrProtocol) return;
 
-      try {
-        // buscar dados da manifestação
-        const manifestationData = await Api.get({
-          pathUrl: `manifestation/${idOrProtocol}`,
-        });
+      // buscar dados da manifestação
+      const manifestationData = await Api.get({
+        pathUrl: `manifestation/${idOrProtocol}`,
+      });
 
-        if (!manifestationData) {
-          history.push('/status');
-        }
-
-        // formatar a data
-        const date =
-          manifestationData.created_at &&
-          format(
-            parseISO(manifestationData.created_at),
-            "dd 'de' MMMM 'de' yyyy",
-            {
-              locale: pt,
-            }
-          );
-        const formattedData = {
-          ...manifestationData,
-          formattedDate: date,
-        };
-        setManifestation(formattedData);
-
-        // buscar historico de status da manifestação
-        const manifestationStatusHistoryData = await Api.get({
-          pathUrl: `manifestation/${idOrProtocol}/status`,
-        });
-
-        if (!manifestationStatusHistoryData) {
-          history.push('/status');
-        }
-        setStatusHistory(manifestationStatusHistoryData);
-
-        // buscar lista de status possíveis
-        const statusData = await Api.get({ pathUrl: '/status' });
-        setStatus(statusData);
-      } catch (err) {
-        console.error(err);
-        toast.error('Não pôde concluir a busca, erro na conexão');
+      if (!manifestationData) {
+        history.push('/status');
+        return;
       }
+
+      // formatar a data
+      const date =
+        manifestationData.created_at &&
+        format(
+          parseISO(manifestationData.created_at),
+          "dd 'de' MMMM 'de' yyyy",
+          {
+            locale: pt,
+          }
+        );
+      const formattedData = {
+        ...manifestationData,
+        formattedDate: date,
+      };
+      setManifestation(formattedData);
+
+      // buscar historico de status da manifestação
+      const manifestationStatusHistoryData = await Api.get({
+        pathUrl: `manifestation/${idOrProtocol}/status`,
+      });
+
+      if (!manifestationStatusHistoryData) {
+        history.push('/status');
+      }
+      setStatusHistory(manifestationStatusHistoryData);
+
+      // buscar lista de status possíveis
+      const statusData = await Api.get({ pathUrl: '/status' });
+      setStatus(statusData);
     },
     [history]
   );

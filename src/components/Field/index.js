@@ -5,6 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
 
+import { FieldError } from '../../styles';
 import { Container } from './styles';
 
 export default function Field({ label, name, component, ...props }) {
@@ -24,7 +25,9 @@ export default function Field({ label, name, component, ...props }) {
       ) : (
         <input {...field} {...props} name={name} />
       )}
-      {meta.touched && meta.error ? <span>{meta.error}</span> : null}
+      {meta.touched && meta.error ? (
+        <FieldError>{meta.error}</FieldError>
+      ) : null}
     </Container>
   );
 }

@@ -12,19 +12,6 @@ export const TextInputContainer = styled.div`
   border-radius: 8px;
   position: relative;
 
-  span {
-    border-radius: 8px;
-    padding: 2px 8px;
-    position: absolute;
-    left: 2px;
-    top: 25px;
-    background-color: #ffdfdf;
-    color: #c44543;
-    border: 1px solid #c44543;
-    box-shadow: 0 2px 4px rgba(196, 69, 67, 0.5);
-    z-index: 1;
-  }
-
   input {
     width: 100%;
     height: 35px;

@@ -32,34 +32,31 @@ export default function SendPage({ match, history }) {
     async idOrProtocol => {
       if (!idOrProtocol) return;
 
-      try {
-        // busca pela manifestação
-        const manifestationData = await Api.get({
-          pathUrl: `/manifestation/${idOrProtocol}`,
-        });
-        if (manifestationData) {
-          history.push('/send');
-        }
-
-        // formatar a data
-        const date =
-          manifestationData.created_at &&
-          format(
-            parseISO(manifestationData.created_at),
-            "dd 'de' MMMM 'de' yyyy",
-            {
-              locale: pt,
-            }
-          );
-        const formattedData = { ...manifestationData, formattedDate: date };
-        setManifestation(formattedData);
-
-        // busca pelas secretarias
-        const secretariatsData = await Api.get({ pathUrl: '/secretary' });
-        setSecretariats(secretariatsData);
-      } catch (err) {
-        toast.error('Não pôde concluir a busca, erro na conexão');
+      // busca pela manifestação
+      const manifestationData = await Api.get({
+        pathUrl: `/manifestation/${idOrProtocol}`,
+      });
+      if (!manifestationData) {
+        history.push('/send');
+        return;
       }
+
+      // formatar a data
+      const date =
+        manifestationData.created_at &&
+        format(
+          parseISO(manifestationData.created_at),
+          "dd 'de' MMMM 'de' yyyy",
+          {
+            locale: pt,
+          }
+        );
+      const formattedData = { ...manifestationData, formattedDate: date };
+      setManifestation(formattedData);
+
+      // busca pelas secretarias
+      const secretariatsData = await Api.get({ pathUrl: '/secretary' });
+      setSecretariats(secretariatsData);
     },
     [history]
   );

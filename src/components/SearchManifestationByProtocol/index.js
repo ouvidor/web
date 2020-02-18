@@ -20,9 +20,9 @@ export default function SearchManifestationByProtocol({ handleFetch, label }) {
       >
         <StyledForm>
           <Field
-            placeholder="Exemplo: 200101-01"
+            placeholder="Exemplo: k6f7ju38"
             name="protocol"
-            label="Número de protocolo"
+            label="Protocolo"
           />
           <button type="submit">Buscar</button>
         </StyledForm>

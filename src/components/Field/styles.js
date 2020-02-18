@@ -24,17 +24,4 @@ export const Container = styled.div`
     resize: none;
     padding-top: 10px;
   }
-
-  > span {
-    border-radius: 8px;
-    padding: 2px 8px;
-    position: absolute;
-    right: 10px;
-    top: ${props => (props.height ? `${props.height - 15}px` : `50px`)};
-    background-color: #ffdfdf;
-    color: #c44543;
-    border: 1px solid #c44543;
-    box-shadow: 0 2px 4px rgba(196, 69, 67, 0.5);
-    z-index: 1;
-  }
 `;

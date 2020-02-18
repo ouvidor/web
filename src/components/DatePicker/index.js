@@ -3,6 +3,7 @@ import ReactDatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import { FieldError } from '../../styles';
 
 export default function DatePicker({
   onChange,
@@ -33,7 +34,7 @@ export default function DatePicker({
         timeFormat="HH:mm"
         dateFormat="dd/MM/yyyy"
       />
-      {!!error && touched && <span>{error}</span>}
+      {!!error && touched && <FieldError>{error}</FieldError>}
     </>
   );
 }

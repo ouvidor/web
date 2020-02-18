@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 
+import { FieldError } from '../../styles';
 import { basic, alternative, Container } from './styles';
 
 export default function ReactSelect({
@@ -68,7 +69,7 @@ export default function ReactSelect({
         {...rest}
       />
 
-      {!!error && touched && <span>{error}</span>}
+      {!!error && touched && <FieldError>{error}</FieldError>}
     </Container>
   );
 }

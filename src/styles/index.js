@@ -19,3 +19,16 @@ export const Background = styled.div`
     margin: 20px;
   }
 `;
+
+export const FieldError = styled.span`
+  border-radius: 8px;
+  padding: 2px 8px;
+  position: absolute;
+  right: 10px;
+  top: ${props => (props.height ? `${props.height - 15}px` : `50px`)};
+  background-color: #ffdfdf;
+  color: #c44543;
+  border: 2px solid #c44543;
+  box-shadow: 0 4px 8px rgba(196, 69, 67, 0.4);
+  z-index: 1;
+`;
