@@ -5,7 +5,6 @@ import { Formik, Form } from 'formik';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
-import * as Yup from 'yup';
 
 import { Container, TagList } from './styles';
 import Api from '../../services/api';
@@ -14,19 +13,13 @@ import Tag from '../../components/Tag';
 import Select from '../../components/Select';
 import Field from '../../components/Field';
 import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
+import { sendMailSchema } from '../../validations';
 
 export default function SendPage({ match, history }) {
   const { id } = match.params;
   const [loading, setLoading] = useState(false);
   const [manifestation, setManifestation] = useState(null);
   const [secretariats, setSecretariats] = useState([]);
-
-  const validationSchema = Yup.object().shape({
-    title: Yup.string()
-      .max(145, 'No máximo 145 caracteres')
-      .required('Um título é necessário'),
-    text: Yup.string().required('O conteudo do email é necessário'),
-  });
 
   const search = useCallback(
     async idOrProtocol => {
@@ -130,7 +123,7 @@ export default function SendPage({ match, history }) {
             </header>
             <Formik
               initialValues={{ title: '', text: '', secretary: null }}
-              validationSchema={validationSchema}
+              validationSchema={sendMailSchema}
               onSubmit={handleSend}
             >
               {({

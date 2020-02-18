@@ -9,16 +9,10 @@ import { toast } from 'react-toastify';
 import Select from '../Select';
 import { StyledForm, TextInputContainer } from './styles';
 import Api from '../../services/api';
+import { searchManifestationsSchema } from '../../validations';
 
 export default function SearchManifestationsForm({ onSubmit, loading }) {
   const [options, setOptions] = useState([]);
-
-  const validationSchema = object().shape({
-    text: string(),
-    options: array()
-      .of(string())
-      .nullable(),
-  });
 
   // pega as categorias e tipos e coloca nas opções
   useEffect(() => {
@@ -39,7 +33,7 @@ export default function SearchManifestationsForm({ onSubmit, loading }) {
     <Formik
       initialValues={{ text: '', options: [] }}
       onSubmit={onSubmit}
-      validationSchema={validationSchema}
+      validationSchema={searchManifestationsSchema}
     >
       {({ values, errors, touched, setFieldValue, setFieldTouched }) => (
         <StyledForm>

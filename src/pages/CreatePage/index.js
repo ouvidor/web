@@ -1,33 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 
 import { Background } from '../../styles';
 import { Container } from './styles';
 import Select from '../../components/Select';
 import Field from '../../components/Field';
-// import FilesInput from '../../components/FilesInput';
+import FilesInput from '../../components/FilesInput';
 import Api from '../../services/api';
+import { createManifestationSchema } from '../../validations';
 
 export default function CreatePage() {
-  const validationSchema = Yup.object().shape({
-    title: Yup.string().required('O título é necessário'),
-    description: Yup.string()
-      .max(900, 'É permitido apenas 900 caracteres na descrição')
-      .required('A descrição é necessária'),
-    // apenas o id
-    categories: Yup.array()
-      .of(Yup.object().shape({ id: Yup.number(), title: Yup.string() }))
-      .required('A categoria é necessária')
-      .nullable(),
-    type: Yup.object()
-      .shape({ id: Yup.number(), title: Yup.string() })
-      .required('O tipo é necessário')
-      .nullable(),
-    location: Yup.string(),
-    files_id: Yup.number(),
-  });
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
 
@@ -71,7 +54,7 @@ export default function CreatePage() {
             type: null,
             location: '',
           }}
-          validationSchema={validationSchema}
+          validationSchema={createManifestationSchema}
           onSubmit={handleSubmit}
         >
           {({ values, errors, touched, setFieldValue, setFieldTouched }) => (
@@ -116,12 +99,13 @@ export default function CreatePage() {
                 touched={touched.type}
               />
 
-              {/* <FilesInput
+              <FilesInput
                 name="filesId"
+                label="Arquivos"
                 value={values.filesId}
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}
-              /> */}
+              />
 
               <Field
                 label="Local"

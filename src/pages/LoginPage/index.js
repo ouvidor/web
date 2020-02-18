@@ -1,22 +1,15 @@
 import React, { useContext } from 'react';
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
 
 import Field from '../../components/Field';
 import Api from '../../services/api';
 import { SessionContext } from '../../store/session';
 import { signIn } from '../../store/session/actions';
 import { Wrapper, Container } from './styles';
+import { loginSchema } from '../../validations';
 
 export default function Login() {
   const { dispatch } = useContext(SessionContext);
-
-  const validationSchema = Yup.object().shape({
-    email: Yup.string()
-      .email('Insira um email válido.')
-      .required('O email é necessário'),
-    password: Yup.string().required('A senha é necessária'),
-  });
 
   async function handleSubmit({ email, password }) {
     const { token, user } = await Api.post({
@@ -31,7 +24,7 @@ export default function Login() {
       <Container>
         <Formik
           initialValues={{ email: '', password: '' }}
-          validationSchema={validationSchema}
+          validationSchema={loginSchema}
           onSubmit={handleSubmit}
         >
           {() => (
