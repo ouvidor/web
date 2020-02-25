@@ -4,9 +4,9 @@ import { toast } from 'react-toastify';
 
 import { Background } from '../../styles';
 import { Container } from './styles';
-import Select from '../../components/Select';
-import Field from '../../components/Field';
-import FilesInput from '../../components/FilesInput';
+import Select from '../../components/Form/Select';
+import Field from '../../components/Form/Field';
+import FilesInput from '../../components/Form/FilesInput';
 import Api from '../../services/api';
 import { createManifestationSchema } from '../../validations';
 
@@ -91,7 +91,6 @@ export default function CreatePage() {
                 name="type"
                 label="Tipos"
                 options={types}
-                onlyId
                 value={values.type}
                 onChange={setFieldValue}
                 onBlur={setFieldTouched}

@@ -3,7 +3,7 @@ import ReactDatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
 
 import 'react-datepicker/dist/react-datepicker.css';
-import { FieldError } from '../../styles';
+import { FieldError } from '../../../styles';
 
 export default function DatePicker({
   onChange,

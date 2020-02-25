@@ -5,7 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from 'formik';
 
-import { FieldError } from '../../styles';
+import { FieldError } from '../../../styles';
 import { Container } from './styles';
 
 function Field({ label, name, component, ...props }) {

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import PropTypes from 'prop-types';
 
-import { FieldError } from '../../styles';
+import { FieldError } from '../../../styles';
 import { basic, alternative, Container } from './styles';
 
 export default function ReactSelect({

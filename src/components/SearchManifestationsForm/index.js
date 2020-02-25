@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Field } from 'formik';
 import { CircleSpinner } from 'react-spinners-kit';
 import { MdSearch } from 'react-icons/md';
-import { object, string, array } from 'yup';
 import PropTypes from 'prop-types';
 
 import { toast } from 'react-toastify';
-import Select from '../Select';
+import Select from '../Form/Select';
 import { StyledForm, TextInputContainer } from './styles';
 import Api from '../../services/api';
 import { searchManifestationsSchema } from '../../validations';

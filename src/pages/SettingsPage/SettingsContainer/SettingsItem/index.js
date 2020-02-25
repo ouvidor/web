@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 
-import Field from '../../../../components/Field';
+import Field from '../../../../components/Form/Field';
 import { Container, StyledMdCheck, StyledMdClear } from './styles';
 import { settingsSchema } from '../../../../validations';
 

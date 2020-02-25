@@ -7,8 +7,8 @@ import pt from 'date-fns/locale/pt';
 
 import Api from '../../services/api';
 import Tag from '../../components/Tag';
-import Select from '../../components/Select';
-import Field from '../../components/Field';
+import Select from '../../components/Form/Select';
+import Field from '../../components/Form/Field';
 // import DatePicker from '../../components/DatePicker';
 import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
 import { Background } from '../../styles';

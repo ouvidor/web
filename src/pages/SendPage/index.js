@@ -10,8 +10,8 @@ import { Container, TagList } from './styles';
 import Api from '../../services/api';
 import { Background } from '../../styles';
 import Tag from '../../components/Tag';
-import Select from '../../components/Select';
-import Field from '../../components/Field';
+import Select from '../../components/Form/Select';
+import Field from '../../components/Form/Field';
 import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
 import { sendMailSchema } from '../../validations';
 
