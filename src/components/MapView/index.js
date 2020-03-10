@@ -11,9 +11,9 @@ function MapView({ items, selectItem }) {
   return (
     <LoadScript googleMapsApiKey={apiKey}>
       <GoogleMap
-        onLoad={map => {
-          console.log(map);
-        }}
+        // onLoad={(map) => {
+        //   console.log(map);
+        // }}
         mapContainerStyle={{
           height: '100%',
           width: '100%',

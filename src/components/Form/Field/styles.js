@@ -5,6 +5,10 @@ export const Container = styled.div`
   flex-direction: column;
   position: relative;
 
+  label {
+    text-align: left;
+  }
+
   input,
   textarea {
     height: 40px;

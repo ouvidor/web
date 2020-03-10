@@ -79,7 +79,7 @@ export default function RecentsPage() {
         <header>
           <h1>Novas manifestações</h1>
           <SearchManifestationsForm
-            onSubmit={setSearchData}
+            setSearchData={setSearchData}
             loading={loading}
           />
 

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import { Form } from 'formik';
 
-export const StyledForm = styled(Form)`
+export const StyledForm = styled.form`
   label {
     font-size: 16px;
   }

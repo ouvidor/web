@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDropzone } from 'react-dropzone';
 
@@ -6,20 +6,29 @@ import Api from '../../../services/api';
 import FileList from '../../FileList';
 import { Container, ContainerPlaceholder } from './styles';
 
-function FilesInput({ onChange, name, label }) {
+function FilesInput({ onChange, name, label, isUploading, setUploading }) {
   const [files, setFiles] = useState([]);
 
-  // async function handleUpload(acceptedFiles) {
-  //   const formData = new FormData();
-  //   acceptedFiles.forEach(acceptedFile => {
-  //     formData.append('file', acceptedFile);
-  //   });
+  async function handleUpload() {
+    const formData = new FormData();
+    files.forEach(file => {
+      formData.append('file', file);
+    });
 
-  //   const uploadedFiles = await Api.post({ pathUrl: 'files', data: formData });
-  //   console.log(uploadedFiles);
-  //   onChange(name, uploadedFiles.map(file => file.id));
-  //   setFiles(uploadedFiles);
-  // }
+    const uploadedFiles = await Api.post({ pathUrl: 'files', data: formData });
+
+    onChange(
+      name,
+      uploadedFiles.map(file => file.id)
+    );
+    setUploading(false);
+  }
+
+  useEffect(() => {
+    if (isUploading) {
+      handleUpload();
+    }
+  }, [isUploading]);
 
   const { getInputProps, getRootProps } = useDropzone({
     onDrop: acceptedFiles => {
@@ -56,6 +65,8 @@ FilesInput.propTypes = {
   label: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
+  isUploading: PropTypes.bool.isRequired,
+  setUploading: PropTypes.func.isRequired,
 };
 
 FilesInput.defaultProps = {

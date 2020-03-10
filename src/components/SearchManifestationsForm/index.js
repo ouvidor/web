@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, Field } from 'formik';
+import { useForm, Controller } from 'react-hook-form';
 import { CircleSpinner } from 'react-spinners-kit';
 import { MdSearch } from 'react-icons/md';
 import PropTypes from 'prop-types';
 
 import { toast } from 'react-toastify';
 import Select from '../Form/Select';
+import Field from '../Form/Field';
 import { StyledForm, TextInputContainer } from './styles';
 import Api from '../../services/api';
 import { searchManifestationsSchema } from '../../validations';
 
-export default function SearchManifestationsForm({ onSubmit, loading }) {
+export default function SearchManifestationsForm({ setSearchData, loading }) {
   const [options, setOptions] = useState([]);
+
+  const { register, control, handleSubmit, errors } = useForm({
+    validationSchema: searchManifestationsSchema,
+  });
 
   // pega as categorias e tipos e coloca nas opções
   useEffect(() => {
@@ -28,43 +33,42 @@ export default function SearchManifestationsForm({ onSubmit, loading }) {
     loadOptions();
   }, []);
 
+  function handleSubmitClick(data) {
+    console.log(JSON.stringify(data));
+    setSearchData(data);
+  }
+
   return (
-    <Formik
-      initialValues={{ text: '', options: [] }}
-      onSubmit={onSubmit}
-      validationSchema={searchManifestationsSchema}
-    >
-      {({ values, errors, touched, setFieldValue, setFieldTouched }) => (
-        <StyledForm>
-          <TextInputContainer>
-            <Field name="text" type="text" placeholder="Protocolo ou título" />
-            <button type="submit">
-              {loading ? (
-                <CircleSpinner size={15} color="rgba(255, 255, 255, 0.6)" />
-              ) : (
-                <MdSearch />
-              )}
-            </button>
-          </TextInputContainer>
-          <Select
-            name="options"
-            options={options}
-            multiple
-            multipleTypes
-            value={values.options}
-            onChange={setFieldValue}
-            onBlur={setFieldTouched}
-            error={errors.options}
-            touched={touched.options}
-          />
-        </StyledForm>
-      )}
-    </Formik>
+    <StyledForm onSubmit={handleSubmit(handleSubmitClick)}>
+      <TextInputContainer>
+        <Field
+          name="text"
+          type="text"
+          placeholder="Protocolo ou título"
+          register={register}
+          errors={errors}
+        />
+        <button type="submit">
+          {loading ? (
+            <CircleSpinner size={15} color="rgba(255, 255, 255, 0.6)" />
+          ) : (
+            <MdSearch />
+          )}
+        </button>
+      </TextInputContainer>
+
+      <Controller
+        as={<Select multiple options={options} />}
+        name="options"
+        control={control}
+        errors={errors}
+      />
+    </StyledForm>
   );
 }
 
 SearchManifestationsForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  setSearchData: PropTypes.func.isRequired,
   loading: PropTypes.bool,
 };
 

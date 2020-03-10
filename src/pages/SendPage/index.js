@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { ImpulseSpinner } from 'react-spinners-kit';
-import { Formik, Form } from 'formik';
+import { useForm, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -20,6 +20,10 @@ export default function SendPage({ match, history }) {
   const [loading, setLoading] = useState(false);
   const [manifestation, setManifestation] = useState(null);
   const [secretariats, setSecretariats] = useState([]);
+
+  const { register, handleSubmit, control, errors } = useForm({
+    validationSchema: sendMailSchema,
+  });
 
   const search = useCallback(
     async idOrProtocol => {
@@ -114,64 +118,53 @@ export default function SendPage({ match, history }) {
           <section>
             <header>
               <h2>Conteudo do email</h2>
-              <Select
+              <Controller
+                as={<Select alternativeStyle options={[]} />}
+                control={control}
                 name="base"
                 placeholder="Selecione uma base"
-                options={[]}
-                alternativeStyle
+                errors={errors}
               />
             </header>
-            <Formik
-              initialValues={{ title: '', text: '', secretary: null }}
-              validationSchema={sendMailSchema}
-              onSubmit={handleSend}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                setFieldValue,
-                setFieldTouched,
-              }) => (
-                <Form>
-                  <Field
-                    name="title"
-                    placeholder="Título do email"
-                    maxLength={145}
-                  />
 
-                  <Field
-                    name="text"
-                    component="textarea"
-                    placeholder="Corpo do email"
-                  />
-                  <footer>
-                    <Select
-                      name="secretary"
-                      placeholder="Para qual secretaria enviar?"
-                      options={secretariats}
-                      alternativeStyle
-                      value={values.secretary}
-                      error={errors.secretary}
-                      touched={touched.secretary}
-                      onChange={setFieldValue}
-                      onBlur={setFieldTouched}
+            <form onSubmit={handleSubmit(handleSend)}>
+              <Field
+                name="title"
+                placeholder="Título do email"
+                maxLength={145}
+                register={register}
+                errors={errors}
+              />
+
+              <Field
+                name="text"
+                component="textarea"
+                placeholder="Corpo do email"
+                register={register}
+                errors={errors}
+              />
+              <footer>
+                <Controller
+                  as={<Select alternativeStyle options={secretariats} />}
+                  control={control}
+                  name="secretary"
+                  placeholder="Para qual secretaria enviar?"
+                  errors={errors}
+                />
+
+                <button type="submit">
+                  {loading ? (
+                    <ImpulseSpinner
+                      frontColor="#fff"
+                      size={42}
+                      backColor="rgba(0,0,0,0.2)"
                     />
-                    <button type="submit">
-                      {loading ? (
-                        <ImpulseSpinner
-                          frontColor="#fff"
-                          size={42}
-                          backColor="rgba(0,0,0,0.2)"
-                        />
-                      ) : (
-                        <>Enviar</>
-                      )}
-                    </button>
-                  </footer>
-                </Form>
-              )}
-            </Formik>
+                  ) : (
+                    <>Enviar</>
+                  )}
+                </button>
+              </footer>
+            </form>
           </section>
         </div>
       </Container>

@@ -52,8 +52,3 @@ export const Container = styled.div`
     }
   }
 `;
-
-export const Space = styled.div`
-  width: 100%;
-  position: relative;
-`;

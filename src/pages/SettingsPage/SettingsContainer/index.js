@@ -107,7 +107,7 @@ export default function SettingsContainer({
               <SettingsItem
                 email={email}
                 placeholder={placeholder}
-                handleSubmit={handleSubmit}
+                submitChange={handleSubmit}
               />
               {items &&
                 items.map(item => (
@@ -115,7 +115,7 @@ export default function SettingsContainer({
                     item={item}
                     key={item.id}
                     email={email}
-                    handleSubmit={handleSubmit}
+                    submitChange={handleSubmit}
                   />
                 ))}
             </ul>
