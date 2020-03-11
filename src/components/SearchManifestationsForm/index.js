@@ -3,8 +3,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { CircleSpinner } from 'react-spinners-kit';
 import { MdSearch } from 'react-icons/md';
 import PropTypes from 'prop-types';
-
 import { toast } from 'react-toastify';
+import nanoid from 'nanoid';
+
 import Select from '../Form/Select';
 import Field from '../Form/Field';
 import { StyledForm, TextInputContainer } from './styles';
@@ -24,8 +25,20 @@ export default function SearchManifestationsForm({ setSearchData, loading }) {
       try {
         const types = await Api.get({ pathUrl: 'type' });
         const categories = await Api.get({ pathUrl: 'category' });
-        // o id não vai ser importante, vai ser o title que vai ser usado para pesquisar no backend
-        setOptions([...types, ...categories]);
+        // Gera IDs randomicos seguros para não conflitarem entre si
+        const typesWithRandomId = types.map(type => ({
+          title: type.title,
+          id: nanoid(),
+        }));
+        const categoriesWithRandomId = categories.map(category => ({
+          title: category.title,
+          id: nanoid(),
+        }));
+        const groupedOptions = [
+          { label: 'Tipos', options: typesWithRandomId },
+          { label: 'Categorias', options: categoriesWithRandomId },
+        ];
+        setOptions(groupedOptions);
       } catch (error) {
         toast.error('Não pôde buscar as opções de pesquisa do servidor');
       }
@@ -34,8 +47,18 @@ export default function SearchManifestationsForm({ setSearchData, loading }) {
   }, []);
 
   function handleSubmitClick(data) {
-    console.log(JSON.stringify(data));
-    setSearchData(data);
+    // filtrar opções
+    let formattedArrayOfSelections = [];
+    if (Array.isArray(data.selections)) {
+      formattedArrayOfSelections = data.selections.map(
+        selection => selection.title
+      );
+    }
+    const formattedOptions = {
+      text: data.text,
+      options: formattedArrayOfSelections,
+    };
+    setSearchData(formattedOptions);
   }
 
   return (
@@ -58,8 +81,9 @@ export default function SearchManifestationsForm({ setSearchData, loading }) {
       </TextInputContainer>
 
       <Controller
-        as={<Select multiple options={options} />}
-        name="options"
+        as={<Select multiple multipleTypes />}
+        options={options}
+        name="selections"
         control={control}
         errors={errors}
       />

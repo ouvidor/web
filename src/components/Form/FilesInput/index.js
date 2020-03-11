@@ -6,7 +6,14 @@ import Api from '../../../services/api';
 import FileList from '../../FileList';
 import { Container, ContainerPlaceholder } from './styles';
 
-function FilesInput({ onChange, name, label, isUploading, setUploading }) {
+function FilesInput({
+  onChange,
+  name,
+  label,
+  isUploading,
+  setUploading,
+  ...props
+}) {
   const [files, setFiles] = useState([]);
 
   async function handleUpload() {
@@ -46,7 +53,7 @@ function FilesInput({ onChange, name, label, isUploading, setUploading }) {
     <Container>
       {label && <label htmlFor={name}>{label}</label>}
       <div {...getRootProps()}>
-        <input {...getInputProps()} />
+        <input {...getInputProps({ ...props })} />
         {console.log(files)}
         {files.length ? (
           <FileList files={files} />

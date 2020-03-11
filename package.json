@@ -9,6 +9,7 @@
     "dotenv": "^8.1.0",
     "history": "^4.10.1",
     "jwt-decode": "^2.2.0",
+    "nanoid": "^2.1.11",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-date-picker": "^7.10.0",
