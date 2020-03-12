@@ -5,9 +5,8 @@ import { MdInsertDriveFile } from 'react-icons/md';
 import { ListContainer, ListItem } from './styles';
 
 function File({ file }) {
-  const extension = file.path.split('.').pop();
   // checa a extensão do arquivo é png, gif, jpg ou jpeg
-  if (extension.match(/(png|gif|jpe?g)$/)) {
+  if (file.name.match(/(png|gif|jpe?g)$/)) {
     return (
       <ListItem>
         <img src={file.preview} alt={file.name} />
