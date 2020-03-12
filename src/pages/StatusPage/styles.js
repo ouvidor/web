@@ -56,7 +56,7 @@ export const StatusContainer = styled.div`
   input,
   textarea {
     background: #eaedf2;
-    border: none;
+    border: 2px solid #eaedf2;
     border-radius: 8px;
     padding: 10px;
     width: 100%;
@@ -70,13 +70,13 @@ export const StatusContainer = styled.div`
 
   > form {
     footer {
+      margin-top: 20px;
       width: 100%;
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
 
       > button {
-        margin-left: 10px;
         padding: 5px 10px;
         border: none;
         border-radius: 8px;

@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, Form } from 'formik';
+import { useForm, FormContext, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { Background } from '../../styles';
 import { Container } from './styles';
-import Select from '../../components/Select';
-import Field from '../../components/Field';
-import FilesInput from '../../components/FilesInput';
+import Select from '../../components/Form/Select';
+import Field from '../../components/Form/Field';
+import FilesInput from '../../components/Form/FilesInput';
 import Api from '../../services/api';
 import { createManifestationSchema } from '../../validations';
 
 export default function CreatePage() {
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
+
+  const form = useForm({
+    validationSchema: createManifestationSchema,
+  });
 
   useEffect(() => {
     const loadOptions = async () => {
@@ -22,10 +26,28 @@ export default function CreatePage() {
     loadOptions();
   }, []);
 
-  async function handleSubmit(data) {
-    // montar a requisição de forma correta
+  async function onSubmitClick(data) {
+    /**
+     * UPLOAD DE ARQUIVOS
+     */
+    const formData = new FormData();
+    Array.from(data.files).forEach(file => {
+      formData.append('file', file);
+    });
+
+    const files = await Api.post({ pathUrl: '/files', data: formData });
+
+    if (!files || !files[0].id) {
+      toast.error('Envio de arquivo falhou inesperadamente');
+      return;
+    }
+
+    /**
+     * UPLOAD DE MANIFESTAÇÃO
+     */
     const formattedData = {
       ...data,
+      files_id: files.map(file => file.id),
       type_id: data.type.id,
       categories_id: data.categories.map(category => category.id),
     };
@@ -46,78 +68,45 @@ export default function CreatePage() {
     <Background>
       <Container>
         <h1>Criar manifestação</h1>
-        <Formik
-          initialValues={{
-            title: '',
-            description: '',
-            categories: [],
-            type: null,
-            location: '',
-          }}
-          validationSchema={createManifestationSchema}
-          onSubmit={handleSubmit}
-        >
-          {({ values, errors, touched, setFieldValue, setFieldTouched }) => (
-            <Form>
-              <Field
-                label="Título"
-                type="text"
-                name="title"
-                placeholder="Um título que sumarize a manifestação"
-              />
-              <Field
-                label="Descrição"
-                component="textarea"
-                name="description"
-                placeholder="Descreva a manifestação"
-                maxLength="900"
-              />
-              <Select
-                placeholder="Categorias das manifestações"
-                name="categories"
-                label="Categorias"
-                options={categories}
-                multiple
-                onlyId
-                value={values.categories}
-                onChange={setFieldValue}
-                onBlur={setFieldTouched}
-                error={errors.categories}
-                touched={touched.categories}
-              />
 
-              <Select
-                placeholder="Tipos de manifestação"
-                name="type"
-                label="Tipos"
-                options={types}
-                onlyId
-                value={values.type}
-                onChange={setFieldValue}
-                onBlur={setFieldTouched}
-                error={errors.type}
-                touched={touched.type}
-              />
+        <FormContext {...form}>
+          <form onSubmit={form.handleSubmit(onSubmitClick)}>
+            <Field
+              label="Título"
+              name="title"
+              placeholder="Um título que sumarize a manifestação"
+            />
+            <Field
+              label="Descrição"
+              component="textarea"
+              name="description"
+              placeholder="Descreva a manifestação"
+              maxLength="900"
+            />
 
-              <FilesInput
-                name="filesId"
-                label="Arquivos"
-                value={values.filesId}
-                onChange={setFieldValue}
-                onBlur={setFieldTouched}
-              />
+            <Controller
+              as={<Select multiple options={categories} />}
+              control={form.control}
+              name="categories"
+              label="Categories"
+              placeholder="Categorias das manifestações"
+            />
 
-              <Field
-                label="Local"
-                type="text"
-                name="location"
-                placeholder="O local"
-              />
+            <Controller
+              as={<Select options={types} />}
+              control={form.control}
+              name="type"
+              label="Tipos"
+              placeholder="Tipos de manifestação"
+            />
 
-              <button type="submit">Criar manifestação</button>
-            </Form>
-          )}
-        </Formik>
+            <FilesInput name="files" label="Arquivos" />
+
+            <Field label="Local" name="location" placeholder="O local" />
+
+            <button type="submit">Criar manifestação</button>
+          </form>
+        </FormContext>
       </Container>
     </Background>
   );

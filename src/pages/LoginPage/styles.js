@@ -23,65 +23,32 @@ export const Container = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 
   form {
-    font-size: 14px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    > div {
+      margin-bottom: 10px;
+    }
 
-    input {
-      width: 100%;
-      background: #fff;
-      border: 0;
-      border-radius: 8px;
-      height: 50px;
-      padding: 0 15px;
-      color: #000;
-      margin: 0 0 12px;
-      &::placeholder {
-        color: rgba(0, 0, 0, 0.5);
-      }
+    span,
+    label {
+      font-size: 16px;
+      color: #2d2d2d;
+      margin-bottom: 5px;
     }
 
     button {
       width: 100%;
-      height: 50px;
-      margin: 5px 0 0;
-      background: #2e55e7;
-      font-weight: bold;
-      color: #fff;
-      border: 0;
+      border: none;
       border-radius: 8px;
+      background: rgb(11, 118, 218);
+      margin-top: 15px;
+      padding: 5px 12px;
+      height: 50px;
+      transition: box-shadow 0.3s;
+      color: #fff;
       font-size: 16px;
-      transition: background 0.2s;
 
       &:hover {
-        background: #506fe9;
-      }
-    }
-
-    div {
-      width: 100%;
-      position: relative;
-
-      span {
-        padding: 2px 15px;
-        margin-bottom: 10px;
-        background-color: #ffdfdf;
-        color: #c44543;
-        border: 1px solid #c44543;
-        border-radius: 4px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-        position: absolute;
-        right: -12px;
-        top: -9px;
+        box-shadow: 0 2px 8px rgba(11, 118, 218, 0.1);
       }
     }
   }
-`;
-
-export const Space = styled.div`
-  width: 100%;
-  position: relative;
 `;

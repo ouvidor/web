@@ -59,17 +59,6 @@ export const Container = styled.li`
           border: 2px solid #aaa;
         }
       }
-      span {
-        border-radius: 8px;
-        padding: 5px 15px;
-        position: absolute;
-        right: 5px;
-        background-color: #ffdfdf;
-        color: #c44543;
-        border: 1px solid #c44543;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        z-index: 1;
-      }
     }
 
     aside {

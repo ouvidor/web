@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { ImpulseSpinner } from 'react-spinners-kit';
-import { Formik, Form } from 'formik';
+import { useForm, FormContext, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -10,8 +10,8 @@ import { Container, TagList } from './styles';
 import Api from '../../services/api';
 import { Background } from '../../styles';
 import Tag from '../../components/Tag';
-import Select from '../../components/Select';
-import Field from '../../components/Field';
+import Select from '../../components/Form/Select';
+import Field from '../../components/Form/Field';
 import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
 import { sendMailSchema } from '../../validations';
 
@@ -20,6 +20,10 @@ export default function SendPage({ match, history }) {
   const [loading, setLoading] = useState(false);
   const [manifestation, setManifestation] = useState(null);
   const [secretariats, setSecretariats] = useState([]);
+
+  const form = useForm({
+    validationSchema: sendMailSchema,
+  });
 
   const search = useCallback(
     async idOrProtocol => {
@@ -111,68 +115,53 @@ export default function SendPage({ match, history }) {
             <span>{manifestation.formattedDate}</span>
           </footer>
 
-          <section>
-            <header>
-              <h2>Conteudo do email</h2>
-              <Select
-                name="base"
-                placeholder="Selecione uma base"
-                options={[]}
-                alternativeStyle
-              />
-            </header>
-            <Formik
-              initialValues={{ title: '', text: '', secretary: null }}
-              validationSchema={sendMailSchema}
-              onSubmit={handleSend}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                setFieldValue,
-                setFieldTouched,
-              }) => (
-                <Form>
-                  <Field
-                    name="title"
-                    placeholder="Título do email"
-                    maxLength={145}
+          <FormContext {...form}>
+            <section>
+              <header>
+                <h2>Conteudo do email</h2>
+                <Controller
+                  as={<Select options={[]} />}
+                  name="base"
+                  placeholder="Selecione uma base"
+                  alternativeStyle
+                />
+              </header>
+
+              <form onSubmit={form.handleSubmit(handleSend)}>
+                <Field
+                  name="title"
+                  placeholder="Título do email"
+                  maxLength={145}
+                />
+
+                <Field
+                  name="text"
+                  component="textarea"
+                  placeholder="Corpo do email"
+                />
+                <footer>
+                  <Controller
+                    as={<Select options={secretariats} />}
+                    name="secretary"
+                    placeholder="Para qual secretaria enviar?"
+                    alternativeStyle
                   />
 
-                  <Field
-                    name="text"
-                    component="textarea"
-                    placeholder="Corpo do email"
-                  />
-                  <footer>
-                    <Select
-                      name="secretary"
-                      placeholder="Para qual secretaria enviar?"
-                      options={secretariats}
-                      alternativeStyle
-                      value={values.secretary}
-                      error={errors.secretary}
-                      touched={touched.secretary}
-                      onChange={setFieldValue}
-                      onBlur={setFieldTouched}
-                    />
-                    <button type="submit">
-                      {loading ? (
-                        <ImpulseSpinner
-                          frontColor="#fff"
-                          size={42}
-                          backColor="rgba(0,0,0,0.2)"
-                        />
-                      ) : (
-                        <>Enviar</>
-                      )}
-                    </button>
-                  </footer>
-                </Form>
-              )}
-            </Formik>
-          </section>
+                  <button type="submit">
+                    {loading ? (
+                      <ImpulseSpinner
+                        frontColor="#fff"
+                        size={42}
+                        backColor="rgba(0,0,0,0.2)"
+                      />
+                    ) : (
+                      <>Enviar</>
+                    )}
+                  </button>
+                </footer>
+              </form>
+            </section>
+          </FormContext>
         </div>
       </Container>
     </Background>

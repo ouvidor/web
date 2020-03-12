@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Form } from 'formik';
 
 export const Container = styled.div`
   background: #fff;
@@ -62,7 +61,7 @@ export const Container = styled.div`
         input,
         textarea {
           background: #eaedf2;
-          border: none;
+          border: 2px solid #eaedf2;
           border-radius: 8px;
           padding: 10px;
           width: 100%;
@@ -121,7 +120,7 @@ export const TagList = styled.ul`
   }
 `;
 
-export const StyledForm = styled(Form)`
+export const StyledForm = styled.form`
   label {
     font-size: 16px;
   }

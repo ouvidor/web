@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Form } from 'formik';
+import { useForm, FormContext, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 
 import Api from '../../services/api';
 import Tag from '../../components/Tag';
-import Select from '../../components/Select';
-import Field from '../../components/Field';
-// import DatePicker from '../../components/DatePicker';
+// import Datepicker from '../../components/Form/Datepicker';
+import Select from '../../components/Form/Select';
+import Field from '../../components/Form/Field';
 import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
 import { Background } from '../../styles';
 import {
@@ -27,8 +27,10 @@ export default function StatusPage({ match, history }) {
   const [manifestation, setManifestation] = useState(null);
   const [statusHistory, setStatusHistory] = useState([]);
   const [status, setStatus] = useState([]);
-  const [selected, setSelected] = useState(null);
+  const [selectedId, setSelectedId] = useState(null);
   const [isEditing, setEditing] = useState(false);
+
+  const form = useForm();
 
   const search = useCallback(
     async idOrProtocol => {
@@ -87,23 +89,18 @@ export default function StatusPage({ match, history }) {
     search(data.protocol);
   }
 
-  // seleção de status da manifestação
-  function handleSelect(manifestationStatus) {
-    setEditing(true);
-    setSelected(manifestationStatus);
-  }
-
   function handleCreate() {
+    form.reset();
     setEditing(false);
-    setSelected(null);
+    setSelectedId(null);
   }
 
-  async function handleSubmit(data) {
+  async function onSubmit(data) {
     const formattedData = { ...data, status_id: data.status.id };
 
     if (isEditing) {
       const resultData = await Api.put({
-        pathUrl: `manifestation/status/${selected.id}`,
+        pathUrl: `manifestation/status/${selectedId}`,
         data: formattedData,
       });
       if (resultData) {
@@ -113,22 +110,17 @@ export default function StatusPage({ match, history }) {
         search(id);
       }
     } else {
-      const resultData = await Api.put({
+      const resultData = await Api.post({
         pathUrl: `/manifestation/${id}/status`,
         data: formattedData,
       });
       if (resultData) {
         toast.success(
-          `Status "${data.title}" criado para a manifestação "${manifestation.title}"`
+          `Novo status criado para a manifestação "${manifestation.title}"`
         );
         search(id);
       }
     }
-  }
-
-  function getInitialValues() {
-    if (!selected) return { status: null, description: '', created_at: '' };
-    return selected;
   }
 
   // renderiza o formulario de busca por protocolo
@@ -165,79 +157,59 @@ export default function StatusPage({ match, history }) {
 
           <footer>{manifestation.formattedDate}</footer>
         </ManifestationContainer>
+        <FormContext {...form}>
+          <StatusContainer>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <Controller
+                as={<Select options={status} />}
+                name="status"
+                placeholder="Escolha um status"
+                alternativeStyle
+              />
 
-        <Formik
-          initialValues={getInitialValues()}
-          key={JSON.stringify(selected)}
-          onSubmit={handleSubmit}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            setFieldValue,
-            setFieldTouched,
-            setValues,
-          }) => (
-            <>
-              <StatusContainer>
-                <Form>
-                  <Select
-                    alternativeStyle
-                    name="status"
-                    options={status}
-                    placeholder="Escolha um status"
-                    value={values.status}
-                    onChange={setFieldValue}
-                    onBlur={setFieldTouched}
-                    error={errors.status}
-                    touched={touched.status}
-                  />
+              <Field
+                name="description"
+                placeholder="Corpo do texto da mudança de status da manifestação"
+                component="textarea"
+                maxLength={610}
+              />
 
-                  <Field
-                    component="textarea"
-                    name="description"
-                    placeholder="Corpo do texto da mudança de status da manifestação"
-                    maxLength={610}
-                  />
+              <footer>
+                {/* <Controller
+                as={<Datepicker />}
+                control={control}
+                name="created_at"
+              /> */}
+                <button type="submit">Salvar</button>
+              </footer>
+            </form>
+          </StatusContainer>
 
-                  <footer>
-                    {/* <DatePicker
-                      name="created_at"
-                      placeholder="Data do status"
-                      value={values.created_at}
-                      onChange={setFieldValue}
-                      onBlur={setFieldTouched}
-                      error={errors.created_at}
-                      touched={touched.created_at}
-                    /> */}
-                    <button type="submit">Salvar</button>
-                  </footer>
-                </Form>
-              </StatusContainer>
-
-              <HistoryContainer>
-                <button type="button" onClick={handleCreate}>
-                  Adicionar novo status à manifestação
-                </button>
-                <Scroll>
-                  <ul>
-                    {statusHistory &&
-                      statusHistory.map(ms => (
-                        <StatusCard
-                          key={ms.id}
-                          manifestationStatus={ms}
-                          handleSelect={() => {
-                            handleSelect(ms, setValues);
-                          }}
-                        />
-                      ))}
-                  </ul>
-                </Scroll>
-              </HistoryContainer>
-            </>
-          )}
-        </Formik>
+          <HistoryContainer>
+            <button type="button" onClick={handleCreate}>
+              Adicionar novo status à manifestação
+            </button>
+            <Scroll>
+              <ul>
+                {statusHistory &&
+                  statusHistory.map(ms => (
+                    <StatusCard
+                      key={ms.id}
+                      manifestationStatus={ms}
+                      onClick={() => {
+                        setEditing(true);
+                        setSelectedId(ms.id);
+                        form.setValue([
+                          { status: ms.status },
+                          { description: ms.description },
+                        ]);
+                      }}
+                    />
+                  ))}
+              </ul>
+            </Scroll>
+          </HistoryContainer>
+        </FormContext>
       </GridContainer>
     </Background>
   );

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Form } from 'formik';
+import { useForm, FormContext } from 'react-hook-form';
 
-import Field from '../../../../components/Field';
+import Field from '../../../../components/Form/Field';
 import { Container, StyledMdCheck, StyledMdClear } from './styles';
 import { settingsSchema } from '../../../../validations';
 
@@ -10,61 +10,52 @@ export default function SettingsItem({
   email,
   item,
   placeholder,
-  handleSubmit,
+  submitChange,
 }) {
   // quando for 'false' é para excluir, quando for 'true' é pra salvar
   const [isSaving, setIsSaving] = useState(false);
 
-  function onSubmit(data, { resetForm }) {
+  const form = useForm({
+    validationSchema: settingsSchema,
+  });
+
+  function onSubmit(data) {
     // botao de limpar
     if (!item && !isSaving) {
-      resetForm();
+      form.reset();
     } else {
-      handleSubmit(data, isSaving);
+      submitChange(data, isSaving);
       if (!item) {
-        resetForm();
+        form.reset();
       }
     }
   }
 
-  function getInitialValues() {
-    if (!item) {
-      if (email) return { title: '', email: '' };
-      return { title: '' };
-    }
-    return item;
-  }
-
   return (
     <Container key={item && item.id}>
-      <Formik
-        initialValues={getInitialValues()}
-        onSubmit={onSubmit}
-        validationSchema={settingsSchema}
-      >
-        {() => (
-          <Form>
-            <Field name="title" placeholder={placeholder} />
-            {email && <Field name="email" placeholder="Email" />}
-            <aside>
-              <button
-                type="submit"
-                onClick={() => setIsSaving(true)}
-                label="Enviar"
-              >
-                <StyledMdCheck />
-              </button>
-              <button
-                type="submit"
-                onClick={() => setIsSaving(false)}
-                label="Enviar"
-              >
-                <StyledMdClear />
-              </button>
-            </aside>
-          </Form>
-        )}
-      </Formik>
+      <FormContext {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Field name="title" placeholder={placeholder} />
+          {email && <Field name="email" placeholder="um@email.com" />}
+
+          <aside>
+            <button
+              type="submit"
+              onClick={() => setIsSaving(true)}
+              label="Enviar"
+            >
+              <StyledMdCheck />
+            </button>
+            <button
+              type="submit"
+              onClick={() => setIsSaving(false)}
+              label="Enviar"
+            >
+              <StyledMdClear />
+            </button>
+          </aside>
+        </form>
+      </FormContext>
     </Container>
   );
 }
@@ -73,7 +64,7 @@ SettingsItem.propTypes = {
   email: PropTypes.bool,
   item: PropTypes.shape({ id: PropTypes.number, title: PropTypes.string }),
   placeholder: PropTypes.string,
-  handleSubmit: PropTypes.func.isRequired,
+  submitChange: PropTypes.func.isRequired,
 };
 
 SettingsItem.defaultProps = { email: null, item: null, placeholder: null };

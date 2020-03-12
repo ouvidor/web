@@ -1,19 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Field } from 'formik';
+import { useForm, FormContext } from 'react-hook-form';
 
+import Field from '../Form/Field';
 import { StyledForm } from './styles';
 import { searchByProtocolSchema } from '../../validations';
 
-const SearchManifestationByProtocol = ({ handleFetch, label }) => (
-  <>
-    <h1>{label}</h1>
-    <Formik
-      initialValues={{ protocol: '' }}
-      validationSchema={searchByProtocolSchema}
-      onSubmit={handleFetch}
-    >
-      <StyledForm>
+const SearchManifestationByProtocol = ({ handleFetch, label }) => {
+  const form = useForm({
+    validationSchema: searchByProtocolSchema,
+  });
+
+  return (
+    <FormContext {...form}>
+      <h1>{label}</h1>
+      <StyledForm onSubmit={form.handleSubmit(handleFetch)}>
         <Field
           placeholder="Exemplo: k6f7ju38"
           name="protocol"
@@ -21,9 +22,9 @@ const SearchManifestationByProtocol = ({ handleFetch, label }) => (
         />
         <button type="submit">Buscar</button>
       </StyledForm>
-    </Formik>
-  </>
-);
+    </FormContext>
+  );
+};
 
 SearchManifestationByProtocol.propTypes = {
   handleFetch: PropTypes.func.isRequired,

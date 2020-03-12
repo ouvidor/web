@@ -5,7 +5,7 @@ import pt from 'date-fns/locale/pt';
 
 import { Container, Title, Date } from './styles';
 
-export default function StatusCard({ manifestationStatus, handleSelect }) {
+export default function StatusCard({ manifestationStatus, onClick }) {
   const formattedDate = useMemo(() => {
     const date = format(
       parseISO(manifestationStatus.created_at),
@@ -18,7 +18,7 @@ export default function StatusCard({ manifestationStatus, handleSelect }) {
   }, [manifestationStatus.created_at]);
 
   return (
-    <Container onClick={handleSelect}>
+    <Container onClick={onClick}>
       <Title>{manifestationStatus.status.title}</Title>
       <Date>{formattedDate}</Date>
     </Container>
@@ -34,5 +34,5 @@ StatusCard.propTypes = {
       title: PropTypes.string,
     }),
   }).isRequired,
-  handleSelect: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
 };

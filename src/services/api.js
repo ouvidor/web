@@ -6,6 +6,16 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+function getErrorMessage(errorResponse) {
+  if (
+    errorResponse === undefined ||
+    (!errorResponse.data && !errorResponse.data.error)
+  )
+    return 'Erro inesperado!';
+
+  return errorResponse.data.error;
+}
+
 class Api {
   constructor() {
     this.api = axios.create({
@@ -24,7 +34,7 @@ class Api {
         return response.data;
       })
       .catch(error => {
-        toast.error(error.response.data.error);
+        toast.error(getErrorMessage(error.response));
       });
   }
 
@@ -35,7 +45,7 @@ class Api {
         return response.data;
       })
       .catch(error => {
-        toast.error(error.response.data.error);
+        toast.error(getErrorMessage(error.response));
       });
   }
 
@@ -46,7 +56,7 @@ class Api {
         return response.data;
       })
       .catch(error => {
-        toast.error(error.response.data.error);
+        toast.error(getErrorMessage(error.response));
       });
   }
 
@@ -57,7 +67,7 @@ class Api {
         return response.data;
       })
       .catch(error => {
-        toast.error(error.response.data.error);
+        toast.error(getErrorMessage(error.response));
       });
   }
 }

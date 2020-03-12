@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import { Formik, Form } from 'formik';
+import { useForm, FormContext } from 'react-hook-form';
 
-import Field from '../../components/Field';
+import Field from '../../components/Form/Field';
 import Api from '../../services/api';
 import { SessionContext } from '../../store/session';
 import { signIn } from '../../store/session/actions';
@@ -11,7 +11,11 @@ import { loginSchema } from '../../validations';
 export default function Login() {
   const { dispatch } = useContext(SessionContext);
 
-  async function handleSubmit({ email, password }) {
+  const form = useForm({
+    validationSchema: loginSchema,
+  });
+
+  async function onLogin({ email, password }) {
     const { token, user } = await Api.post({
       pathUrl: 'auth',
       data: { email, password },
@@ -22,21 +26,25 @@ export default function Login() {
   return (
     <Wrapper>
       <Container>
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          validationSchema={loginSchema}
-          onSubmit={handleSubmit}
-        >
-          {() => (
-            <Form>
-              <Field name="email" type="email" placeholder="Seu email" />
+        <FormContext {...form}>
+          <form onSubmit={form.handleSubmit(onLogin)}>
+            <Field
+              name="email"
+              label="Seu email"
+              type="email"
+              placeholder="nome@email.com"
+            />
 
-              <Field name="password" type="password" placeholder="Sua senha" />
+            <Field
+              label="Sua senha"
+              name="password"
+              type="password"
+              placeholder="Sua senha"
+            />
 
-              <button type="submit">Login</button>
-            </Form>
-          )}
-        </Formik>
+            <button type="submit">Login</button>
+          </form>
+        </FormContext>
       </Container>
     </Wrapper>
   );

@@ -1,56 +1,77 @@
 import styled from 'styled-components';
+import PerfectScrollBar from 'react-perfect-scrollbar';
 
-export const ProfileContainer = styled.div`
-  background: #0b76da;
+const Container = styled.div`
+  padding: 10px 20px;
+  background: #fff;
   border-radius: 8px;
-  padding: 10px 15px;
-  margin-top: 10px;
+  border: 2px solid #fff;
+  transition: border 0.3s;
 
   &:hover {
-    box-shadow: 4px 0 10px rgba(11, 118, 218, 0.2);
+    border: 2px solid #ddd;
   }
+`;
 
-  li {
-    background: #eee;
-    border-radius: 8px;
-    padding: 5px 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+export const BoxesContainer = styled.div`
+  height: 100%;
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'user members search';
+`;
 
-    aside {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      section {
-        border-left: 1px solid rgba(0, 0, 0, 0.2);
-        margin-left: 10px;
-        padding-left: 10px;
-      }
+export const UserContainer = styled.div`
+  grid-area: user;
+`;
+
+export const ProfileContainer = styled(Container)`
+  padding: 10px 20px;
+  background: #fff;
+  border-radius: 8px;
+  border: 2px solid #fff;
+  transition: border 0.3s;
+
+  p {
+    font-size: 16px;
+    font-weight: bold;
+  }
+`;
+
+export const EditProfileContainer = styled(Container)``;
+
+export const MembersContainer = styled(Container)`
+  grid-area: members;
+  max-height: 100%;
+
+  ul {
+    margin-top: 10px;
+
+    li {
+      background: #ddd;
+      padding: 10px 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+
+      color: #2d2d2d;
+      font-size: 16px;
+      font-weight: bold;
     }
 
-    button {
-      border: 1px solid #2d2d2d;
-      border-radius: 4px;
-      background: transparent;
-      padding: 2px 8px;
-      transition: all 0.2s;
-
-      &:hover {
-        box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
-      }
-
-      & + button {
-        margin-left: 10px;
-        background: rgb(199, 29, 72);
-        color: #fff;
-        font-weight: bold;
-        border: none;
-
-        &:hover {
-          box-shadow: 0 0 8px rgba(199, 29, 72, 0.4);
-        }
-      }
+    li + li {
+      margin-top: 5px;
     }
   }
+`;
+
+export const SearchContainer = styled(Container)`
+  grid-area: search;
+`;
+
+export const Scroll = styled(PerfectScrollBar)`
+  margin-top: 10px;
+  min-width: 100%;
+  max-width: 100%;
+  padding: 5px 0px 0 0;
 `;

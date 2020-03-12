@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Form } from 'formik';
+import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 
 // import Api from '../../../services/api';
-import Field from '../../../components/Field';
+import Field from '../../../components/Form/Field';
 
 export default function EditProfileForm({ profile }) {
   const validationSchema = Yup.object().shape({
@@ -30,37 +30,55 @@ export default function EditProfileForm({ profile }) {
     }),
   });
 
-  async function handleSubmit(data) {
+  const { register, handleSubmit, errors } = useForm({ validationSchema });
+
+  async function onSubmit(data) {
     // await Api.get({ pathUrl: `user`, params: data });
     console.log(data);
   }
 
   return (
-    <Formik
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-      initialValues={profile}
-    >
-      {() => (
-        <Form>
-          <Field label="Primeiro nome" name="first_name" />
-          <Field label="Sobrenome" name="last_name" />
-          <Field label="Email" name="email" type="email" />
-          <Field label="Senha" name="password" type="password" />
-          <Field
-            label="Confirmar senha"
-            name="confirm_password"
-            type="password"
-          />
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Field
+        label="Primeiro nome"
+        name="first_name"
+        register={register}
+        errors={errors}
+      />
+      <Field
+        label="Sobrenome"
+        name="last_name"
+        register={register}
+        errors={errors}
+      />
+      <Field
+        label="Email"
+        name="email"
+        type="email"
+        register={register}
+        errors={errors}
+      />
+      <Field
+        label="Senha"
+        name="password"
+        type="password"
+        register={register}
+        errors={errors}
+      />
+      <Field
+        label="Confirmar senha"
+        name="confirm_password"
+        type="password"
+        register={register}
+        errors={errors}
+      />
 
-          <button type="button" onClick={() => {}}>
-            Cancelar
-          </button>
+      <button type="button" onClick={() => {}}>
+        Cancelar
+      </button>
 
-          <button type="submit">Salvar</button>
-        </Form>
-      )}
-    </Formik>
+      <button type="submit">Salvar</button>
+    </form>
   );
 }
 

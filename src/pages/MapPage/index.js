@@ -32,21 +32,14 @@ export default function MapPage() {
   // callback memoizado
   const fetchManifestations = useCallback(
     async setLoad => {
+      console.log(searchData);
       setLoad(true);
-      // pegando apenas o titulo das opções
-      let formattedSearchData;
-      if (searchData.options) {
-        formattedSearchData = {
-          text: searchData.text,
-          options: searchData.options.map(option => option.title),
-        };
-      }
 
       try {
         // fetch manifestations
         const data = await Api.get({
           pathUrl: 'manifestation',
-          params: { ...formattedSearchData, page },
+          params: { ...searchData, page },
         });
 
         setManifestations(data.rows);
@@ -60,12 +53,18 @@ export default function MapPage() {
   );
 
   useEffect(() => {
+    // console.log('searchData, page, prevPage, prevSearchData');
+    // console.log(searchData, page, prevPage, prevSearchData);
+    // console.log('==========================================');
     if (prevPage !== page) {
       fetchManifestations(setLoadingPage);
+      console.log('PESQUISA EXECUTADA POR MUDANÇA DE PÁGINA');
+      return;
     }
     if (prevSearchData !== searchData) {
       setPage(1);
       fetchManifestations(setLoading);
+      console.log('PESQUISA EXECUTADA POR FILTRO');
     }
   }, [fetchManifestations, searchData, page, prevPage, prevSearchData]);
 
@@ -74,7 +73,7 @@ export default function MapPage() {
       <BodyWrapper>
         <Body>
           <SearchManifestationsForm
-            onSubmit={setSearchData}
+            setSearchData={setSearchData}
             loading={loading}
           />
 

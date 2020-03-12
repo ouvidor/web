@@ -4,6 +4,20 @@ export const Container = styled.div`
   position: relative;
 `;
 
+export const GroupLabelContainer = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  span:nth-last-child(1) {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 90px;
+    width: 16px;
+    height: 15px;
+    text-align: center;
+  }
+`;
+
 export const basic = {
   option: (provided, state) => ({
     ...provided,
@@ -11,6 +25,9 @@ export const basic = {
     color: state.isSelected ? '#0b76da' : 'rgb(0, 0, 0, 0.8)',
     background: state.isSelected ? 'rgb(11, 118, 218, 0.2)' : '#fff',
     padding: 5,
+    '&:hover': {
+      cursor: 'pointer',
+    },
   }),
   control: () => ({
     borderRadius: 8,

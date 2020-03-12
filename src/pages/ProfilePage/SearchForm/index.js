@@ -1,10 +1,10 @@
 import React from 'react';
-import { Formik } from 'formik';
+import { useForm, FormContext } from 'react-hook-form';
 import * as Yup from 'yup';
 import { MdSearch } from 'react-icons/md';
 
 import Api from '../../../services/api';
-import Field from '../../../components/Field';
+import Field from '../../../components/Form/Field';
 import { Form } from './styles';
 
 export default function SearchForm() {
@@ -12,24 +12,21 @@ export default function SearchForm() {
     name: Yup.string().required('Nome é necessário'),
   });
 
-  async function handleSubmit(data) {
+  const form = useForm({ validationSchema });
+
+  async function onSubmit(data) {
     await Api.get({ pathUrl: `user`, params: data });
   }
 
   return (
-    <Formik
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-      initialValues={{ name: '' }}
-    >
-      {() => (
-        <Form>
-          <Field name="name" placeholder="O primeiro nome" />
-          <button type="submit">
-            <MdSearch />
-          </button>
-        </Form>
-      )}
-    </Formik>
+    <FormContext {...form}>
+      <Form onSubmit={form.handleSubmit(onSubmit)}>
+        <Field name="name" label="Nome" placeholder="O primeiro nome" />
+
+        <button type="submit">
+          <MdSearch />
+        </button>
+      </Form>
+    </FormContext>
   );
 }
