@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactSelect from 'react-select';
-import { ErrorMessage } from 'react-hook-form';
+import { ErrorMessage, useFormContext } from 'react-hook-form';
 import PropTypes from 'prop-types';
 
 import { FieldError } from '../../../styles';
@@ -10,11 +10,12 @@ export default function Select({
   label,
   name,
   alternativeStyle,
-  errors,
   options,
   multiple,
   ...props
 }) {
+  const { errors } = useFormContext();
+
   const formatGroupLabel = data => (
     <GroupLabelContainer>
       <span>{data.label}</span>
@@ -46,7 +47,6 @@ Select.defaultProps = {
   label: undefined,
   name: undefined,
   alternativeStyle: false,
-  errors: {},
   multiple: false,
   options: [],
 };
@@ -55,12 +55,24 @@ Select.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   alternativeStyle: PropTypes.bool,
-  errors: PropTypes.shape({}),
   multiple: PropTypes.bool,
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-    })
-  ),
+  options: PropTypes.oneOfType([
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+      })
+    ),
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        label: PropTypes.number,
+        options: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.number,
+            title: PropTypes.string,
+          })
+        ),
+      })
+    ),
+  ]),
 };

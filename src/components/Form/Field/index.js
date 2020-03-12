@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { ErrorMessage } from 'react-hook-form';
+import { ErrorMessage, useFormContext } from 'react-hook-form';
 
 import { FieldError } from '../../../styles';
 import { Container } from './styles';
 
-function Field({ label, name, component, register, errors, ...props }) {
+function Field({ label, name, component, ...props }) {
   const [height, setHeight] = useState(0);
-
+  const { register, errors } = useFormContext();
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -35,7 +35,6 @@ Field.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string.isRequired,
   component: PropTypes.oneOf(['text', 'textarea']),
-  register: PropTypes.func.isRequired,
   errors: PropTypes.func,
 };
 
