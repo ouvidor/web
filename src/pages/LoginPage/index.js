@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormContext } from 'react-hook-form';
 
 import Field from '../../components/Form/Field';
 import Api from '../../services/api';
@@ -11,7 +11,7 @@ import { loginSchema } from '../../validations';
 export default function Login() {
   const { dispatch } = useContext(SessionContext);
 
-  const { register, handleSubmit, errors } = useForm({
+  const form = useForm({
     validationSchema: loginSchema,
   });
 
@@ -26,27 +26,25 @@ export default function Login() {
   return (
     <Wrapper>
       <Container>
-        <form onSubmit={handleSubmit(onLogin)}>
-          <Field
-            name="email"
-            label="Seu email"
-            type="email"
-            placeholder="nome@email.com"
-            register={register}
-            errors={errors}
-          />
+        <FormContext {...form}>
+          <form onSubmit={form.handleSubmit(onLogin)}>
+            <Field
+              name="email"
+              label="Seu email"
+              type="email"
+              placeholder="nome@email.com"
+            />
 
-          <Field
-            label="Sua senha"
-            name="password"
-            type="password"
-            placeholder="Sua senha"
-            register={register}
-            errors={errors}
-          />
+            <Field
+              label="Sua senha"
+              name="password"
+              type="password"
+              placeholder="Sua senha"
+            />
 
-          <button type="submit">Login</button>
-        </form>
+            <button type="submit">Login</button>
+          </form>
+        </FormContext>
       </Container>
     </Wrapper>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm, FormContext, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -30,14 +30,7 @@ export default function StatusPage({ match, history }) {
   const [selectedId, setSelectedId] = useState(null);
   const [isEditing, setEditing] = useState(false);
 
-  const {
-    register,
-    control,
-    handleSubmit,
-    errors,
-    setValue,
-    reset,
-  } = useForm();
+  const form = useForm();
 
   const search = useCallback(
     async idOrProtocol => {
@@ -97,7 +90,7 @@ export default function StatusPage({ match, history }) {
   }
 
   function handleCreate() {
-    reset();
+    form.reset();
     setEditing(false);
     setSelectedId(null);
   }
@@ -164,62 +157,59 @@ export default function StatusPage({ match, history }) {
 
           <footer>{manifestation.formattedDate}</footer>
         </ManifestationContainer>
+        <FormContext {...form}>
+          <StatusContainer>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <Controller
+                as={<Select options={status} />}
+                name="status"
+                placeholder="Escolha um status"
+                alternativeStyle
+              />
 
-        <StatusContainer>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Controller
-              as={<Select alternativeStyle />}
-              control={control}
-              options={status}
-              name="status"
-              placeholder="Escolha um status"
-              errors={errors}
-            />
+              <Field
+                name="description"
+                placeholder="Corpo do texto da mudança de status da manifestação"
+                component="textarea"
+                maxLength={610}
+              />
 
-            <Field
-              component="textarea"
-              name="description"
-              placeholder="Corpo do texto da mudança de status da manifestação"
-              maxLength={610}
-              register={register}
-              errors={errors}
-            />
-
-            <footer>
-              {/* <Controller
+              <footer>
+                {/* <Controller
                 as={<Datepicker />}
                 control={control}
                 name="created_at"
               /> */}
-              <button type="submit">Salvar</button>
-            </footer>
-          </form>
-        </StatusContainer>
+                <button type="submit">Salvar</button>
+              </footer>
+            </form>
+          </StatusContainer>
 
-        <HistoryContainer>
-          <button type="button" onClick={handleCreate}>
-            Adicionar novo status à manifestação
-          </button>
-          <Scroll>
-            <ul>
-              {statusHistory &&
-                statusHistory.map(ms => (
-                  <StatusCard
-                    key={ms.id}
-                    manifestationStatus={ms}
-                    onClick={() => {
-                      setEditing(true);
-                      setSelectedId(ms.id);
-                      setValue([
-                        { status: ms.status },
-                        { description: ms.description },
-                      ]);
-                    }}
-                  />
-                ))}
-            </ul>
-          </Scroll>
-        </HistoryContainer>
+          <HistoryContainer>
+            <button type="button" onClick={handleCreate}>
+              Adicionar novo status à manifestação
+            </button>
+            <Scroll>
+              <ul>
+                {statusHistory &&
+                  statusHistory.map(ms => (
+                    <StatusCard
+                      key={ms.id}
+                      manifestationStatus={ms}
+                      onClick={() => {
+                        setEditing(true);
+                        setSelectedId(ms.id);
+                        form.setValue([
+                          { status: ms.status },
+                          { description: ms.description },
+                        ]);
+                      }}
+                    />
+                  ))}
+              </ul>
+            </Scroll>
+          </HistoryContainer>
+        </FormContext>
       </GridContainer>
     </Background>
   );

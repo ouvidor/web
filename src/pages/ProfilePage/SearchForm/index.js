@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, FormContext } from 'react-hook-form';
 import * as Yup from 'yup';
 import { MdSearch } from 'react-icons/md';
 
@@ -12,24 +12,21 @@ export default function SearchForm() {
     name: Yup.string().required('Nome é necessário'),
   });
 
-  const { register, handleSubmit, errors } = useForm({ validationSchema });
+  const form = useForm({ validationSchema });
 
   async function onSubmit(data) {
     await Api.get({ pathUrl: `user`, params: data });
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Field
-        label="Nome"
-        name="name"
-        placeholder="O primeiro nome"
-        register={register}
-        errors={errors}
-      />
-      <button type="submit">
-        <MdSearch />
-      </button>
-    </Form>
+    <FormContext {...form}>
+      <Form onSubmit={form.handleSubmit(onSubmit)}>
+        <Field name="name" label="Nome" placeholder="O primeiro nome" />
+
+        <button type="submit">
+          <MdSearch />
+        </button>
+      </Form>
+    </FormContext>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { ImpulseSpinner } from 'react-spinners-kit';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, FormContext, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -21,7 +21,7 @@ export default function SendPage({ match, history }) {
   const [manifestation, setManifestation] = useState(null);
   const [secretariats, setSecretariats] = useState([]);
 
-  const { register, handleSubmit, control, errors } = useForm({
+  const form = useForm({
     validationSchema: sendMailSchema,
   });
 
@@ -115,57 +115,53 @@ export default function SendPage({ match, history }) {
             <span>{manifestation.formattedDate}</span>
           </footer>
 
-          <section>
-            <header>
-              <h2>Conteudo do email</h2>
-              <Controller
-                as={<Select alternativeStyle options={[]} />}
-                control={control}
-                name="base"
-                placeholder="Selecione uma base"
-                errors={errors}
-              />
-            </header>
-
-            <form onSubmit={handleSubmit(handleSend)}>
-              <Field
-                name="title"
-                placeholder="Título do email"
-                maxLength={145}
-                register={register}
-                errors={errors}
-              />
-
-              <Field
-                name="text"
-                component="textarea"
-                placeholder="Corpo do email"
-                register={register}
-                errors={errors}
-              />
-              <footer>
+          <FormContext {...form}>
+            <section>
+              <header>
+                <h2>Conteudo do email</h2>
                 <Controller
-                  as={<Select alternativeStyle options={secretariats} />}
-                  control={control}
-                  name="secretary"
-                  placeholder="Para qual secretaria enviar?"
-                  errors={errors}
+                  as={<Select options={[]} />}
+                  name="base"
+                  placeholder="Selecione uma base"
+                  alternativeStyle
+                />
+              </header>
+
+              <form onSubmit={form.handleSubmit(handleSend)}>
+                <Field
+                  name="title"
+                  placeholder="Título do email"
+                  maxLength={145}
                 />
 
-                <button type="submit">
-                  {loading ? (
-                    <ImpulseSpinner
-                      frontColor="#fff"
-                      size={42}
-                      backColor="rgba(0,0,0,0.2)"
-                    />
-                  ) : (
-                    <>Enviar</>
-                  )}
-                </button>
-              </footer>
-            </form>
-          </section>
+                <Field
+                  name="text"
+                  component="textarea"
+                  placeholder="Corpo do email"
+                />
+                <footer>
+                  <Controller
+                    as={<Select options={secretariats} />}
+                    name="secretary"
+                    placeholder="Para qual secretaria enviar?"
+                    alternativeStyle
+                  />
+
+                  <button type="submit">
+                    {loading ? (
+                      <ImpulseSpinner
+                        frontColor="#fff"
+                        size={42}
+                        backColor="rgba(0,0,0,0.2)"
+                      />
+                    ) : (
+                      <>Enviar</>
+                    )}
+                  </button>
+                </footer>
+              </form>
+            </section>
+          </FormContext>
         </div>
       </Container>
     </Background>

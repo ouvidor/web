@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, FormContext, Controller } from 'react-hook-form';
 import { toast } from 'react-toastify';
 
 import { Background } from '../../styles';
@@ -13,9 +13,8 @@ import { createManifestationSchema } from '../../validations';
 export default function CreatePage() {
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [isUploading, setUploading] = useState(false);
 
-  const { register, handleSubmit, control, errors } = useForm({
+  const form = useForm({
     validationSchema: createManifestationSchema,
   });
 
@@ -27,17 +26,28 @@ export default function CreatePage() {
     loadOptions();
   }, []);
 
-  async function onSubmit(data) {
-    setUploading(true);
+  async function onSubmitClick(data) {
+    /**
+     * UPLOAD DE ARQUIVOS
+     */
+    const formData = new FormData();
+    Array.from(data.files).forEach(file => {
+      formData.append('file', file);
+    });
 
-    while (isUploading === true) {
-      console.log('Uploading files');
+    const files = await Api.post({ pathUrl: '/files', data: formData });
+
+    if (!files || !files[0].id) {
+      toast.error('Envio de arquivo falhou inesperadamente');
+      return;
     }
 
-    // montar a requisição de forma correta
+    /**
+     * UPLOAD DE MANIFESTAÇÃO
+     */
     const formattedData = {
       ...data,
-      files_id: data.filesId,
+      files_id: files.map(file => file.id),
       type_id: data.type.id,
       categories_id: data.categories.map(category => category.id),
     };
@@ -59,72 +69,44 @@ export default function CreatePage() {
       <Container>
         <h1>Criar manifestação</h1>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Field
-            label="Título"
-            type="text"
-            name="title"
-            placeholder="Um título que sumarize a manifestação"
-            register={register}
-            errors={errors}
-          />
-          <Field
-            label="Descrição"
-            component="textarea"
-            name="description"
-            placeholder="Descreva a manifestação"
-            maxLength="900"
-            register={register}
-            errors={errors}
-          />
-          <Controller
-            as={<Select multiple />}
-            name="categories"
-            label="Categories"
-            placeholder="Categorias das manifestações"
-            options={categories}
-            control={control}
-            errors={errors}
-          />
+        <FormContext {...form}>
+          <form onSubmit={form.handleSubmit(onSubmitClick)}>
+            <Field
+              label="Título"
+              name="title"
+              placeholder="Um título que sumarize a manifestação"
+            />
+            <Field
+              label="Descrição"
+              component="textarea"
+              name="description"
+              placeholder="Descreva a manifestação"
+              maxLength="900"
+            />
 
-          <Controller
-            as={<Select multiple />}
-            name="type"
-            label="Tipos"
-            placeholder="Tipos de manifestação"
-            options={types}
-            control={control}
-            errors={errors}
-          />
+            <Controller
+              as={<Select multiple options={categories} />}
+              control={form.control}
+              name="categories"
+              label="Categories"
+              placeholder="Categorias das manifestações"
+            />
 
-          <Controller
-            as={<FilesInput />}
-            name="filesId"
-            control={control}
-            errors={errors}
-          />
+            <Controller
+              as={<Select options={types} />}
+              control={form.control}
+              name="type"
+              label="Tipos"
+              placeholder="Tipos de manifestação"
+            />
 
-          {/* <FilesInput
-            isUploading={isUploading}
-            setUploading={setUploading}
-            name="filesId"
-            label="Arquivos"
-            value={values.filesId}
-            onChange={setFieldValue}
-            onBlur={setFieldTouched}
-          /> */}
+            <FilesInput name="files" label="Arquivos" />
 
-          <Field
-            label="Local"
-            type="text"
-            name="location"
-            placeholder="O local"
-            register={register}
-            errors={errors}
-          />
+            <Field label="Local" name="location" placeholder="O local" />
 
-          <button type="submit">Criar manifestação</button>
-        </form>
+            <button type="submit">Criar manifestação</button>
+          </form>
+        </FormContext>
       </Container>
     </Background>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useForm } from 'react-hook-form';
+import { useForm, FormContext } from 'react-hook-form';
 
 import Field from '../../../../components/Form/Field';
 import { Container, StyledMdCheck, StyledMdClear } from './styles';
@@ -15,57 +15,47 @@ export default function SettingsItem({
   // quando for 'false' é para excluir, quando for 'true' é pra salvar
   const [isSaving, setIsSaving] = useState(false);
 
-  const { register, reset, handleSubmit, errors } = useForm({
+  const form = useForm({
     validationSchema: settingsSchema,
   });
 
   function onSubmit(data) {
     // botao de limpar
     if (!item && !isSaving) {
-      reset();
+      form.reset();
     } else {
       submitChange(data, isSaving);
       if (!item) {
-        reset();
+        form.reset();
       }
     }
   }
 
   return (
     <Container key={item && item.id}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Field
-          name="title"
-          placeholder={placeholder}
-          errors={errors}
-          register={register}
-        />
-        {email && (
-          <Field
-            name="email"
-            placeholder="Email"
-            errors={errors}
-            register={register}
-          />
-        )}
+      <FormContext {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          <Field name="title" placeholder={placeholder} />
+          {email && <Field name="email" placeholder="um@email.com" />}
 
-        <aside>
-          <button
-            type="submit"
-            onClick={() => setIsSaving(true)}
-            label="Enviar"
-          >
-            <StyledMdCheck />
-          </button>
-          <button
-            type="submit"
-            onClick={() => setIsSaving(false)}
-            label="Enviar"
-          >
-            <StyledMdClear />
-          </button>
-        </aside>
-      </form>
+          <aside>
+            <button
+              type="submit"
+              onClick={() => setIsSaving(true)}
+              label="Enviar"
+            >
+              <StyledMdCheck />
+            </button>
+            <button
+              type="submit"
+              onClick={() => setIsSaving(false)}
+              label="Enviar"
+            >
+              <StyledMdClear />
+            </button>
+          </aside>
+        </form>
+      </FormContext>
     </Container>
   );
 }

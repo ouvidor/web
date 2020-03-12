@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, FormContext, Controller } from 'react-hook-form';
 import { CircleSpinner } from 'react-spinners-kit';
 import { MdSearch } from 'react-icons/md';
 import PropTypes from 'prop-types';
@@ -15,7 +15,7 @@ import { searchManifestationsSchema } from '../../validations';
 export default function SearchManifestationsForm({ setSearchData, loading }) {
   const [options, setOptions] = useState([]);
 
-  const { register, control, handleSubmit, errors } = useForm({
+  const form = useForm({
     validationSchema: searchManifestationsSchema,
   });
 
@@ -62,32 +62,27 @@ export default function SearchManifestationsForm({ setSearchData, loading }) {
   }
 
   return (
-    <StyledForm onSubmit={handleSubmit(handleSubmitClick)}>
-      <TextInputContainer>
-        <Field
-          name="text"
-          type="text"
-          placeholder="Protocolo ou título"
-          register={register}
-          errors={errors}
-        />
-        <button type="submit">
-          {loading ? (
-            <CircleSpinner size={15} color="rgba(255, 255, 255, 0.6)" />
-          ) : (
-            <MdSearch />
-          )}
-        </button>
-      </TextInputContainer>
+    <FormContext {...form}>
+      <StyledForm onSubmit={form.handleSubmit(handleSubmitClick)}>
+        <TextInputContainer>
+          <Field name="text" placeholder="Protocolo ou título" />
 
-      <Controller
-        as={<Select multiple multipleTypes />}
-        options={options}
-        name="selections"
-        control={control}
-        errors={errors}
-      />
-    </StyledForm>
+          <button type="submit">
+            {loading ? (
+              <CircleSpinner size={15} color="rgba(255, 255, 255, 0.6)" />
+            ) : (
+              <MdSearch />
+            )}
+          </button>
+        </TextInputContainer>
+        <Controller
+          as={<Select multiple options={options} />}
+          control={form.control}
+          name="selections"
+          placeholder="Filtros"
+        />
+      </StyledForm>
+    </FormContext>
   );
 }
 

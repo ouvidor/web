@@ -1,30 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useForm } from 'react-hook-form';
+import { useForm, FormContext } from 'react-hook-form';
 
 import Field from '../Form/Field';
 import { StyledForm } from './styles';
 import { searchByProtocolSchema } from '../../validations';
 
 const SearchManifestationByProtocol = ({ handleFetch, label }) => {
-  const { register, handleSubmit, errors } = useForm({
+  const form = useForm({
     validationSchema: searchByProtocolSchema,
   });
 
   return (
-    <>
+    <FormContext {...form}>
       <h1>{label}</h1>
-      <StyledForm onSubmit={handleSubmit(handleFetch)}>
+      <StyledForm onSubmit={form.handleSubmit(handleFetch)}>
         <Field
           placeholder="Exemplo: k6f7ju38"
           name="protocol"
           label="Protocolo"
-          register={register}
-          errors={errors}
         />
         <button type="submit">Buscar</button>
       </StyledForm>
-    </>
+    </FormContext>
   );
 };
 
