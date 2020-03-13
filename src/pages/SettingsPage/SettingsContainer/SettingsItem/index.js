@@ -17,6 +17,7 @@ export default function SettingsItem({
 
   const form = useForm({
     validationSchema: settingsSchema,
+    defaultValues: item || undefined,
   });
 
   function onSubmit(data) {

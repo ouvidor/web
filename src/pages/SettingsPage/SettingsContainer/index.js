@@ -75,7 +75,6 @@ export default function SettingsContainer({
       setError(true);
       return;
     }
-
     setItems(data);
     setLoading(false);
     setError(false);
