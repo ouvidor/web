@@ -11,16 +11,14 @@ import Tag from '../../components/Tag';
 import Select from '../../components/Form/Select';
 import Field from '../../components/Form/Field';
 import SearchManifestationByProtocol from '../../components/SearchManifestationByProtocol';
+import StatusHistoryList from './StatusHistoryList';
 import { Background } from '../../styles';
 import {
   GridContainer,
   TagList,
   ManifestationContainer,
   StatusContainer,
-  HistoryContainer,
-  Scroll,
 } from './styles';
-import StatusCard from './StatusCard';
 
 export default function StatusPage({ match, history }) {
   const { id } = match.params;
@@ -89,7 +87,7 @@ export default function StatusPage({ match, history }) {
     search(data.protocol);
   }
 
-  function handleCreate() {
+  function handleStatusCreate() {
     form.reset();
     setEditing(false);
     setSelectedId(null);
@@ -184,31 +182,12 @@ export default function StatusPage({ match, history }) {
               </footer>
             </form>
           </StatusContainer>
-
-          <HistoryContainer>
-            <button type="button" onClick={handleCreate}>
-              Adicionar novo status à manifestação
-            </button>
-            <Scroll>
-              <ul>
-                {statusHistory &&
-                  statusHistory.map(ms => (
-                    <StatusCard
-                      key={ms.id}
-                      manifestationStatus={ms}
-                      onClick={() => {
-                        setEditing(true);
-                        setSelectedId(ms.id);
-                        form.setValue([
-                          { status: ms.status },
-                          { description: ms.description },
-                        ]);
-                      }}
-                    />
-                  ))}
-              </ul>
-            </Scroll>
-          </HistoryContainer>
+          <StatusHistoryList
+            onNewStatusClick={handleStatusCreate}
+            statusHistory={statusHistory}
+            setEditing={setEditing}
+            setSelectedId={setSelectedId}
+          />
         </FormContext>
       </GridContainer>
     </Background>
