@@ -32,7 +32,6 @@ export default function MapPage() {
   // callback memoizado
   const fetchManifestations = useCallback(
     async setLoad => {
-      console.log(searchData);
       setLoad(true);
 
       try {
@@ -53,18 +52,13 @@ export default function MapPage() {
   );
 
   useEffect(() => {
-    // console.log('searchData, page, prevPage, prevSearchData');
-    // console.log(searchData, page, prevPage, prevSearchData);
-    // console.log('==========================================');
     if (prevPage !== page) {
       fetchManifestations(setLoadingPage);
-      console.log('PESQUISA EXECUTADA POR MUDANÇA DE PÁGINA');
       return;
     }
     if (prevSearchData !== searchData) {
       setPage(1);
       fetchManifestations(setLoading);
-      console.log('PESQUISA EXECUTADA POR FILTRO');
     }
   }, [fetchManifestations, searchData, page, prevPage, prevSearchData]);
 

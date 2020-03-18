@@ -57,6 +57,7 @@ export default function RecentsPage() {
   useEffect(() => {
     if (prevPage !== page) {
       fetchManifestations(setLoadingPage);
+      return;
     }
     if (prevSearchData !== searchData) {
       setPage(1);
