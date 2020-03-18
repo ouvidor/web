@@ -23,8 +23,8 @@ export default function SearchManifestationsForm({ setSearchData, loading }) {
   useEffect(() => {
     const loadOptions = async () => {
       try {
-        const types = await Api.get({ pathUrl: 'type' });
-        const categories = await Api.get({ pathUrl: 'category' });
+        const types = await Api.get({ pathUrl: 'type', error: false });
+        const categories = await Api.get({ pathUrl: 'category', error: false });
         // Gera IDs randomicos seguros para não conflitarem entre si
         const typesWithRandomId = types.map(type => ({
           title: type.title,

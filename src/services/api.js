@@ -27,14 +27,16 @@ class Api {
     this.api.defaults.headers.Authorization = `Bearer ${token}`;
   }
 
-  get({ params, pathUrl }) {
+  get({ params, pathUrl, error = true }) {
     return this.api
       .get(pathUrl, { params })
       .then(response => {
         return response.data;
       })
-      .catch(error => {
-        toast.error(getErrorMessage(error.response));
+      .catch(err => {
+        if (error === true) {
+          toast.error(getErrorMessage(err.response));
+        }
       });
   }
 

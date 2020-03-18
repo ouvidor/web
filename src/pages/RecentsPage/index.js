@@ -42,6 +42,7 @@ export default function RecentsPage() {
         const data = await Api.get({
           pathUrl: 'manifestation',
           params: { ...searchData, page, isRead: 0 },
+          error: false,
         });
 
         setManifestations(data.rows);

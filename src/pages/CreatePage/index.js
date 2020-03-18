@@ -20,8 +20,24 @@ export default function CreatePage() {
 
   useEffect(() => {
     const loadOptions = async () => {
-      setTypes(await Api.get({ pathUrl: 'type' }));
-      setCategories(await Api.get({ pathUrl: 'category' }));
+      try {
+        const typesResult = await Api.get({ pathUrl: 'type', error: false });
+        const categoriesResult = await Api.get({
+          pathUrl: 'category',
+          error: false,
+        });
+
+        if (!typesResult || !categoriesResult) {
+          throw Error;
+        }
+
+        setTypes(typesResult);
+        setCategories(categoriesResult);
+      } catch (err) {
+        toast.error(
+          'Não pôde pegar as opções de categorias e tipos de manifestações'
+        );
+      }
     };
     loadOptions();
   }, []);

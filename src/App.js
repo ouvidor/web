@@ -22,7 +22,7 @@ function App() {
       <Router history={history}>
         <GlobalStyle />
         <Routes />
-        <ToastContainer autoClose={3000} hideProgressBar={false} />
+        <ToastContainer autoClose={9000} hideProgressBar={false} />
       </Router>
     </SessionContextProvider>
   );

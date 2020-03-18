@@ -39,6 +39,7 @@ export default function MapPage() {
         const data = await Api.get({
           pathUrl: 'manifestation',
           params: { ...searchData, page },
+          error: false,
         });
 
         setManifestations(data.rows);

@@ -40,3 +40,29 @@ export const Container = styled.div`
     }
   }
 `;
+
+const StateContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const LoadingContainer = styled(StateContainer)`
+  svg {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
+export const ErrorContainer = styled(StateContainer)`
+  svg {
+    color: #c44543;
+    width: 24px;
+    height: 24px;
+  }
+
+  span {
+    font-size: 18px;
+    color: #c44543;
+  }
+`;

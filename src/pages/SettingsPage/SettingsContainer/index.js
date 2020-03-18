@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import { CircleSpinner } from 'react-spinners-kit';
 import { MdClear } from 'react-icons/md';
 import { GoChevronDown, GoChevronUp } from 'react-icons/go';
-import { Container } from './styles';
+import { Container, ErrorContainer, LoadingContainer } from './styles';
 import SettingsItem from './SettingsItem';
 import Api from '../../../services/api';
 
@@ -68,7 +68,7 @@ export default function SettingsContainer({
     setLoading(true);
     setError(false);
 
-    const data = await Api.get({ pathUrl: url });
+    const data = await Api.get({ pathUrl: url, error: false });
 
     if (!data) {
       setLoading(false);
@@ -95,13 +95,17 @@ export default function SettingsContainer({
       {isOpen && (
         <div>
           {error && (
-            <div>
+            <ErrorContainer>
               <MdClear />
-              Não conseguiu ter acesso
-            </div>
+              <span>Não pôde se conectar</span>
+            </ErrorContainer>
           )}
-          {loading && <CircleSpinner color="#000" />}
-          {!loading && (
+          {loading && (
+            <LoadingContainer>
+              <CircleSpinner color="#000" />
+            </LoadingContainer>
+          )}
+          {!loading && !error && (
             <ul>
               <SettingsItem
                 email={email}
