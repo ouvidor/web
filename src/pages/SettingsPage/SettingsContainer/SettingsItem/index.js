@@ -20,12 +20,12 @@ export default function SettingsItem({
     defaultValues: item || undefined,
   });
 
-  function onSubmit(data) {
+  function onClickSubmit(data) {
     // botao de limpar
     if (!item && !isSaving) {
       form.reset();
     } else {
-      submitChange(data, isSaving);
+      submitChange({ ...data, id: item.id }, isSaving);
       if (!item) {
         form.reset();
       }
@@ -35,7 +35,7 @@ export default function SettingsItem({
   return (
     <Container key={item && item.id}>
       <FormContext {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
+        <form onSubmit={form.handleSubmit(onClickSubmit)}>
           <Field name="title" placeholder={placeholder} />
           {email && <Field name="email" placeholder="um@email.com" />}
 
