@@ -21,7 +21,7 @@ export default function Omdusman({ ombudsman }) {
         attendance={ombudsman.attendance || ''}
       />
 
-      <InfoForm submit={submitSavedChanges} />
+      <InfoForm title="ouvidoria" submit={submitSavedChanges} />
     </OmbudsmanContainer>
   );
 }

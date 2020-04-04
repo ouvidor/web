@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Section } from './styles';
 import Field from '../../components/Form/Field';
 
-export default function InfoForm({ submit }) {
+export default function InfoForm({ submit, title }) {
   const form = useForm();
 
   function handleSubmit(data) {
@@ -14,14 +14,10 @@ export default function InfoForm({ submit }) {
 
   return (
     <Section>
-      <h1>Edite os dados da prefeitura</h1>
+      <h1>Edite os dados da {title}</h1>
       <FormContext {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)}>
-          <Field
-            name="site"
-            label="Site oficial"
-            placeholder="www.prefeitura.com/ouvidoria"
-          />
+          <Field name="site" label="Site oficial" placeholder="www.site.com" />
           <Field name="location" label="Local" placeholder="Centro da cidade" />
           <Field name="email" label="Email" placeholder="email" />
           <Field
@@ -43,5 +39,6 @@ export default function InfoForm({ submit }) {
 }
 
 InfoForm.propTypes = {
+  title: PropTypes.string.isRequired,
   submit: PropTypes.func.isRequired,
 };

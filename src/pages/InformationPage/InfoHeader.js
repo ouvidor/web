@@ -8,6 +8,7 @@ export default function InfoHeader({
   location,
   telephone,
   email,
+  site,
   attendance,
 }) {
   return (
@@ -22,6 +23,8 @@ export default function InfoHeader({
           <br />
           <p>Email:</p> <span>{email}</span>
           <br />
+          <p>Site:</p> <span>{site}</span>
+          <br />
           <p>Horario de atendimento:</p> <span>{attendance}</span>
         </div>
       </section>
@@ -34,5 +37,6 @@ InfoHeader.propTypes = {
   location: PropTypes.string.isRequired,
   telephone: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
+  site: PropTypes.string.isRequired,
   attendance: PropTypes.string.isRequired,
 };

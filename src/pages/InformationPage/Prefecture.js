@@ -21,7 +21,7 @@ export default function Prefecture({ prefecture }) {
         attendance={prefecture.attendance || ''}
       />
 
-      <InfoForm submit={submitSavedChanges} />
+      <InfoForm title="prefeitura" submit={submitSavedChanges} />
     </PrefectureContainer>
   );
 }
