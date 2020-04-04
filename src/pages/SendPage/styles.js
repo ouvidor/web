@@ -16,11 +16,6 @@ export const Container = styled.div`
       border: none;
       display: flex;
       align-items: center;
-
-      svg {
-        width: 20px;
-        height: 20px;
-      }
     }
   }
 

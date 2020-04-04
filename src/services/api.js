@@ -13,7 +13,11 @@ function getErrorMessage(errorResponse) {
   )
     return 'Erro inesperado!';
 
-  return errorResponse.data.error;
+  if (typeof errorResponse.data.error === 'string') {
+    return errorResponse.data.error;
+  }
+
+  return 'Erro na aplicação, por favor informe ao suporte!';
 }
 
 class Api {

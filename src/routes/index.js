@@ -22,6 +22,7 @@ import SendPage from '../pages/SendPage';
 import StatusPage from '../pages/StatusPage';
 import SettingsPage from '../pages/SettingsPage';
 import ProfilePage from '../pages/ProfilePage';
+import InformationPage from '../pages/InformationPage';
 
 export default function Routes() {
   return (
@@ -34,6 +35,7 @@ export default function Routes() {
       <AuthRoute path="/send/:id?" isPrivate component={SendPage} />
       <AuthRoute path="/status/:id?" isPrivate component={StatusPage} />
       <AuthRoute path="/settings" isSuperPrivate component={SettingsPage} />
+      <AuthRoute path="/public-info" isPrivate component={InformationPage} />
       <AuthRoute path="/profile" isPrivate component={ProfilePage} />
 
       <Route render={() => <Redirect pathname="/" />} />

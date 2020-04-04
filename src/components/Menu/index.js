@@ -15,6 +15,7 @@ import {
   MdMore,
   MdSettings,
   MdFace,
+  MdAccountBalance,
 } from 'react-icons/md';
 import decodeJWT from 'jwt-decode';
 
@@ -53,6 +54,7 @@ export default function Menu({ isAdminMasterState }) {
         {isAdminMaster && <CustomLink to="/settings" Icon={MdSettings} />}
       </ul>
       <ul>
+        <CustomLink to="/public-info" Icon={MdAccountBalance} />
         <CustomLink to="/profile" Icon={MdFace} />
       </ul>
     </Container>

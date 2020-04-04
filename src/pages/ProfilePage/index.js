@@ -16,7 +16,7 @@ import {
 
 export default function ProfilePage() {
   const [isEditOpen, setEditOpen] = useState(false);
-  const [members, setMembers] = useState([
+  const [members] = useState([
     { id: 1, first_name: 'Agostinho' },
     { id: 2, first_name: 'Agostinho' },
     { id: 3, first_name: 'Agostinho' },
