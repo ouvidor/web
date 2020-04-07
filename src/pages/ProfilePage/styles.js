@@ -1,6 +1,25 @@
 import styled from 'styled-components';
 import PerfectScrollBar from 'react-perfect-scrollbar';
 
+export const NavBar = styled.nav`
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 16px;
+
+  a {
+    padding: 0 10px;
+    color: #000;
+    font-size: 18px;
+  }
+
+  a:visited {
+    color: #000;
+  }
+`;
+
 const Container = styled.div`
   padding: 10px 20px;
   background: #fff;

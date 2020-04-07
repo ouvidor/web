@@ -1,78 +1,49 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
+import decodeJWT from 'jwt-decode';
+import { Switch, Route, Link, useRouteMatch } from 'react-router-dom';
 
-import EditProfileForm from './EditProfileForm';
-import SearchForm from './SearchForm';
 import { SessionContext } from '../../store/session';
 import { Background } from '../../styles';
-import {
-  BoxesContainer,
-  UserContainer,
-  ProfileContainer,
-  EditProfileContainer,
-  MembersContainer,
-  SearchContainer,
-  Scroll,
-} from './styles';
+import { NavBar } from './styles';
+import ProfileSection from './Profile';
 
 export default function ProfilePage() {
-  const [isEditOpen, setEditOpen] = useState(false);
-  const [members] = useState([
-    { id: 1, first_name: 'Agostinho' },
-    { id: 2, first_name: 'Agostinho' },
-    { id: 3, first_name: 'Agostinho' },
-    { id: 4, first_name: 'Agostinho' },
-    { id: 5, first_name: 'Agostinho' },
-    { id: 6, first_name: 'Agostinho' },
-    { id: 7, first_name: 'Agostinho' },
-    { id: 8, first_name: 'Agostinho' },
-    { id: 9, first_name: 'Agostinho' },
-    { id: 10, first_name: 'Agostinho' },
-    { id: 11, first_name: 'Agostinho' },
-    { id: 12, first_name: 'Agostinho' },
-    { id: 13, first_name: 'Agostinho' },
-    { id: 14, first_name: 'Agostinho' },
-  ]);
+  const { path, url } = useRouteMatch();
 
+  /**
+   * Pega o token e o perfil e checa se o usuário é um admin master
+   */
   const { session } = useContext(SessionContext);
-  const { profile } = session;
+  const { token, profile } = session;
+  const tokenPayload = token && decodeJWT(token);
+  const role = tokenPayload && tokenPayload.role[0];
+  const isAdminMaster = role && role.title === 'master';
 
   return (
     <Background>
-      <h1>Perfil</h1>
+      <NavBar>
+        <Link to={url}>Meu perfil</Link>
+        <Link to={`${url}/edit`}>Editar meu perfil</Link>
+        <Link to={`${url}/admins`}>Visualizar administradores</Link>
+        {isAdminMaster && (
+          <Link to={`${url}/new_admin`}>Novo adminstrador</Link>
+        )}
+      </NavBar>
 
-      <BoxesContainer>
-        <UserContainer>
-          <ProfileContainer>
-            <p>
-              {profile.first_name} {profile.last_name}
-            </p>
-            <span>{profile.email}</span>
-            <span>{profile.role.map(role => role.title)}</span>
-            <button type="button" onClick={() => setEditOpen(!isEditOpen)}>
-              Editar perfil
-            </button>
-          </ProfileContainer>
-          {isEditOpen && (
-            <EditProfileContainer>
-              <EditProfileForm profile={profile} />
-            </EditProfileContainer>
-          )}
-        </UserContainer>
-
-        <MembersContainer>
-          <Scroll>
-            <ul>
-              {members.map(member => (
-                <li key={member.id}>{member.first_name}</li>
-              ))}
-            </ul>
-          </Scroll>
-        </MembersContainer>
-
-        <SearchContainer>
-          <SearchForm />
-        </SearchContainer>
-      </BoxesContainer>
+      <Switch>
+        <Route exact path={path}>
+          <ProfileSection profile={profile} />
+        </Route>
+        <Route path={`${path}/edit`}>
+          <div>Editar perfil</div>
+        </Route>
+        <Route path={`${path}/admins`}>
+          <div>Visualizando admins cadastrados</div>
+        </Route>
+        <Route path={`${path}/new_admin`}>
+          <div>Chame uma nova pessoa para fazer parte do time de admins</div>
+        </Route>
+      </Switch>
     </Background>
   );
 }
