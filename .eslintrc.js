@@ -1,46 +1,58 @@
+//***********************************************************
+// * 0 = off | 1 = warn | 2 = error
+//***********************************************************
+
 module.exports = {
+  parser: "@typescript-eslint/parser", // Specifies the ESLint parser
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier",
+    "plugin:import/typescript",
+  ],
+  settings: {
+    react: {
+      version: "detect",
+    },
+  },
   env: {
     browser: true,
+    node: true,
     es6: true,
-    jest: true,
   },
-  extends: ['airbnb', 'prettier', 'prettier/react'],
-  globals: {
-    Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly',
-  },
+  plugins: [
+    "@typescript-eslint",
+    "react",
+    "immutable",
+    "jsx-a11y",
+    "react-hooks",
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: 2018,
-    sourceType: 'module',
+    ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
+    sourceType: "module", // Allows for the use of imports
   },
-  plugins: ['react', 'prettier', 'react-hooks', 'jsx-a11y'],
   rules: {
-    'prettier/prettier': 'error',
-    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
-    'import/prefer-default-export': 'off',
-
-    // remove um erro no storybook
-    'import/no-extraneous-dependencies': 0,
-
-    // permitir props-spreading, utilizado no routes/Route.js
-    'react/jsx-props-no-spreading': 'off',
-
-    // ignora autoFocus em input, eu tenho um bom motivo
-    'jsx-a11y/no-autofocus': 'off',
-
-    // ignora o estilo de quebra de linha, unix ou windows
-    'linebreak-style': 0,
+    "prettier/prettier": 1,
+    "react/prop-types": "off", // Disable prop-types as we use TypeScript for type checking
+    "@typescript-eslint/explicit-function-return-type": "off",
 
     // aceita outros padrões além de camelCase
-    'camelcase': [2, {"ignoreDestructuring": true, "properties": "never"}],
-
-    // aceitar ++
-    'no-plusplus': 'off',
-
-    // aceitar sobrescrever um parâmetro
-    "no-param-reassign": 'off'
+    '@typescript-eslint/camelcase': [2, {"ignoreDestructuring": true, "properties": "never"}],
   },
+  overrides: [
+    // Override some TypeScript rules just for .js files
+    {
+      files: ["*.js"],
+      rules: {
+        "@typescript-eslint/no-var-requires": "off", //
+      },
+    },
+  ],
 };
