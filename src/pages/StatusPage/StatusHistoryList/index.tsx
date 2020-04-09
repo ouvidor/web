@@ -8,7 +8,7 @@ type Props = {
   onNewStatusClick(): void
   statusHistory: IManifestationStatus[]
   setEditing(isEditing: boolean): void
-  setSelectedId(id: number): void
+  setSelectedId(id?: number): void
 }
 
 export default function StatusHistoryList({

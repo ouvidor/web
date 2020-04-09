@@ -43,7 +43,7 @@ export default function StatusPage({
   const [manifestation, setManifestation] = useState<FormattedManifestation>()
   const [statusHistory, setStatusHistory] = useState<IManifestationStatus[]>([])
   const [statusOptions, setStatusOptions] = useState<ISelectOption[]>([])
-  const [selectedId, setSelectedId] = useState(null)
+  const [selectedId, setSelectedId] = useState<number>()
   const [isEditing, setEditing] = useState(false)
 
   const form = useForm<CreateManifestationStatusFormProps>()
@@ -112,7 +112,7 @@ export default function StatusPage({
   function handleStatusCreate() {
     form.reset()
     setEditing(false)
-    setSelectedId(null)
+    setSelectedId(undefined)
   }
 
   async function onSubmit(data: CreateManifestationStatusFormProps) {

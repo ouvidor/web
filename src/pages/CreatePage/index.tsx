@@ -21,7 +21,7 @@ type CreateManifestationFormData = {
   type: SelectItem
   categories: SelectItem[]
   location: string
-  files: FileList
+  files?: FileList
 }
 
 export default function CreatePage() {
@@ -90,17 +90,20 @@ export default function CreatePage() {
      * UPLOAD DE ARQUIVOS
      * O UPLOAD DEVERA SER POR ULTIMO
      */
-    const formData = new FormData()
-    Array.from(data.files).forEach((file) => {
-      formData.append("file", file)
-      formData.append("manifestation_id", manifestation.id.toString())
-    })
+    if (data.files && data.files.length > 0) {
+      const formData = new FormData()
+      Array.from(data.files).forEach((file) => {
+        formData.append("file", file)
+        formData.append("manifestation_id", manifestation.id.toString())
+      })
 
-    const files = await Api.post<IFile[]>({ pathUrl: "/files", data: formData })
-
-    if (!files || !files[0].id) {
-      toast.error("Envio de arquivo falhou inesperadamente")
-      return
+      const files = await Api.post<IFile[]>({
+        pathUrl: "/files",
+        data: formData,
+      })
+      if (!files || files.length === 0) {
+        toast.error("Envio de arquivo falhou inesperadamente")
+      }
     }
   }
 
