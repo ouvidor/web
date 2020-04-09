@@ -1,6 +1,6 @@
-import { createGlobalStyle } from 'styled-components';
-import 'react-toastify/dist/ReactToastify.css';
-import 'react-perfect-scrollbar/dist/css/styles.css';
+import { createGlobalStyle } from "styled-components"
+import "react-toastify/dist/ReactToastify.css"
+import "react-perfect-scrollbar/dist/css/styles.css"
 
 export default createGlobalStyle`
   * {
@@ -33,4 +33,4 @@ export default createGlobalStyle`
   button {
     cursor: pointer;
   }
-`;
+`
