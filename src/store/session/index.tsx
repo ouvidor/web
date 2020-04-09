@@ -6,17 +6,20 @@ import Api from "../../services/api"
 
 export type Provided = {
   session: IStore
-  dispatch?: React.Dispatch<Action>
+  dispatch: React.Dispatch<Action>
 }
 
 const initialState: IStore = {
-  token: undefined,
+  token: "",
   isSigned: false,
   profile: undefined,
 }
 
 // contêm o provider e o consumer, essencial para o uso do estado global
-export const SessionContext = createContext<Provided>({ session: initialState })
+export const SessionContext = createContext<Provided>({
+  session: initialState,
+  dispatch: () => null,
+})
 
 const SessionContextProvider: React.FC = ({ children }) => {
   const [session, dispatch] = useReducer(sessionReducer, initialState, () => {

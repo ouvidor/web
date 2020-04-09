@@ -21,6 +21,6 @@ export function signIn({ token, profile }: SignInProps): Action {
 }
 
 // logout
-export function signOut() {
+export function signOut(): Action {
   return { type: "SIGN_OUT" }
 }

@@ -17,7 +17,7 @@ export default function auth(state: IStore, action: Action): IStore {
 
     case "SIGN_OUT":
       // retira o token, o perfil e marca o admin como deslogado
-      return { token: undefined, isSigned: false, profile: undefined }
+      return { token: "", isSigned: false, profile: undefined }
 
     default:
       return state
