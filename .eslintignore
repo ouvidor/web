@@ -1,0 +1,11 @@
+node_modules/*
+@types
+__mocks__
+__tests__
+
+loadershim.ts
+
+jest*.js
+jest*.ts
+*.test.*
+*.spec.*
