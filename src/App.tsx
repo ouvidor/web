@@ -5,16 +5,16 @@
  * contextApi para estado global da aplicação
  */
 
-import React from 'react';
-import { Router } from 'react-router-dom';
-import { ToastContainer } from 'react-toastify';
+import React from "react"
+import { Router } from "react-router-dom"
+import { ToastContainer } from "react-toastify"
 
-import GlobalStyle from './styles/global';
-import Routes from './routes';
-import SessionContextProvider from './store/session';
+import GlobalStyle from "./styles/global"
+import Routes from "./routes"
+import SessionContextProvider from "./store/session"
 
 // react-router-dom ouvirá por mudanças que acontecerem no history
-import history from './services/history';
+import history from "./services/history"
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
         <ToastContainer autoClose={9000} hideProgressBar={false} />
       </Router>
     </SessionContextProvider>
-  );
+  )
 }
 
-export default App;
+export default App
