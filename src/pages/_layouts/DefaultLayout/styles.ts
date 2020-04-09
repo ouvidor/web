@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const Wrapper = styled.div`
   height: 100%;
@@ -6,4 +6,4 @@ export const Wrapper = styled.div`
   background: #0b76da;
   display: flex;
   padding-left: 68px;
-`;
+`

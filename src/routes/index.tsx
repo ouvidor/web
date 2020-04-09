@@ -6,23 +6,23 @@
  * Route: rota normal, permite a prop render
  */
 
-import React from 'react';
-import { Switch, Redirect, Route } from 'react-router-dom';
+import React from "react"
+import { Switch, Redirect, Route } from "react-router-dom"
 
 // rota customizada para controle de rotas privadas
-import AuthRoute from './Route';
+import AuthRoute from "./Route"
 
 // páginas
-import LoginPage from '../pages/LoginPage';
-import MapPage from '../pages/MapPage';
-import RecentsPage from '../pages/RecentsPage';
-import CreatePage from '../pages/CreatePage';
-import StatisticsPage from '../pages/StatisticsPage';
-import SendPage from '../pages/SendPage';
-import StatusPage from '../pages/StatusPage';
-import SettingsPage from '../pages/SettingsPage';
-import ProfilePage from '../pages/ProfilePage';
-import InformationPage from '../pages/InformationPage';
+import LoginPage from "../pages/LoginPage"
+import MapPage from "../pages/MapPage"
+import RecentsPage from "../pages/RecentsPage"
+import CreatePage from "../pages/CreatePage"
+import StatisticsPage from "../pages/StatisticsPage"
+import SendPage from "../pages/SendPage"
+import StatusPage from "../pages/StatusPage"
+import SettingsPage from "../pages/SettingsPage"
+import ProfilePage from "../pages/ProfilePage"
+import InformationPage from "../pages/InformationPage"
 
 export default function Routes() {
   return (
@@ -38,7 +38,7 @@ export default function Routes() {
       <AuthRoute path="/public-info" isPrivate component={InformationPage} />
       <AuthRoute path="/profile" isPrivate component={ProfilePage} />
 
-      <Route render={() => <Redirect pathname="/" />} />
+      <Route render={() => <Redirect to="/" />} />
     </Switch>
-  );
+  )
 }
