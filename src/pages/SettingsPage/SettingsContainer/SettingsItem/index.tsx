@@ -6,7 +6,7 @@ import { Container, StyledMdCheck, StyledMdClear } from "./styles"
 import { settingsSchema } from "../../../../validations"
 
 export type SubmittedData = SettingFormData & {
-  id: number
+  id?: number
 }
 
 export type SettingFormData = {

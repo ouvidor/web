@@ -31,7 +31,7 @@ export default function SettingsContainer({
 
   async function handleSubmit(data: SubmittedData, isSaving: boolean) {
     // excluindo item
-    if (!isSaving) {
+    if (!isSaving && data.id) {
       const responseData = await Api.delete<IGenericItem>({
         pathUrl: `${urlPath}/${data.id}`,
       })
