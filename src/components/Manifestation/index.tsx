@@ -1,17 +1,26 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
-import { MdAttachFile, MdDateRange, MdLocationOn } from 'react-icons/md';
-import { IoMdMove } from 'react-icons/io';
-import { format, parseISO } from 'date-fns';
-import pt from 'date-fns/locale/pt';
-import Draggable from 'react-draggable';
+import React from "react"
+import { useHistory } from "react-router-dom"
+import { MdAttachFile, MdDateRange, MdLocationOn } from "react-icons/md"
+import { IoMdMove } from "react-icons/io"
+import { format, parseISO } from "date-fns"
+import pt from "date-fns/locale/pt"
+import Draggable from "react-draggable"
 
-import Tag from '../Tag';
-import { Container, Header, DetailsContainer, Footer, TagList } from './styles';
+import Tag from "../Tag"
+import { Container, Header, DetailsContainer, Footer, TagList } from "./styles"
 
-export default function Manifestation({ manifestation, draggable, pos }) {
-  const history = useHistory();
+type Props = {
+  manifestation: IManifestation
+  draggable?: boolean
+  pos?: number
+}
+
+export default function Manifestation({
+  manifestation,
+  draggable = false,
+  pos = 0,
+}: Props) {
+  const history = useHistory()
 
   const {
     id,
@@ -22,24 +31,26 @@ export default function Manifestation({ manifestation, draggable, pos }) {
     date,
     location,
     protocol,
-  } = manifestation;
+  } = manifestation
 
-  const tags = [...categories, type];
+  const tags = [...categories, type]
 
   const formattedDate =
     date &&
     format(parseISO(date), "dd 'de' MMMM 'de' yyyy", {
       locale: pt,
-    });
+    })
 
-  function openAttached() {}
+  function openAttached() {
+    console.log("openAttached")
+  }
 
   function handleSend() {
-    history.push(`/send/${id}`);
+    history.push(`/send/${id}`)
   }
 
   function handleStatus() {
-    history.push(`/status/${id}`);
+    history.push(`/status/${id}`)
   }
 
   return (
@@ -55,7 +66,7 @@ export default function Manifestation({ manifestation, draggable, pos }) {
 
           <section>
             <TagList>
-              {tags && tags.map(tag => <Tag key={tag.title} tag={tag} />)}
+              {tags && tags.map((tag) => <Tag key={tag.title} tag={tag} />)}
             </TagList>
 
             <button type="button" onClick={openAttached}>
@@ -93,30 +104,5 @@ export default function Manifestation({ manifestation, draggable, pos }) {
         </Footer>
       </Container>
     </Draggable>
-  );
+  )
 }
-
-Manifestation.propTypes = {
-  pos: PropTypes.number,
-  draggable: PropTypes.bool,
-  manifestation: PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-    description: PropTypes.string,
-    categories: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number,
-        title: PropTypes.string,
-      })
-    ),
-    type: PropTypes.shape({
-      id: PropTypes.number,
-      title: PropTypes.string,
-    }),
-    date: PropTypes.string,
-    location: PropTypes.string,
-    protocol: PropTypes.string,
-  }).isRequired,
-};
-
-Manifestation.defaultProps = { draggable: false, pos: 0 };

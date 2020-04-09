@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const Container = styled.div`
   display: flex;
@@ -17,7 +17,7 @@ export const Container = styled.div`
   &:hover {
     border: 2px solid #ddd;
   }
-`;
+`
 
 export const Header = styled.header`
   > div {
@@ -68,7 +68,7 @@ export const Header = styled.header`
       pointer-events: all;
     }
   }
-`;
+`
 
 export const TagList = styled.ul`
   width: 100%;
@@ -80,7 +80,7 @@ export const TagList = styled.ul`
   span {
     font-size: 12px;
   }
-`;
+`
 
 export const DetailsContainer = styled.div`
   p {
@@ -100,7 +100,7 @@ export const DetailsContainer = styled.div`
       margin-top: 5px;
     }
   }
-`;
+`
 
 export const Footer = styled.footer`
   display: flex;
@@ -126,4 +126,4 @@ export const Footer = styled.footer`
       margin-left: 10px;
     }
   }
-`;
+`

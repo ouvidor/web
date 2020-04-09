@@ -1,11 +1,11 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const Container = styled.li`
   padding: 2px 5px;
   background: #eee;
   border: 1px solid #ddd;
   border-radius: 8px;
-  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
   font-size: 14px;
   color: rgba(0, 0, 0, 0.7);
   cursor: default;
@@ -49,4 +49,4 @@ export const Container = styled.li`
       }
     }
   }
-`;
+`

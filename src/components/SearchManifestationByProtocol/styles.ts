@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const StyledForm = styled.form`
   label {
@@ -37,4 +37,4 @@ export const StyledForm = styled.form`
       background: rgb(11, 118, 218, 0.4);
     }
   }
-`;
+`

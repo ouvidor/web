@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
-export const Container = styled.div``;
+export const Container = styled.div``
 
 export const InputLabel = styled.label`
   display: flex;
@@ -22,4 +22,4 @@ export const InputLabel = styled.label`
   p {
     padding: 10px;
   }
-`;
+`

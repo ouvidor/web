@@ -1,12 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import React from "react"
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api"
 
-import mapsConfig from '../../configs/map';
-import mapsStyle from '../../styles/map.json';
+import mapsConfig from "../../configs/map"
+import mapsStyle from "../../styles/map.json"
 
-function MapView({ items, selectItem }) {
-  const { apiKey, initialPlace } = mapsConfig;
+type Props = {
+  items: IManifestation[]
+  selectItem(item: IManifestation): void
+}
+
+function MapView({ items, selectItem }: Props) {
+  const { apiKey, initialPlace } = mapsConfig
 
   return (
     <LoadScript googleMapsApiKey={apiKey}>
@@ -15,8 +19,8 @@ function MapView({ items, selectItem }) {
         //   console.log(map);
         // }}
         mapContainerStyle={{
-          height: '100%',
-          width: '100%',
+          height: "100%",
+          width: "100%",
         }}
         zoom={initialPlace.zoom}
         center={{
@@ -25,7 +29,7 @@ function MapView({ items, selectItem }) {
         }}
         options={{ styles: mapsStyle }}
       >
-        {items.map(item => (
+        {items.map((item) => (
           <Marker
             key={item.id}
             position={{
@@ -37,12 +41,7 @@ function MapView({ items, selectItem }) {
         ))}
       </GoogleMap>
     </LoadScript>
-  );
+  )
 }
 
-MapView.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  selectItem: PropTypes.func.isRequired,
-};
-
-export default MapView;
+export default MapView

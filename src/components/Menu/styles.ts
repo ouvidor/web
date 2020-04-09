@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const Container = styled.div`
   background: #0b76da;
@@ -25,7 +25,7 @@ export const Container = styled.div`
     align-items: center;
     width: 100%;
   }
-`;
+`
 
 export const Item = styled.li`
   display: flex;
@@ -49,7 +49,7 @@ export const Item = styled.li`
     align-items: center;
     flex: 1;
   }
-`;
+`
 
 export const ActiveIndicator = styled.div`
   width: 10px;
@@ -68,4 +68,4 @@ export const ActiveIndicator = styled.div`
       left: 58px;
     }
   }
-`;
+`

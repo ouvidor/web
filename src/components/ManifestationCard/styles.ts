@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
-export const Container = styled.li`
+export const Container = styled.li<{ onClick: Function }>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -46,7 +46,7 @@ export const Container = styled.li`
       border-radius: 50%;
     }
   }
-`;
+`
 
 export const TagList = styled.ul`
   width: 100%;
@@ -60,4 +60,4 @@ export const TagList = styled.ul`
   span {
     font-size: 12px;
   }
-`;
+`

@@ -3,9 +3,8 @@
  * Usado para navegação, fica fixo no canto esquerdo da tela
  * Recebe o tipo do usuário e renderiza apenas as opções disponíveis a ele
  */
-import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useContext } from "react"
+import { Link, useLocation } from "react-router-dom"
 import {
   MdMap,
   MdVisibility,
@@ -16,14 +15,20 @@ import {
   MdSettings,
   MdFace,
   MdAccountBalance,
-} from 'react-icons/md';
-import decodeJWT from 'jwt-decode';
+} from "react-icons/md"
+import { IconType } from "react-icons"
+import decodeJWT from "jwt-decode"
 
-import { SessionContext } from '../../store/session';
-import { Container, Item, ActiveIndicator } from './styles';
+import { SessionContext } from "../../store/session"
+import { Container, Item, ActiveIndicator } from "./styles"
 
-function CustomLink({ to, Icon }) {
-  const { pathname } = useLocation();
+type Props = {
+  to: string
+  Icon: IconType
+}
+
+function CustomLink({ to, Icon }: Props) {
+  const { pathname } = useLocation()
   return (
     <Item>
       <Link to={to}>
@@ -31,16 +36,20 @@ function CustomLink({ to, Icon }) {
       </Link>
       {to === pathname && <ActiveIndicator />}
     </Item>
-  );
+  )
 }
 
-export default function Menu({ isAdminMasterState }) {
+export default function Menu() {
   // pega o token e checa a Role
-  const { session } = useContext(SessionContext);
-  const { token } = session;
-  const tokenPayload = token && decodeJWT(token);
-  const role = tokenPayload && tokenPayload.role[0];
-  const isAdminMaster = (role && role.title === 'master') || isAdminMasterState;
+  let isAdminMaster = false
+  const { session } = useContext(SessionContext)
+  const { token } = session
+  const tokenPayload = token && decodeJWT<IToken>(token)
+
+  if (tokenPayload) {
+    const role = tokenPayload?.role[0]
+    isAdminMaster = role?.title === "master"
+  }
 
   return (
     <Container>
@@ -58,13 +67,5 @@ export default function Menu({ isAdminMasterState }) {
         <CustomLink to="/profile" Icon={MdFace} />
       </ul>
     </Container>
-  );
+  )
 }
-
-Menu.propTypes = { isAdminMasterState: PropTypes.bool };
-Menu.defaultProps = { isAdminMasterState: false };
-
-CustomLink.propTypes = {
-  to: PropTypes.string.isRequired,
-  Icon: PropTypes.func.isRequired,
-};

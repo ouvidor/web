@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const StyledForm = styled.form`
   width: 100%;
   margin-bottom: 12px;
-`;
+`
 
 export const TextInputContainer = styled.div`
   display: flex;
@@ -50,4 +50,4 @@ export const TextInputContainer = styled.div`
       }
     }
   }
-`;
+`

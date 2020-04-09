@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components"
 
 export const ListContainer = styled.div`
   ul {
@@ -6,7 +6,7 @@ export const ListContainer = styled.div`
     display: flex;
     flex-flow: row wrap;
   }
-`;
+`
 
 export const ListItem = styled.li`
   margin: 5px;
@@ -42,4 +42,4 @@ export const ListItem = styled.li`
       text-align: center;
     }
   }
-`;
+`

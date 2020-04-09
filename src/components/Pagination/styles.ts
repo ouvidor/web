@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components"
 
 export const Container = styled.div`
   background-color: #fff;
@@ -18,9 +18,13 @@ export const Container = styled.div`
     user-select: none;
     color: #0b76da;
   }
-`;
+`
 
-export const Button = styled.button`
+type ButtonProps = {
+  blocked?: 1 | 0 | boolean
+}
+
+export const Button = styled.button<ButtonProps>`
   border: none;
   border-radius: 4px;
   height: 40px;
@@ -37,7 +41,7 @@ export const Button = styled.button`
     transition: all 0.1s;
   }
 
-  ${props =>
+  ${(props) =>
     props.blocked
       ? css`
           cursor: not-allowed;
@@ -50,4 +54,4 @@ export const Button = styled.button`
             }
           }
         `}
-`;
+`
