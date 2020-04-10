@@ -1,4 +1,4 @@
-import { object, string, number, array, StringSchema } from "yup"
+import { object, string, number, array, lazy, StringSchema } from "yup"
 
 export const createManifestationSchema = object().shape({
   title: string().required("O título é necessário"),
@@ -7,11 +7,11 @@ export const createManifestationSchema = object().shape({
     .required("A descrição é necessária"),
   // apenas o id
   categories: array()
-    .of(object().shape({ id: number(), title: string() }))
+    .of(object().shape({ value: number(), label: string() }))
     .required("A categoria é necessária")
     .nullable(),
   type: object()
-    .shape({ id: number(), title: string() })
+    .shape({ value: number(), label: string() })
     .required("O tipo é necessário")
     .nullable(),
   location: string(),
@@ -47,5 +47,14 @@ export const searchByProtocolSchema = object().shape({
 
 export const searchManifestationsSchema = object().shape({
   text: string(),
-  options: array().of(string()).nullable(),
+  selections: array()
+    .of(
+      object().shape({
+        label: string().required(),
+        value: lazy((value) =>
+          typeof value === "number" ? number().required() : string().required()
+        ),
+      })
+    )
+    .nullable(),
 })
