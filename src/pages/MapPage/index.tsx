@@ -11,7 +11,7 @@ import {
   DragContainer,
 } from "./styles"
 import SearchManifestationsForm, {
-  SearchManifestationFormData,
+  SearchData,
 } from "../../components/SearchManifestationsForm"
 import Pagination from "../../components/Pagination"
 import MapView from "../../components/MapView"
@@ -27,7 +27,7 @@ export default function MapPage() {
   const [selecteds, setSelecteds] = useState<IManifestation[]>([])
   const [loading, setLoading] = useState(false)
   const [loadingPage, setLoadingPage] = useState(false)
-  const [searchData, setSearchData] = useState<SearchManifestationFormData>({})
+  const [searchData, setSearchData] = useState<SearchData>()
   const prevPage = usePrevious(page)
   const prevSearchData = usePrevious(searchData)
 

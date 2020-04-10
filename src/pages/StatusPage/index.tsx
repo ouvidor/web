@@ -27,7 +27,7 @@ type RouteProps = {
 }
 
 type CreateManifestationStatusFormProps = {
-  status: IStatus
+  status: ISelectOption
   description: string
 }
 
@@ -116,7 +116,10 @@ export default function StatusPage({
   }
 
   async function onSubmit(data: CreateManifestationStatusFormProps) {
-    const formattedData = { ...data, status_id: data.status.id }
+    const formattedData = {
+      description: data.description,
+      status_id: data.status.value,
+    }
 
     if (isEditing) {
       const resultData = await Api.put<IManifestationStatus>({

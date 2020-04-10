@@ -128,7 +128,7 @@ export default function CreatePage() {
             />
 
             <Controller
-              as={<Select multiple options={categoryOptions} />}
+              as={<Select isMulti options={categoryOptions} />}
               control={form.control}
               name="categories"
               label="Categories"
