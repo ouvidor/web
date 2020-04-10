@@ -3,7 +3,17 @@ import ReactSelect, { Props as SelectProps, OptionTypeBase } from "react-select"
 import { ErrorMessage, useFormContext } from "react-hook-form"
 
 import { FieldError } from "../../../styles"
-import { basic, alternative, Container } from "./styles"
+import { basic, alternative, Container, GroupLabelContainer } from "./styles"
+
+export type Option = {
+  value: string | number
+  label: string
+}
+
+export type GroupedOptions = {
+  label: string
+  options: Option[]
+}
 
 type Props = SelectProps<OptionTypeBase> & {
   label?: string
@@ -16,17 +26,16 @@ export default function Select({
   name,
   alternativeStyle = false,
   options = [],
-  multiple = false,
   ...props
 }: Props) {
   const { errors } = useFormContext()
 
-  // const formatGroupLabel = ({ options, label }: GroupType<Option>) => (
-  //   <GroupLabelContainer>
-  //     <span>{label}</span>
-  //     <span>{options.length}</span>
-  //   </GroupLabelContainer>
-  // )
+  const formatGroupLabel = (props: any) => (
+    <GroupLabelContainer>
+      <span>{props.label}</span>
+      <span>{props.options.length}</span>
+    </GroupLabelContainer>
+  )
 
   return (
     <Container>
@@ -35,20 +44,9 @@ export default function Select({
         name={name}
         styles={alternativeStyle ? alternative : basic}
         options={options}
-        isMulti={multiple}
-        // formatGroupLabel={formatGroupLabel}
-        {...props}
-      />
-      {/* <ReactSelect
-        styles={alternativeStyle ? alternative : basic}
-        getOptionValue={(option: Option) => option.id}
-        getOptionLabel={(option) => option.title}
-        name={name}
-        isMulti={multiple}
-        options={options}
         formatGroupLabel={formatGroupLabel}
         {...props}
-      /> */}
+      />
       {name && (
         <ErrorMessage name={name} errors={errors}>
           {({ message }) => <FieldError>{message}</FieldError>}
