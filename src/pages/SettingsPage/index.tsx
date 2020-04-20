@@ -4,7 +4,7 @@
 import React from "react"
 
 import SettingsContainer from "./SettingsContainer"
-
+import AboutContainer from "./AboutContainer"
 import { Background, Container } from "./styles"
 
 export default function SettingsPage() {
@@ -28,23 +28,7 @@ export default function SettingsPage() {
           urlPath="secretary"
         />
 
-        <SettingsContainer
-          title="Tipos de manifestações"
-          placeholder="Novo tipo de manifestação"
-          urlPath="type"
-        />
-
-        <SettingsContainer
-          title="Status de manifestações"
-          placeholder="Novo status para manifestações"
-          urlPath="status"
-        />
-
-        <SettingsContainer
-          title="Níveis de acesso ao sistema"
-          placeholder="Novo nível"
-          urlPath="role"
-        />
+        <AboutContainer />
       </Container>
     </Background>
   )
