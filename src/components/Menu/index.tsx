@@ -47,8 +47,8 @@ export default function Menu() {
   const tokenPayload = token && decodeJWT<IToken>(token)
 
   if (tokenPayload) {
-    const role = tokenPayload?.role[0]
-    isAdminMaster = role?.title === "master"
+    const role = tokenPayload.role
+    isAdminMaster = role.title === "master"
   }
 
   return (

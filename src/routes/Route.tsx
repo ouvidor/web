@@ -32,8 +32,8 @@ export default function RouteWrapper({
   // ouve o estado de login do admin
   const { session } = useContext<Provided>(SessionContext)
   const { isSigned, token } = session
-  const tokenPayload = decodeJWT<IToken>(token)
-  const role = tokenPayload?.role[0]
+  const tokenPayload = token && decodeJWT<IToken>(token)
+  const role = tokenPayload && tokenPayload.role
 
   // caso não esteja logado e acesse uma rota privada redireciona para a página de login
   if (!isSigned && isPrivate) {
@@ -47,7 +47,7 @@ export default function RouteWrapper({
   }
 
   // caso a rota seja apenas para master e o admin não for master redireciona para 'map'
-  if (isSuperPrivate && role.level !== 1) {
+  if (isSuperPrivate && role && role.title !== "master") {
     return <Redirect to="/map" />
   }
 

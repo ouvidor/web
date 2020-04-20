@@ -18,7 +18,7 @@ export default function ProfilePage() {
   const { session, dispatch } = useContext(SessionContext)
   const { token, profile } = session
   const tokenPayload = token && decodeJWT<IToken>(token)
-  const role = tokenPayload && tokenPayload.role[0]
+  const role = tokenPayload && tokenPayload.role
   const isAdminMaster = role && role.title === "master"
 
   if (!profile) {

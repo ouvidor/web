@@ -15,7 +15,7 @@ export default function Profile({ profile }: Props) {
           Email <span>{profile.email}</span>
         </p>
         <p>
-          Cargo <span>{profile.role[0]}</span>
+          Cargo <span>{profile.role.title}</span>
         </p>
       </div>
     </section>
