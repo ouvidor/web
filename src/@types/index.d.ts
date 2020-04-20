@@ -1,7 +1,7 @@
 // Add support for svg imports
 declare module "*.svg" {
-  const content: any;
-  export default content;
+  const content: any
+  export default content
 }
 
 /**
@@ -18,8 +18,6 @@ interface ICategory {
 interface IType {
   id: number
   title: string
-  created_at: string
-  updated_at: string
 }
 
 interface IManifestation {
@@ -47,7 +45,8 @@ interface IManifestationStatus {
   description: string
   created_at: string
   status: {
-    title: string,
+    id: number
+    title: string
   }
   created_at: string
   updated_at: string
@@ -76,7 +75,6 @@ interface IOmbudsman {
 interface IRole {
   id: number
   title: "master" | "admin" | "citizen"
-  level: 1 | 2 | 3
 }
 
 interface IStatus {
@@ -105,11 +103,7 @@ interface IProfile {
   first_name: string
   last_name: string
   email: string
-  role: IRole[]
-}
-
-interface IToken {
-  role: IRole[]
+  role: IRole
 }
 
 interface ISession {
@@ -124,7 +118,7 @@ interface IGenericItem {
 
 interface IToken {
   id: number
-  role: IRole[]
+  role: IRole
   iat: number
   exp: number
 }
