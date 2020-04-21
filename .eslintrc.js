@@ -44,7 +44,12 @@ module.exports = {
     "@typescript-eslint/explicit-function-return-type": "off",
 
     // aceita outros padrões além de camelCase
-    '@typescript-eslint/camelcase': [2, {"ignoreDestructuring": true, "properties": "never"}],
+    "@typescript-eslint/camelcase": [
+      2,
+      { ignoreDestructuring: true, properties: "never" },
+    ],
+
+    "@typescript-eslint/interface-name-prefix": 0,
   },
   overrides: [
     // Override some TypeScript rules just for .js files
@@ -55,4 +60,4 @@ module.exports = {
       },
     },
   ],
-};
+}

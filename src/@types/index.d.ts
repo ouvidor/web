@@ -1,6 +1,6 @@
 // Add support for svg imports
 declare module "*.svg" {
-  const content: any
+  const content: unknown
   export default content
 }
 
@@ -11,8 +11,6 @@ declare module "*.svg" {
 interface ICategory {
   id: number
   title: string
-  created_at: string
-  updated_at: string
 }
 
 interface IType {
@@ -33,7 +31,6 @@ interface IManifestation {
   longitude: string
   secretary_id?: number
   user_id: number
-  type_id: number
   protocol: string
   created_at: string
   updated_at: string
@@ -41,9 +38,8 @@ interface IManifestation {
 
 interface IManifestationStatus {
   id: number
-  title: string
+  manifestation_id: number
   description: string
-  created_at: string
   status: {
     id: number
     title: string
