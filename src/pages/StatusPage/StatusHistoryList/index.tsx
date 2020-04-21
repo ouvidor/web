@@ -19,10 +19,18 @@ export default function StatusHistoryList({
 }: Props) {
   const { setValue } = useFormContext()
 
-  function handleClickStatusCard(status: IManifestationStatus) {
+  function handleClickStatusCard(manifestationStatus: IManifestationStatus) {
     setEditing(true)
-    setSelectedId(status.id)
-    setValue([{ status: status.status }, { description: status.description }])
+    setSelectedId(manifestationStatus.id)
+    setValue([
+      {
+        status: {
+          value: manifestationStatus.status.id,
+          label: manifestationStatus.status.title,
+        },
+      },
+      { description: manifestationStatus.description },
+    ])
   }
 
   return (
