@@ -4,6 +4,7 @@ export const Container = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   background: #eee;
   border-radius: 8px;
   padding: 10px 15px;
