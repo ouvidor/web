@@ -92,9 +92,10 @@ export default function CreatePage() {
      */
     if (data.files && data.files.length > 0) {
       const formData = new FormData()
+
+      formData.append("manifestation_id", manifestation.id.toString())
       Array.from(data.files).forEach((file) => {
         formData.append("file", file)
-        formData.append("manifestation_id", manifestation.id.toString())
       })
 
       const files = await Api.post<IFile[]>({
