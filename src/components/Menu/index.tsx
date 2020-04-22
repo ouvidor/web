@@ -29,12 +29,13 @@ type Props = {
 
 function CustomLink({ to, Icon }: Props) {
   const { pathname } = useLocation()
+  const isActive = pathname.startsWith(to)
   return (
     <Item>
       <Link to={to}>
         <Icon />
       </Link>
-      {to === pathname && <ActiveIndicator />}
+      {isActive && <ActiveIndicator />}
     </Item>
   )
 }
