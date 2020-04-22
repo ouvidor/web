@@ -19,7 +19,7 @@ function FilesInput({ name, label = undefined }: Props) {
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const arrayOfFiles: IFile[] = []
-    ;[].forEach.call(event.target.files, (file) => {
+    arrayOfFiles.forEach.call(event.target.files, (file) => {
       Object.assign(file, {
         preview: URL.createObjectURL(file),
       })

@@ -32,7 +32,7 @@ class Api {
 
   constructor() {
     this.api = axios.create({
-      baseURL: "http://localhost:3003",
+      baseURL: process.env.API_URL,
     })
   }
 

@@ -21,7 +21,6 @@ export default function Manifestation({
   pos = 0,
 }: Props) {
   const history = useHistory()
-
   const {
     id,
     title,
@@ -31,6 +30,7 @@ export default function Manifestation({
     date,
     location,
     protocol,
+    files,
   } = manifestation
 
   const tags = [...categories, type]
@@ -42,7 +42,9 @@ export default function Manifestation({
     })
 
   function openAttached() {
-    console.log("openAttached")
+    files.forEach((file) => {
+      window.open(`${process.env.API_URL}/files/${file.id}`)
+    })
   }
 
   function handleSend() {
