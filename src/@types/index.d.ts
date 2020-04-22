@@ -3,6 +3,16 @@ declare module "*.svg" {
   const content: unknown
   export default content
 }
+// Variaveis de ambiente
+declare namespace NodeJS {
+  export interface ProcessEnv {
+    API_URL: string
+    REACT_APP_MAPBOX_ACCESS_TOKEN: string
+    REACT_APP_MAPBOX_LATITUDE: string
+    REACT_APP_MAPBOX_LONGITUDE: string
+    REACT_APP_MAPBOX_ZOOM: string
+  }
+}
 
 /**
  * Interfaces importantes para as regras de negócio
@@ -25,15 +35,24 @@ interface IManifestation {
   categories: ICategory[]
   type: IType
   date: string
-  location: string
+  location?: string | null
   read: boolean
-  latitude: string
-  longitude: string
+  latitude: string | null
+  longitude: string | null
   secretary_id?: number
   user_id: number
+  user: {
+    email: string
+    first_name: string
+    last_name: string
+  }
   protocol: string
   created_at: string
   updated_at: string
+  files: {
+    file_name: string
+    id: number
+  }[]
 }
 
 interface IManifestationStatus {
