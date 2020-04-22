@@ -34,6 +34,7 @@ class Api {
     this.api = axios.create({
       baseURL: process.env.API_URL,
     })
+    console.log(process.env.REACT_APP_API_URL)
   }
 
   saveToken(token?: string) {

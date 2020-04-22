@@ -43,7 +43,7 @@ export default function Manifestation({
 
   function openAttached() {
     files.forEach((file) => {
-      window.open(`${process.env.API_URL}/files/${file.id}`)
+      window.open(`${process.env.REACT_APP_API_URL}/files/${file.id}`)
     })
   }
 

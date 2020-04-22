@@ -6,7 +6,7 @@ declare module "*.svg" {
 // Variaveis de ambiente
 declare namespace NodeJS {
   export interface ProcessEnv {
-    API_URL: string
+    REACT_APP_API_URL: string
     REACT_APP_MAPBOX_ACCESS_TOKEN: string
     REACT_APP_MAPBOX_LATITUDE: string
     REACT_APP_MAPBOX_LONGITUDE: string
