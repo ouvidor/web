@@ -8,9 +8,14 @@ type SignInProps = {
   profile: IProfile
 }
 
+type UpdateProfileProps = {
+  profile: IProfile
+}
+
 export type Action =
   | { type: "SIGN_IN"; payload: SignInProps }
   | { type: "SIGN_OUT" }
+  | { type: "UPDATE_PROFILE"; payload: UpdateProfileProps }
 
 // login
 export function signIn({ token, profile }: SignInProps): Action {
@@ -23,4 +28,9 @@ export function signIn({ token, profile }: SignInProps): Action {
 // logout
 export function signOut(): Action {
   return { type: "SIGN_OUT" }
+}
+
+// update profile
+export function updateProfile({ profile }: UpdateProfileProps): Action {
+  return { type: "UPDATE_PROFILE", payload: { profile } }
 }

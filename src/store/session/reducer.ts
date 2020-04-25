@@ -19,6 +19,9 @@ export default function auth(state: IStore, action: Action): IStore {
       // retira o token, o perfil e marca o admin como deslogado
       return { token: "", isSigned: false, profile: undefined }
 
+    case "UPDATE_PROFILE":
+      return { ...state, profile: action.payload.profile }
+
     default:
       return state
   }
