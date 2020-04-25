@@ -9,12 +9,16 @@ import { toast } from "react-toastify"
 type Error = {
   data: {
     error?: string
+    message?: string
   }
 }
 
-function getErrorMessage(errorResponse: Error | undefined) {
-  if (errorResponse === undefined || !errorResponse?.data?.error)
-    return "Erro inesperado!"
+function getErrorMessage(errorResponse?: Error) {
+  if (errorResponse === undefined) return "Erro inesperado!"
+
+  if (typeof errorResponse?.data?.message === "string") {
+    return errorResponse.data.message
+  }
 
   if (typeof errorResponse?.data?.error === "string") {
     return errorResponse.data.error
