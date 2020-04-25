@@ -1,4 +1,13 @@
-import { object, string, number, array, lazy, StringSchema } from "yup"
+import {
+  boolean,
+  object,
+  string,
+  number,
+  array,
+  ref,
+  lazy,
+  StringSchema,
+} from "yup"
 
 export const createManifestationSchema = object().shape({
   title: string().required("O título é necessário"),
@@ -57,4 +66,17 @@ export const searchManifestationsSchema = object().shape({
       })
     )
     .nullable(),
+})
+
+export const createUserSchema = object().shape({
+  first_name: string().required("O primeiro nome é necessário"),
+  last_name: string().required("O sobrenome é necessário"),
+  email: string()
+    .email("Insira um email válido.")
+    .required("O email é necessário"),
+  password: string().required("A senha é necessária"),
+  confirmPassword: string()
+    .oneOf([ref("password")], "A confirmação da senha não é igual a senha")
+    .required("É necessário confirmar a senha"),
+  isAdmin: boolean(),
 })

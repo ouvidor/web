@@ -1,23 +1,25 @@
 import React from "react"
 
+import { ProfileContainer } from "./styles"
+
 type Props = {
   profile: IProfile
 }
 
 export default function Profile({ profile }: Props) {
   return (
-    <section>
+    <ProfileContainer>
       <div>
         <p>
-          Nome <span>{`${profile.first_name} ${profile.last_name}`}</span>
+          Nome: <span>{`${profile.first_name} ${profile.last_name}`}</span>
         </p>
         <p>
-          Email <span>{profile.email}</span>
+          Email: <span>{profile.email}</span>
         </p>
         <p>
-          Cargo <span>{profile.role.title}</span>
+          Cargo: <span>{profile.role.title}</span>
         </p>
       </div>
-    </section>
+    </ProfileContainer>
   )
 }

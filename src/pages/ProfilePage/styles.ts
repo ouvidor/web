@@ -8,6 +8,7 @@ export const NavBar = styled.nav`
   background: #fff;
   border-radius: 8px;
   padding: 8px 16px;
+  margin-bottom: 20px;
 
   a {
     padding: 0 10px;
@@ -20,7 +21,7 @@ export const NavBar = styled.nav`
   }
 `
 
-const Container = styled.div`
+const Container = styled.section`
   padding: 10px 20px;
   background: #fff;
   border-radius: 8px;

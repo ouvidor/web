@@ -1,13 +1,16 @@
 import React, { useContext } from "react"
 import decodeJWT from "jwt-decode"
 import { Switch, Route, Link, useRouteMatch } from "react-router-dom"
+import { toast } from "react-toastify"
 
 import { SessionContext } from "../../store/session"
 import { signOut } from "../../store/session/actions"
 import { Background } from "../../styles"
 import { NavBar } from "./styles"
 import ProfileSection from "./Profile"
-import { toast } from "react-toastify"
+import EditProfileSection from "./EditProfile"
+import VisualizeAdminsSection from "./VisualizeAdmins"
+import CreateUserSection from "./CreateUser"
 
 export default function ProfilePage() {
   const { path, url } = useRouteMatch()
@@ -33,9 +36,7 @@ export default function ProfilePage() {
         <Link to={url}>Meu perfil</Link>
         <Link to={`${url}/edit`}>Editar meu perfil</Link>
         <Link to={`${url}/admins`}>Visualizar administradores</Link>
-        {isAdminMaster && (
-          <Link to={`${url}/new_admin`}>Novo adminstrador</Link>
-        )}
+        {isAdminMaster && <Link to={`${url}/new`}>Novo usuário</Link>}
       </NavBar>
 
       <Switch>
@@ -43,13 +44,13 @@ export default function ProfilePage() {
           <ProfileSection profile={profile} />
         </Route>
         <Route path={`${path}/edit`}>
-          <div>Editar perfil</div>
+          <EditProfileSection profile={profile} />
         </Route>
         <Route path={`${path}/admins`}>
-          <div>Visualizando admins cadastrados</div>
+          <VisualizeAdminsSection />
         </Route>
-        <Route path={`${path}/new_admin`}>
-          <div>Chame uma nova pessoa para fazer parte do time de admins</div>
+        <Route path={`${path}/new`}>
+          <CreateUserSection />
         </Route>
       </Switch>
     </Background>
