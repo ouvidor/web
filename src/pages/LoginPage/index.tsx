@@ -8,6 +8,11 @@ import { signIn } from "../../store/session/actions"
 import { Wrapper, Container } from "./styles"
 import { loginSchema } from "../../validations"
 
+type LoginType = {
+  token: string
+  user: IProfile
+}
+
 type FormData = {
   email: string
   password: string
@@ -21,11 +26,17 @@ export default function Login() {
   })
 
   async function onLogin({ email, password }: FormData) {
-    const { token, user } = await Api.post({
-      pathUrl: "auth",
-      data: { email, password },
-    })
-    dispatch(signIn({ token, profile: user }))
+    try {
+      const responseBody = await Api.post<LoginType>({
+        pathUrl: "auth",
+        data: { email, password },
+      })
+      dispatch(
+        signIn({ token: responseBody.token, profile: responseBody.user })
+      )
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
