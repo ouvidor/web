@@ -10,11 +10,16 @@ type Error = {
   data: {
     error?: string
     message?: string
+    messages?: string[]
   }
 }
 
 function getErrorMessage(errorResponse?: Error) {
   if (errorResponse === undefined) return "Erro inesperado!"
+
+  if (Array.isArray(errorResponse?.data?.messages)) {
+    return errorResponse.data.messages.join("; ")
+  }
 
   if (typeof errorResponse?.data?.message === "string") {
     return errorResponse.data.message
