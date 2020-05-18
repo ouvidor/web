@@ -1,54 +1,176 @@
-import React, { createContext, useReducer, useEffect } from "react"
-import sessionReducer from "./reducer"
-import { Action } from "./actions"
+import React, {
+  createContext,
+  useContext,
+  useCallback,
+  useState,
+  useEffect,
+} from "react"
 
 import Api from "../../services/api"
+import { toast } from "react-toastify"
 
-export type Provided = {
-  session: IStore
-  dispatch: React.Dispatch<Action>
+interface SessionState {
+  token: string
+  city: string
+  profile: IProfile
 }
 
-const initialState: IStore = {
-  token: "",
-  city: "",
-  isSigned: false,
-  profile: undefined,
+interface SignInRequest {
+  email: string
+  password: string
+  city: string
+}
+
+interface SignInResult {
+  user: IProfile
+  city: string
+  token: string
+}
+
+interface UpdateProfileRequest {
+  id: number
+  first_name?: string
+  last_name?: string
+  email?: string
+  oldPassword?: string
+  password?: string
+}
+
+interface UpdateProfileResult {
+  id: number
+  first_name: string
+  last_name: string
+  email: string
+  role: "master" | "admin" | "citizen"
+  created_at: string
+  updated_at: string
+}
+
+interface SessionContextData {
+  profile: IProfile
+  city: string
+  signIn(credentials: SignInRequest): Promise<void>
+  signOut(): void
+  updateProfile(data: UpdateProfileRequest): Promise<void>
 }
 
 // contêm o provider e o consumer, essencial para o uso do estado global
-export const SessionContext = createContext<Provided>({
-  session: initialState,
-  dispatch: () => null,
-})
+const SessionContext = createContext<SessionContextData>(
+  {} as SessionContextData
+)
 
 const SessionContextProvider: React.FC = ({ children }) => {
-  const [session, dispatch] = useReducer(sessionReducer, initialState, () => {
-    const localData = localStorage.getItem("session")
+  const [session, setSession] = useState<SessionState>(() => {
+    const token = localStorage.getItem("@Ouvidor:token")
+    const city = localStorage.getItem("@Ouvidor:city")
+    const profile = localStorage.getItem("@Ouvidor:profile")
 
-    // usa os dados guardados no localStorage
-    if (localData) {
-      const parsedLocalData = JSON.parse(localData)
-      const { token } = parsedLocalData
-      Api.saveToken(token) // coloca o token salvo no axios
-      return parsedLocalData
+    if (!profile) {
+      return {} as SessionState
     }
 
-    // caso não tenha nada no localStorage
-    return initialState
+    const parsedProfile: IProfile = JSON.parse(profile)
+
+    if (parsedProfile.role === "citizen") {
+      return {} as SessionState
+    }
+
+    if (token && city) {
+      return { token, profile: parsedProfile, city }
+    }
+
+    return {} as SessionState
   })
 
   useEffect(() => {
-    localStorage.setItem("session", JSON.stringify(session))
-    // sempre que o token mudar ele é salvo na config do axios
     Api.saveToken(session.token)
   }, [session])
 
+  const signIn = useCallback(
+    async ({ email, password, city }: SignInRequest) => {
+      const signInData = await Api.post<SignInResult>({
+        pathUrl: "auth",
+        data: {
+          email,
+          password,
+          city,
+        },
+      })
+
+      if (!signInData || signInData.user.role === "citizen") {
+        toast.error("Cidadão não pode ter acesso")
+        localStorage.removeItem("@Ouvidor:city")
+        localStorage.removeItem("@Ouvidor:token")
+        localStorage.removeItem("@Ouvidor:profile")
+        setSession({} as SessionState)
+        return
+      }
+
+      localStorage.setItem("@Ouvidor:city", signInData.city)
+      localStorage.setItem("@Ouvidor:token", signInData.token)
+      localStorage.setItem("@Ouvidor:profile", JSON.stringify(signInData.user))
+      toast.success("Login foi feito com sucesso!")
+      setSession({
+        token: signInData.token,
+        profile: signInData.user,
+        city: signInData.city,
+      })
+    },
+    []
+  )
+
+  const signOut = useCallback(() => {
+    localStorage.removeItem("@Ouvidor:city")
+    localStorage.removeItem("@Ouvidor:token")
+    localStorage.removeItem("@Ouvidor:profile")
+
+    toast.info("Você fez logout")
+
+    setSession({} as SessionState)
+  }, [])
+
+  const updateProfile = useCallback(async (data: UpdateProfileRequest) => {
+    const updateProfileData = await Api.post<UpdateProfileResult>({
+      pathUrl: `user/${data.id}`,
+      data,
+    })
+
+    delete updateProfileData.created_at
+    delete updateProfileData.updated_at
+
+    localStorage.setItem("@Ouvidor:profile", JSON.stringify(updateProfileData))
+    toast.success("Perfil atualizado com sucesso!")
+    setSession((oldSession) => ({
+      ...oldSession,
+      profile: updateProfileData,
+    }))
+  }, [])
+
   return (
-    <SessionContext.Provider value={{ session, dispatch }}>
+    <SessionContext.Provider
+      value={{
+        profile: session.profile,
+        city: session.city,
+        signIn,
+        signOut,
+        updateProfile,
+      }}
+    >
       {children}
     </SessionContext.Provider>
   )
 }
 
-export default SessionContextProvider
+function useSession(): SessionContextData {
+  const session = useContext(SessionContext)
+
+  if (!session) {
+    throw new Error(
+      "useSession deveria estar dentro de um componente SessionContextProvider"
+    )
+  }
+
+  return session
+}
+
+export { SessionContextProvider, useSession }
