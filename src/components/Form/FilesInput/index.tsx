@@ -13,18 +13,29 @@ type Props = {
   label?: string
 }
 
+export interface FileWithPreview {
+  lastModified: number
+  lastModifiedDate: Date
+  name: string
+  preview: string
+  size: number
+  type: string
+  webkitRelativePath: string
+}
+
 function FilesInput({ name, label = undefined }: Props) {
-  const [files, setFiles] = useState<IFile[]>([])
+  const [files, setFiles] = useState<FileWithPreview[]>([])
   const { register } = useFormContext()
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const arrayOfFiles: IFile[] = []
+    const arrayOfFiles: FileWithPreview[] = []
     arrayOfFiles.forEach.call(event.target.files, (file) => {
       Object.assign(file, {
         preview: URL.createObjectURL(file),
       })
       arrayOfFiles.push(file)
     })
+
     setFiles(arrayOfFiles)
   }
 

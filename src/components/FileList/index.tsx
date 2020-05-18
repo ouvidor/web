@@ -2,9 +2,14 @@ import React from "react"
 import { MdInsertDriveFile } from "react-icons/md"
 
 import { ListContainer, ListItem } from "./styles"
+import { FileWithPreview } from "../Form/FilesInput"
 
-type FileProps = {
-  file: IFile
+interface FileProps {
+  file: FileWithPreview
+}
+
+interface FileListProps {
+  files: FileWithPreview[]
 }
 
 function File({ file }: FileProps) {
@@ -27,14 +32,11 @@ function File({ file }: FileProps) {
   )
 }
 
-type Props = {
-  files: IFile[]
-}
-
-const FileList = ({ files }: Props) => (
+const FileList = ({ files }: FileListProps) => (
   <ListContainer>
     <ul>
-      {files.length && files.map((file) => <File file={file} key={file.id} />)}
+      {files.length &&
+        files.map((file) => <File file={file} key={file.name} />)}
     </ul>
   </ListContainer>
 )
