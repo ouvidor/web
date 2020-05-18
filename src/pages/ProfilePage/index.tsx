@@ -1,10 +1,8 @@
-import React, { useContext } from "react"
-import decodeJWT from "jwt-decode"
+import React from "react"
 import { Switch, Route, Link, useRouteMatch } from "react-router-dom"
 import { toast } from "react-toastify"
 
-import { SessionContext } from "../../store/session"
-import { signOut } from "../../store/session/actions"
+import { useSession } from "../../store/session"
 import { Background } from "../../styles"
 import { NavBar } from "./styles"
 import ProfileSection from "./Profile"
@@ -12,20 +10,16 @@ import EditProfileSection from "./EditProfile"
 import VisualizeAdminsSection from "./VisualizeAdmins"
 import CreateUserSection from "./CreateUser"
 
-export default function ProfilePage() {
+const ProfilePage: React.FC = () => {
   const { path, url } = useRouteMatch()
 
   /**
    * Pega o token e o perfil e checa se o usuário é um admin master
    */
-  const { session, dispatch } = useContext(SessionContext)
-  const { token, profile } = session
-  const tokenPayload = token && decodeJWT<IToken>(token)
-  const role = tokenPayload && tokenPayload.role
-  const isAdminMaster = role && role.title === "master"
+  const { profile, signOut } = useSession()
 
   if (!profile) {
-    dispatch(signOut())
+    signOut()
     toast.error("Ocorreu um erro de seção, por favor faça login novamente")
     return <>Redirecionando...</>
   }
@@ -36,7 +30,9 @@ export default function ProfilePage() {
         <Link to={url}>Meu perfil</Link>
         <Link to={`${url}/edit`}>Editar meu perfil</Link>
         <Link to={`${url}/admins`}>Visualizar administradores</Link>
-        {isAdminMaster && <Link to={`${url}/new`}>Novo usuário</Link>}
+        {profile.role === "master" && (
+          <Link to={`${url}/new`}>Novo usuário</Link>
+        )}
       </NavBar>
 
       <Switch>
@@ -56,3 +52,5 @@ export default function ProfilePage() {
     </Background>
   )
 }
+
+export default ProfilePage

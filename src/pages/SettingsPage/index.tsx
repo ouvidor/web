@@ -7,7 +7,7 @@ import SettingsContainer from "./SettingsContainer"
 import AboutContainer from "./AboutContainer"
 import { Background, Container } from "./styles"
 
-export default function SettingsPage() {
+const SettingsPage: React.FC = () => {
   return (
     <Background>
       <Container>
@@ -33,3 +33,5 @@ export default function SettingsPage() {
     </Background>
   )
 }
+
+export default SettingsPage

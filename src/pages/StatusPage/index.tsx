@@ -35,10 +35,10 @@ type FormattedManifestation = IManifestation & {
   formattedDate: string
 }
 
-export default function StatusPage({
+const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
   match,
   history,
-}: RouteComponentProps<RouteProps>) {
+}) => {
   const { id } = match.params
   const [manifestation, setManifestation] = useState<FormattedManifestation>()
   const [statusHistory, setStatusHistory] = useState<IManifestationStatus[]>([])
@@ -218,3 +218,5 @@ export default function StatusPage({
     </Background>
   )
 }
+
+export default StatusPage

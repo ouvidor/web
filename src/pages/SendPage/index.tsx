@@ -31,10 +31,10 @@ type RouteProps = {
   id: string
 }
 
-export default function SendPage({
+const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
   match,
   history,
-}: RouteComponentProps<RouteProps>) {
+}) => {
   const { id } = match.params
   const [loading, setLoading] = useState(false)
   const [manifestation, setManifestation] = useState<FormattedManifestation>()
@@ -196,3 +196,5 @@ export default function SendPage({
     </Background>
   )
 }
+
+export default SendPage

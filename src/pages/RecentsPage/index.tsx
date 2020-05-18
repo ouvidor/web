@@ -17,7 +17,7 @@ import Manifestation from "../../components/Manifestation"
 import Api from "../../services/api"
 import { usePrevious } from "../../hooks"
 
-export default function RecentsPage() {
+const RecentsPage: React.FC = () => {
   const [page, setPage] = useState(1)
   const [maxPage, setMaxPage] = useState(1)
   const [loading, setLoading] = useState(false)
@@ -113,3 +113,5 @@ export default function RecentsPage() {
     </Background>
   )
 }
+
+export default RecentsPage

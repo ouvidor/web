@@ -20,7 +20,7 @@ import Manifestation from "../../components/Manifestation"
 import Api from "../../services/api"
 import { usePrevious } from "../../hooks"
 
-export default function MapPage() {
+const MapPage: React.FC = () => {
   const [page, setPage] = useState(1)
   const [maxPage, setMaxPage] = useState(1)
   const [manifestations, setManifestations] = useState<IManifestation[]>([])
@@ -132,3 +132,5 @@ export default function MapPage() {
     </Container>
   )
 }
+
+export default MapPage

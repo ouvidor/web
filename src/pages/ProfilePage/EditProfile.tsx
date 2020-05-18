@@ -1,18 +1,16 @@
-import React, { useContext } from "react"
+import React from "react"
 import { useForm, FormContext } from "react-hook-form"
 import { toast } from "react-toastify"
 
-import Api from "../../services/api"
-import { SessionContext } from "../../store/session"
-import { updateProfile } from "../../store/session/actions"
+import { useSession } from "../../store/session"
 import Input from "../../components/Form/Field"
 
 type ProfileFormData = {
   first_name?: string
   last_name?: string
   email?: string
+  oldPassword?: string
   password?: string
-  confirmPassword?: string
 }
 
 type Props = {
@@ -20,31 +18,21 @@ type Props = {
 }
 
 export default function EditProfile({ profile }: Props) {
-  const { dispatch } = useContext(SessionContext)
+  const { updateProfile } = useSession()
 
   const form = useForm<ProfileFormData>({
     defaultValues: profile,
   })
 
-  function handleUpdateProfile(user: IProfile) {
-    dispatch(updateProfile({ profile: user }))
-  }
-
   async function handleEditProfile(data: ProfileFormData) {
-    const formattedData = {
-      ...data,
-      password: data.password || undefined,
-      confirmPassword: data.confirmPassword || undefined,
-    }
-
-    const updateUser = await Api.put<IProfile>({
-      pathUrl: `user/${profile.id}`,
-      data: formattedData,
-    })
-
-    if (updateUser) {
+    try {
+      await updateProfile({
+        id: profile.id,
+        ...data,
+      })
       toast.success("O usuário foi editado com sucesso!")
-      handleUpdateProfile(updateUser)
+    } catch {
+      toast.error("Não foi possível atualizar o perfil.")
     }
   }
 
@@ -64,6 +52,7 @@ export default function EditProfile({ profile }: Props) {
             placeholder="Seu sobrenome"
           />
           <Input name="email" label="Email" placeholder="seu@email.com" />
+          <Input name="oldPassword" label="Senha atual" placeholder="*******" />
           <Input name="password" label="Senha" placeholder="*******" />
           <Input
             name="confirmPassword"

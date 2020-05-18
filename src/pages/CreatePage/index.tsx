@@ -24,7 +24,7 @@ type CreateManifestationFormData = {
   files?: FileList
 }
 
-export default function CreatePage() {
+const CreatePage: React.FC = () => {
   const [typeOptions, setTypeOptions] = useState<SelectItem[]>([])
   const [categoryOptions, setCategoryOptions] = useState<SelectItem[]>([])
 
@@ -155,3 +155,5 @@ export default function CreatePage() {
     </Background>
   )
 }
+
+export default CreatePage

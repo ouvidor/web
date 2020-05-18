@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 
 import { Background } from "../../styles"
 import { GridContainer } from "./styles"
 import Api from "../../services/api"
-import { SessionContext } from "../../store/session/index"
+import { useSession } from "../../store/session"
 import Ombudsman from "./Ombudsman"
 import Prefecture from "./Prefecture"
 
@@ -32,8 +32,8 @@ interface ResponsePrefecture {
   updated_at: string
 }
 
-export default function InformationPage() {
-  const { session } = useContext(SessionContext)
+const InformationPage: React.FC = () => {
+  const { city } = useSession()
   const [prefecture, setPrefecture] = useState<IPrefecture>()
   const [ombudsman, setOmbudsman] = useState<IOmbudsman>()
 
@@ -41,7 +41,7 @@ export default function InformationPage() {
     async function loadData() {
       try {
         const prefectureAndOmbudsman = await Api.get<ResponsePrefecture>({
-          pathUrl: `/prefecture/${session.city}`,
+          pathUrl: `/prefecture/${city}`,
           error: false,
         })
 
@@ -59,7 +59,7 @@ export default function InformationPage() {
     }
 
     loadData()
-  }, [])
+  }, [city])
 
   return (
     <Background>
@@ -70,3 +70,5 @@ export default function InformationPage() {
     </Background>
   )
 }
+
+export default InformationPage

@@ -1,47 +1,29 @@
-import React, { useContext } from "react"
+import React from "react"
 import { useForm, FormContext } from "react-hook-form"
 
 import Field from "../../components/Form/Field"
-import Api from "../../services/api"
-import { SessionContext } from "../../store/session"
-import { signIn } from "../../store/session/actions"
+import { useSession } from "../../store/session"
 import { Wrapper, Container } from "./styles"
 import { loginSchema } from "../../validations"
-
-type LoginType = {
-  token: string
-  user: IProfile
-  city: string
-}
 
 type FormData = {
   email: string
   password: string
 }
 
-export default function Login() {
-  const { dispatch } = useContext(SessionContext)
+const LoginPage: React.FC = () => {
+  const { signIn } = useSession()
 
   const form = useForm<FormData>({
     validationSchema: loginSchema,
   })
 
   async function onLogin({ email, password }: FormData) {
-    try {
-      const responseBody = await Api.post<LoginType>({
-        pathUrl: "auth",
-        data: { email, password, city: process.env.REACT_APP_CITY },
-      })
-      dispatch(
-        signIn({
-          token: responseBody.token,
-          profile: responseBody.user,
-          city: responseBody.city,
-        })
-      )
-    } catch (err) {
-      console.error(err)
-    }
+    await signIn({
+      email,
+      password,
+      city: process.env.REACT_APP_CITY,
+    })
   }
 
   return (
@@ -70,3 +52,5 @@ export default function Login() {
     </Wrapper>
   )
 }
+
+export default LoginPage
