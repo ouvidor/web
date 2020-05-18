@@ -3,57 +3,62 @@
  * Contêm tratativas para redirecionar o usuário com base em seu status de login
  * Utiliza também de um componente Wrapper para estilizar todas as rotas privadas
  */
-import React, { useContext } from "react"
-import { Route, Redirect, RouteProps } from "react-router-dom"
-import decodeJWT from "jwt-decode"
+import React from "react"
+import {
+  Route,
+  Redirect,
+  RouteProps,
+  RouteComponentProps,
+} from "react-router-dom"
+import { StaticContext } from "react-router"
 
-import { SessionContext, Provided } from "../store/session"
+import { useSession } from "../store/session"
 import DefaultLayout from "../pages/_layouts/DefaultLayout"
 
-type Props = RouteProps & {
+interface Props extends RouteProps {
   isPrivate?: boolean
   isSuperPrivate?: boolean
-  component: any
+  component: React.FC<RouteComponentProps<any, StaticContext, any>>
 }
 
-export default function RouteWrapper({
+const RouteWrapper: React.FC<Props> = ({
   path,
   exact,
   component: Component,
   isPrivate,
   isSuperPrivate,
   ...rest
-}: Props) {
+}) => {
   // se receber isSuperPrivate o isPrivate passa a ser verdadeiro
   if (isSuperPrivate) {
     isPrivate = true
   }
 
   // ouve o estado de login do admin
-  const { session } = useContext<Provided>(SessionContext)
-  const { isSigned, token } = session
-  const tokenPayload = token && decodeJWT<IToken>(token)
-  const role = tokenPayload && tokenPayload.role
+  const { profile } = useSession()
+  const notAuthenticatedAndRouteIsPrivate = !profile && isPrivate
+  const authenticatedAndRouteIsNotPrivate = profile && !isPrivate
+  const masterAndRouteIsMasterOnly = isSuperPrivate && profile.role !== "master"
 
   // caso não esteja logado e acesse uma rota privada redireciona para a página de login
-  if (!isSigned && isPrivate) {
+  if (notAuthenticatedAndRouteIsPrivate) {
+    console.log("Deveria redirecionar para /")
     return <Redirect to="/" />
   }
 
   // caso esteja logado e tente acessar uma rota publica redireciona para a rota privada
-  if (isSigned && !isPrivate) {
-    // TODO criar rota
+  if (authenticatedAndRouteIsNotPrivate) {
     return <Redirect to="/map" />
   }
 
   // caso a rota seja apenas para master e o admin não for master redireciona para 'map'
-  if (isSuperPrivate && role && role.title !== "master") {
+  if (masterAndRouteIsMasterOnly) {
     return <Redirect to="/map" />
   }
 
   // caso esteja logado renderiza o componente com um Wrapper
   // esse Wrapper criara o menu
-  if (isSigned) {
+  if (profile) {
     return (
       <Route
         exact={exact}
@@ -71,3 +76,5 @@ export default function RouteWrapper({
   // caso não esteja logado ele renderiza o componente normalmente
   return <Route {...rest} render={(props) => <Component {...props} />} />
 }
+
+export default RouteWrapper
