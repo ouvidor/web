@@ -11,6 +11,7 @@ export type Provided = {
 
 const initialState: IStore = {
   token: "",
+  city: "",
   isSigned: false,
   profile: undefined,
 }

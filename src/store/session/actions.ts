@@ -6,6 +6,7 @@
 type SignInProps = {
   token: string
   profile: IProfile
+  city: string
 }
 
 type UpdateProfileProps = {
@@ -18,10 +19,10 @@ export type Action =
   | { type: "UPDATE_PROFILE"; payload: UpdateProfileProps }
 
 // login
-export function signIn({ token, profile }: SignInProps): Action {
+export function signIn({ token, profile, city }: SignInProps): Action {
   return {
     type: "SIGN_IN",
-    payload: { token, profile },
+    payload: { token, profile, city },
   }
 }
 

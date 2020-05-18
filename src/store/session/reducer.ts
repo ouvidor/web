@@ -12,12 +12,13 @@ export default function auth(state: IStore, action: Action): IStore {
       return {
         profile: action.payload.profile,
         token: action.payload.token,
+        city: action.payload.city,
         isSigned: true,
       }
 
     case "SIGN_OUT":
       // retira o token, o perfil e marca o admin como deslogado
-      return { token: "", isSigned: false, profile: undefined }
+      return { token: "", isSigned: false, city: "", profile: undefined }
 
     case "UPDATE_PROFILE":
       return { ...state, profile: action.payload.profile }
