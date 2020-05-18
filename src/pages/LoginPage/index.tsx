@@ -11,6 +11,7 @@ import { loginSchema } from "../../validations"
 type LoginType = {
   token: string
   user: IProfile
+  city: string
 }
 
 type FormData = {
@@ -29,10 +30,14 @@ export default function Login() {
     try {
       const responseBody = await Api.post<LoginType>({
         pathUrl: "auth",
-        data: { email, password },
+        data: { email, password, city: process.env.REACT_APP_CITY },
       })
       dispatch(
-        signIn({ token: responseBody.token, profile: responseBody.user })
+        signIn({
+          token: responseBody.token,
+          profile: responseBody.user,
+          city: responseBody.city,
+        })
       )
     } catch (err) {
       console.error(err)
