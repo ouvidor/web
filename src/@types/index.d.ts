@@ -7,10 +7,12 @@ declare module "*.svg" {
 declare namespace NodeJS {
   export interface ProcessEnv {
     REACT_APP_API_URL: string
-    REACT_APP_MAPBOX_ACCESS_TOKEN: string
-    REACT_APP_MAPBOX_LATITUDE: string
-    REACT_APP_MAPBOX_LONGITUDE: string
-    REACT_APP_MAPBOX_ZOOM: string
+    REACT_APP_GOOGLE_MAPS_KEY: string
+    REACT_APP_GOOGLE_MAPS_ACCESS_TOKEN: string
+    REACT_APP_GOOGLE_MAPS_LATITUDE: string
+    REACT_APP_GOOGLE_MAPS_LONGITUDE: string
+    REACT_APP_GOOGLE_MAPS_ZOOM: string
+    REACT_APP_CITY: string
   }
 }
 
@@ -30,44 +32,36 @@ interface IType {
 
 interface IManifestation {
   id: number
+  protocol: string
   title: string
   description: string
-  categories: ICategory[]
-  type: IType
-  date: string
-  location?: string | null
-  read: boolean
-  latitude: string | null
-  longitude: string | null
-  secretary_id?: number
-  user_id: number
-  user: {
-    email: string
-    first_name: string
-    last_name: string
-  }
-  protocol: string
+  read: number
+  location: string
+  latitude: string
+  longitude: string
   created_at: string
   updated_at: string
-  files: {
-    file_name: string
-    id: number
-  }[]
+  ombudsmen_id: number
+  categories: ICategory[]
+  type: IType
+  user: IProfile
+  secretary: ISecretary
+  files: IFile[]
+  status_history: IManifestationStatus[]
 }
 
 interface IManifestationStatus {
   id: number
-  manifestation_id: number
   description: string
-  status: {
-    id: number
-    title: string
-  }
   created_at: string
   updated_at: string
+  status: IStatus
 }
 
 interface IPrefecture {
+  id: number
+  name: string
+  ombudsman: IOmbudsman
   location: string
   telephone: string
   email: string
@@ -78,11 +72,12 @@ interface IPrefecture {
 }
 
 interface IOmbudsman {
+  id: number
   location: string
   telephone: string
   email: string
-  attendance: string
   site: string
+  attendance: string
   created_at: string
   updated_at: string
 }
@@ -101,6 +96,8 @@ interface ISecretary {
   id: number
   title: string
   email: string
+  accountable: string
+  prefectures_id: number
 }
 
 interface IMailReturn {
@@ -110,6 +107,7 @@ interface IMailReturn {
 interface IStore {
   token: string
   isSigned: boolean
+  city: string
   profile?: IProfile
 }
 
@@ -118,12 +116,7 @@ interface IProfile {
   first_name: string
   last_name: string
   email: string
-  role: IRole
-}
-
-interface ISession {
-  profile: IProfile
-  token: string
+  role: "master" | "admin" | "citizen"
 }
 
 interface IGenericItem {
@@ -133,17 +126,20 @@ interface IGenericItem {
 
 interface IToken {
   id: number
+  city: string
   role: IRole
   iat: number
   exp: number
 }
 
 interface IFile {
-  id: number | string
-  path: string
+  id: number
+  extension: string
   name: string
-  url: string
-  preview: string
+  name_in_server: string
+  created_at: string
+  updated_at: string
+  users_id: number
 }
 
 interface IFetchManifestationsResult {
