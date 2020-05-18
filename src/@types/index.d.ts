@@ -104,13 +104,6 @@ interface IMailReturn {
   message: string
 }
 
-interface IStore {
-  token: string
-  isSigned: boolean
-  city: string
-  profile?: IProfile
-}
-
 interface IProfile {
   id: number
   first_name: string
