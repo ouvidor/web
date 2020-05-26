@@ -76,6 +76,7 @@ const SessionContextProvider: React.FC = ({ children }) => {
     }
 
     if (token && city) {
+      Api.saveToken(token)
       return { token, profile: parsedProfile, city }
     }
 
@@ -97,8 +98,11 @@ const SessionContextProvider: React.FC = ({ children }) => {
         },
       })
 
-      if (!signInData || signInData.user.role === "citizen") {
+      if (signInData && signInData.user.role === "citizen") {
         toast.error("Cidadão não pode ter acesso")
+      }
+
+      if (!signInData || signInData.user.role === "citizen") {
         localStorage.removeItem("@Ouvidor:city")
         localStorage.removeItem("@Ouvidor:token")
         localStorage.removeItem("@Ouvidor:profile")
@@ -140,7 +144,7 @@ const SessionContextProvider: React.FC = ({ children }) => {
 
     localStorage.setItem("@Ouvidor:profile", JSON.stringify(updateProfileData))
     toast.success("Perfil atualizado com sucesso!")
-    setSession((oldSession) => ({
+    setSession((oldSession: SessionState) => ({
       ...oldSession,
       profile: updateProfileData,
     }))
