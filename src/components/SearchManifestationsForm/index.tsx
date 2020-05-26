@@ -40,11 +40,17 @@ export default function SearchManifestationsForm({
   useEffect(() => {
     const loadOptions = async () => {
       try {
-        const types = await Api.get<IType[]>({ pathUrl: "type", error: false })
-        const categories = await Api.get<ICategory[]>({
+        const typesPromise = Api.get<IType[]>({ pathUrl: "type", error: false })
+        const categoriesPromise = Api.get<ICategory[]>({
           pathUrl: "category",
           error: false,
         })
+
+        const [types, categories] = await Promise.all([
+          typesPromise,
+          categoriesPromise,
+        ])
+
         // Gera IDs randomicos seguros para não conflitarem entre si
         const formattedTypeOptions = types.map((type) => ({
           label: type.title,
