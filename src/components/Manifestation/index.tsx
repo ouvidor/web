@@ -1,7 +1,8 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
 import { MdAttachFile, MdDateRange, MdLocationOn } from "react-icons/md"
-import { IoMdMove } from "react-icons/io"
+import { GrDrag } from "react-icons/gr"
+
 import { format, parseISO } from "date-fns"
 import pt from "date-fns/locale/pt"
 import Draggable from "react-draggable"
@@ -27,7 +28,7 @@ export default function Manifestation({
     categories,
     type,
     description,
-    date,
+    created_at,
     location,
     protocol,
     files,
@@ -35,11 +36,9 @@ export default function Manifestation({
 
   const tags = [...categories, type]
 
-  const formattedDate =
-    date &&
-    format(parseISO(date), "dd 'de' MMMM 'de' yyyy", {
-      locale: pt,
-    })
+  const formattedDate = format(parseISO(created_at), "dd 'de' MMMM 'de' yyyy", {
+    locale: pt,
+  })
 
   function openAttached() {
     files.forEach((file) => {
@@ -60,8 +59,8 @@ export default function Manifestation({
       <Container>
         <Header>
           <div>
+            {draggable && <GrDrag cursor="pointer" className="handler" />}
             <h1>{title}</h1>
-            {draggable && <IoMdMove cursor="pointer" className="handler" />}
           </div>
 
           <span>protocolo: {protocol}</span>

@@ -1,13 +1,13 @@
-import React from "react"
+import React, { useState } from "react"
 import { FormContext, useForm } from "react-hook-form"
 
-import { OmbudsmanContainer, Section } from "./styles"
+import { OmbudsmanContainer, Section, Header } from "./styles"
 import Field from "../../components/Form/Field"
 import Api from "../../services/api"
-import InfoHeader from "./InfoHeader"
 
 type Props = {
-  ombudsman: IOmbudsman | undefined
+  ombudsman: IOmbudsman
+  setOmbudsman(ombudsman: IOmbudsman): void
 }
 
 interface FormData {
@@ -18,47 +18,77 @@ interface FormData {
   attendance: string
 }
 
-export default function Omdusman({ ombudsman }: Props) {
-  const form = useForm<FormData>()
+export default function Omdusman({ ombudsman, setOmbudsman }: Props) {
+  const [isEditing, setIsEditing] = useState(false)
+
+  const form = useForm<FormData>({
+    defaultValues: ombudsman,
+  })
 
   async function submitSavedChanges(data: FormData) {
-    await Api.put({ pathUrl: `/ombudsman/${ombudsman?.id}`, data })
+    const updatedOmbudsman = await Api.put<IOmbudsman>({
+      pathUrl: `/ombudsman/${ombudsman.id}`,
+      data,
+    })
+
+    setOmbudsman(updatedOmbudsman)
   }
 
   return (
     <OmbudsmanContainer>
-      <InfoHeader title="Ouvidoria" data={ombudsman} />
+      <Header>
+        <h1>Ouvidoria</h1>
+        <section>
+          <h2>Dados</h2>
+          <p>Local da ouvidoria:</p> <span>{ombudsman.location}</span>
+          <div>
+            <h3>Contato</h3>
+            <p>Telefone:</p> <span>{ombudsman.telephone}</span>
+            <br />
+            <p>Email:</p> <span>{ombudsman.email}</span>
+            <br />
+            <p>Site:</p> <span>{ombudsman.site}</span>
+            <br />
+            <p>Horario de atendimento:</p> <span>{ombudsman.attendance}</span>
+          </div>
+        </section>
+        <button onClick={() => setIsEditing(!isEditing)}>
+          Editar dados da ouvidoria
+        </button>
+      </Header>
 
-      <Section>
-        <h1>Edite os dados da Ouvidoria</h1>
-        <FormContext {...form}>
-          <form onSubmit={form.handleSubmit(submitSavedChanges)}>
-            <Field
-              name="site"
-              label="Site oficial"
-              placeholder="www.site.com"
-            />
-            <Field
-              name="location"
-              label="Local"
-              placeholder="Centro da cidade"
-            />
-            <Field name="email" label="Email" placeholder="email" />
-            <Field
-              name="telephone"
-              label="Telefone"
-              placeholder="(**) ****-****"
-            />
-            <Field
-              name="attendance"
-              component="textarea"
-              label="Atendimento"
-              placeholder="De segunda a sexta: 08:00 até 17:00, Aos sabados e domingos: 12:00 até 16:00"
-            />
-            <button type="submit">Salvar</button>
-          </form>
-        </FormContext>
-      </Section>
+      {isEditing && (
+        <Section>
+          <h2>Editando os dados da Ouvidoria</h2>
+          <FormContext {...form}>
+            <form onSubmit={form.handleSubmit(submitSavedChanges)}>
+              <Field
+                name="site"
+                label="Site oficial"
+                placeholder="www.site.com"
+              />
+              <Field
+                name="location"
+                label="Local"
+                placeholder="Centro da cidade"
+              />
+              <Field name="email" label="Email" placeholder="email" />
+              <Field
+                name="telephone"
+                label="Telefone"
+                placeholder="(**) ****-****"
+              />
+              <Field
+                name="attendance"
+                component="textarea"
+                label="Atendimento"
+                placeholder="De segunda a sexta: 08:00 até 17:00, Aos sabados e domingos: 12:00 até 16:00"
+              />
+              <button type="submit">Salvar</button>
+            </form>
+          </FormContext>
+        </Section>
+      )}
     </OmbudsmanContainer>
   )
 }

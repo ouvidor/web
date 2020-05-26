@@ -64,8 +64,12 @@ const InformationPage: React.FC = () => {
   return (
     <Background>
       <GridContainer>
-        <Ombudsman ombudsman={ombudsman} />
-        <Prefecture prefecture={prefecture} />
+        {ombudsman && prefecture && (
+          <>
+            <Ombudsman ombudsman={ombudsman} setOmbudsman={setOmbudsman} />
+            <Prefecture prefecture={prefecture} setPrefecture={setPrefecture} />
+          </>
+        )}
       </GridContainer>
     </Background>
   )

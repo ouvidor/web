@@ -9,17 +9,17 @@ export const GridContainer = styled.div`
 
   @media only screen and (max-width: 1000px) {
     & {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr 1fr;
-      gap: 20px 1px;
-      grid-template-areas: "ombudsman" "prefecture";
+      display: flex;
+      flex-wrap: wrap;
     }
   }
 `
 export const OmbudsmanContainer = styled.div`
+  margin: 0 10px;
   grid-area: ombudsman;
 `
 export const PrefectureContainer = styled.div`
+  margin: 0 10px;
   grid-area: prefecture;
 `
 
@@ -38,6 +38,21 @@ export const Header = styled.header`
     font-weight: 600;
     display: inline-block;
     line-height: 1.618;
+  }
+  button {
+    border-radius: 4px;
+    border: 2px solid #ddd;
+    background: #eee;
+    padding: 4px 8px;
+    margin-top: 5px;
+    font-size: 16px;
+    transition: border 0.3s;
+  }
+  button:hover {
+    border: 2px solid #ccc;
+  }
+  button:active {
+    border: 2px solid #0b76da;
   }
   section > div {
     margin-top: 10px;
