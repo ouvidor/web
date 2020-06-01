@@ -1,4 +1,5 @@
 import React from "react"
+import { AiOutlineEye, AiFillEye } from "react-icons/ai"
 
 import Tag from "../Tag"
 import { Container, TagList } from "./styles"
@@ -12,7 +13,7 @@ export default function ManifestationCard({
   manifestation,
   handleSelect,
 }: Props) {
-  const { title, categories, type } = manifestation
+  const { title, categories, type, read } = manifestation
 
   const tags = [...categories, type]
 
@@ -25,7 +26,7 @@ export default function ManifestationCard({
       <span>{title}</span>
 
       <section>
-        <div />
+        {read ? <AiFillEye /> : <AiOutlineEye />}
         <TagList>
           {tags && tags.map((tag) => <Tag key={tag.title} tag={tag} />)}
         </TagList>

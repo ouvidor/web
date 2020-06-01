@@ -39,11 +39,9 @@ export const Container = styled.li<{ onClick: Function }>`
     align-items: center;
     width: 100%;
 
-    > div {
-      height: 12px;
-      width: 12px;
-      background-color: green;
-      border-radius: 50%;
+    > svg {
+      height: 20px;
+      width: 20px;
     }
   }
 `
