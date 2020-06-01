@@ -15,14 +15,16 @@ type Props = {
   title: string
   urlPath: string
   email?: boolean
+  accountable?: boolean
   placeholder?: string
 }
 
 export default function SettingsContainer({
   urlPath,
-  email = undefined,
+  email,
+  accountable,
   title,
-  placeholder = undefined,
+  placeholder,
 }: Props) {
   const [isOpen, setIsOpen] = useState(false)
   const [items, setItems] = useState<IGenericItem[]>([])
@@ -30,13 +32,17 @@ export default function SettingsContainer({
   const [error, setError] = useState(false)
 
   async function handleSubmit(data: SubmittedData, isSaving: boolean) {
+    if (accountable) {
+      data = { ...data, city: process.env.REACT_APP_CITY }
+    }
+
     // excluindo item
     if (!isSaving && data.id) {
       const responseData = await Api.delete<IGenericItem>({
         pathUrl: `${urlPath}/${data.id}`,
       })
       if (responseData) {
-        toast.success(`Item "${responseData.title}" excluido com sucesso`)
+        toast.info(`Item "${responseData.title}" excluido com sucesso`)
         setItems(items.filter((item) => item.id !== responseData.id))
       }
       return
@@ -118,6 +124,7 @@ export default function SettingsContainer({
             <ul>
               <SettingsItem
                 email={email}
+                accountable={accountable}
                 placeholder={placeholder}
                 submitChange={handleSubmit}
               />
@@ -127,6 +134,7 @@ export default function SettingsContainer({
                     item={item}
                     key={item.id}
                     email={email}
+                    accountable={accountable}
                     submitChange={handleSubmit}
                   />
                 ))}

@@ -7,6 +7,7 @@ import { settingsSchema } from "../../../../validations"
 
 export type SubmittedData = SettingFormData & {
   id?: number
+  city?: string
 }
 
 export type SettingFormData = {
@@ -16,15 +17,17 @@ export type SettingFormData = {
 
 type Props = {
   email?: boolean
+  accountable?: boolean
   item?: IGenericItem
   placeholder?: string
   submitChange(data: SubmittedData, isSaving: boolean): void
 }
 
 export default function SettingsItem({
-  email = undefined,
-  item = undefined,
-  placeholder = undefined,
+  email,
+  accountable,
+  item,
+  placeholder,
   submitChange,
 }: Props) {
   // quando for 'false' é para excluir, quando for 'true' é pra salvar
@@ -52,7 +55,10 @@ export default function SettingsItem({
       <FormContext {...form}>
         <form onSubmit={form.handleSubmit(onClickSubmit)}>
           <Field name="title" placeholder={placeholder} />
-          {email && <Field name="email" placeholder="um@email.com" />}
+          {email && <Field name="email" placeholder="email@secretaria.com" />}
+          {accountable && (
+            <Field name="accountable" placeholder="O responsável" />
+          )}
 
           <aside>
             <button type="submit" onClick={() => setIsSaving(true)}>

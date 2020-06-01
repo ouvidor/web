@@ -23,6 +23,7 @@ const SettingsPage: React.FC = () => {
 
         <SettingsContainer
           email
+          accountable
           title="Secretarias municipais"
           placeholder="Nova secretaria"
           urlPath="secretary"
