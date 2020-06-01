@@ -22,23 +22,39 @@ export const Container = styled.div`
 export const Header = styled.header`
   > div {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    align-items: center;
+    flex: 1;
 
-    h1 {
-      font-weight: bold;
-      font-size: 18px;
-      margin-bottom: 0;
-      color: #000;
+    > div {
+      display: flex;
+      align-items: center;
+      justify-content: left;
+      flex: 1;
+
+      h1 {
+        font-weight: bold;
+        font-size: 18px;
+        margin-bottom: 0;
+        color: #000;
+      }
+
+      svg {
+        margin: 0;
+        padding: 0;
+        width: 20px;
+        height: 20px;
+        pointer-events: all;
+        cursor: grab;
+      }
     }
 
-    svg {
+    > svg {
       margin-left: 20px;
       fill: #000;
       width: 24px;
       height: 24px;
       pointer-events: all;
-      cursor: grab;
+      cursor: pointer;
     }
   }
 

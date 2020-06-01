@@ -75,6 +75,14 @@ const MapPage: React.FC = () => {
     setSelecteds([...selecteds, item])
   }
 
+  function handleCloseManifestation(manifestationId: number) {
+    setSelecteds(
+      manifestations.filter(
+        (manifestation) => manifestation.id !== manifestationId
+      )
+    )
+  }
+
   return (
     <Container>
       <BodyWrapper>
@@ -115,6 +123,7 @@ const MapPage: React.FC = () => {
                       draggable
                       pos={selecteds.length}
                       manifestation={m}
+                      closeManifestation={handleCloseManifestation}
                       key={m.id}
                     />
                   ))}

@@ -2,6 +2,7 @@ import React from "react"
 import { useHistory } from "react-router-dom"
 import { MdAttachFile, MdDateRange, MdLocationOn } from "react-icons/md"
 import { GrDrag } from "react-icons/gr"
+import { MdClose } from "react-icons/md"
 
 import { format, parseISO } from "date-fns"
 import pt from "date-fns/locale/pt"
@@ -12,6 +13,7 @@ import { Container, Header, DetailsContainer, Footer, TagList } from "./styles"
 
 type Props = {
   manifestation: IManifestation
+  closeManifestation?(manifestationId: number): void
   draggable?: boolean
   pos?: number
 }
@@ -20,6 +22,9 @@ export default function Manifestation({
   manifestation,
   draggable = false,
   pos = 0,
+  closeManifestation = () => {
+    console.info("closeManifestation não foi implementado")
+  },
 }: Props) {
   const history = useHistory()
   const {
@@ -59,8 +64,11 @@ export default function Manifestation({
       <Container>
         <Header>
           <div>
-            {draggable && <GrDrag cursor="pointer" className="handler" />}
-            <h1>{title}</h1>
+            <div>
+              {draggable && <GrDrag className="handler" />}
+              <h1>{title}</h1>
+            </div>
+            {draggable && <MdClose onClick={() => closeManifestation(id)} />}
           </div>
 
           <span>protocolo: {protocol}</span>
