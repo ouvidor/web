@@ -68,7 +68,11 @@ const MapPage: React.FC = () => {
   }, [fetchManifestations, searchData, page, prevPage, prevSearchData])
 
   function handleSelectManifestation(selectedManifestation: IManifestation) {
-    setSelecteds([...selecteds, selectedManifestation])
+    if (
+      !selecteds.find((selected) => selected.id === selectedManifestation.id)
+    ) {
+      setSelecteds([...selecteds, selectedManifestation])
+    }
   }
 
   function handleSelectItemOnMap(item: IManifestation) {
@@ -77,9 +81,7 @@ const MapPage: React.FC = () => {
 
   function handleCloseManifestation(manifestationId: number) {
     setSelecteds(
-      manifestations.filter(
-        (manifestation) => manifestation.id !== manifestationId
-      )
+      selecteds.filter((manifestation) => manifestation.id !== manifestationId)
     )
   }
 
