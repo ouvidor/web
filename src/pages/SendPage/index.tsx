@@ -49,37 +49,49 @@ const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
       if (!idOrProtocol) return
 
       // busca pela manifestação
-      const manifestationData = await Api.get<IManifestation>({
+      const manifestationDataPromise = Api.get<IManifestation>({
         pathUrl: `/manifestation/${idOrProtocol}`,
       })
+
+      // busca pelas secretarias
+      const secretariatsDataPromise = await Api.get<ISecretary[]>({
+        pathUrl: "/secretary",
+      })
+
+      const [manifestationData, secretariatsData] = await Promise.all([
+        manifestationDataPromise,
+        secretariatsDataPromise,
+      ])
+
       if (!manifestationData) {
         history.push("/send")
         return
       }
 
       // formatar a data
-      const date =
-        manifestationData.created_at &&
-        format(
-          parseISO(manifestationData.created_at),
-          "dd 'de' MMMM 'de' yyyy",
-          {
-            locale: pt,
-          }
-        )
-      const formattedData = { ...manifestationData, formattedDate: date }
-      setManifestation(formattedData)
+      const date = format(
+        parseISO(manifestationData.created_at),
+        "dd 'de' MMMM 'de' yyyy",
+        {
+          locale: pt,
+        }
+      )
+      const manifestationWithDate = {
+        ...manifestationData,
+        formattedDate: date,
+      }
+      setManifestation(manifestationWithDate)
 
-      // busca pelas secretarias
-      const secretariatsData = await Api.get<ISecretary[]>({
-        pathUrl: "/secretary",
-      })
       setSecretaryOptions(
         secretariatsData.map((secretary) => ({
           label: secretary.title,
           value: secretary.email,
         }))
       )
+
+      if (!manifestationData.read) {
+        Api.patch({ pathUrl: `/manifestation/${manifestationData.id}/read` })
+      }
     },
     [history]
   )

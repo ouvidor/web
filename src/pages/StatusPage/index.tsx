@@ -41,7 +41,9 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
 }) => {
   const { id } = match.params
   const [manifestation, setManifestation] = useState<FormattedManifestation>()
-  const [statusHistory, setStatusHistory] = useState<IManifestationStatus[]>([])
+  const [manifestationStatus, setManifestationStatus] = useState<
+    IManifestationStatus[]
+  >([])
   const [statusOptions, setStatusOptions] = useState<ISelectOption[]>([])
   const [selectedId, setSelectedId] = useState<number>()
   const [isEditing, setEditing] = useState(false)
@@ -53,9 +55,27 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
       if (!idOrProtocol) return
 
       // buscar dados da manifestação
-      const manifestationData: IManifestation = await Api.get({
+      const manifestationDataPromise = Api.get<IManifestation>({
         pathUrl: `manifestation/${idOrProtocol}`,
       })
+
+      // buscar historico de status da manifestação
+      const manifestationStatusDataPromise = Api.get<IManifestationStatus[]>({
+        pathUrl: `manifestation/${idOrProtocol}/status`,
+      })
+
+      // buscar lista de status possíveis
+      const statusDataPromise = Api.get<IStatus[]>({ pathUrl: "/status" })
+
+      const [
+        manifestationData,
+        manifestationStatusData,
+        statusData,
+      ] = await Promise.all([
+        manifestationDataPromise,
+        manifestationStatusDataPromise,
+        statusDataPromise,
+      ])
 
       if (!manifestationData) {
         history.push("/status")
@@ -63,38 +83,32 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
       }
 
       // formatar a data
-      const date =
-        manifestationData.created_at &&
-        format(
-          parseISO(manifestationData.created_at),
-          "dd 'de' MMMM 'de' yyyy",
-          {
-            locale: pt,
-          }
-        )
+      const date = format(
+        parseISO(manifestationData.created_at),
+        "dd 'de' MMMM 'de' yyyy",
+        {
+          locale: pt,
+        }
+      )
+
       const formattedData = {
         ...manifestationData,
         formattedDate: date,
       }
       setManifestation(formattedData)
 
-      // buscar historico de status da manifestação
-      const manifestationStatusHistoryData = await Api.get<
-        IManifestationStatus[]
-      >({
-        pathUrl: `manifestation/${idOrProtocol}/status`,
-      })
-
-      if (!manifestationStatusHistoryData) {
+      if (!manifestationStatusData) {
         history.push("/status")
+        return
       }
-      setStatusHistory(manifestationStatusHistoryData)
+      setManifestationStatus(manifestationStatusData)
 
-      // buscar lista de status possíveis
-      const statusData = await Api.get<IStatus[]>({ pathUrl: "/status" })
       setStatusOptions(
         statusData.map((status) => ({ label: status.title, value: status.id }))
       )
+      if (!manifestationData.read) {
+        Api.patch({ pathUrl: `/manifestation/${manifestationData.id}/read` })
+      }
     },
     [history]
   )
@@ -209,7 +223,7 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
           </StatusContainer>
           <StatusHistoryList
             onNewStatusClick={handleStatusCreate}
-            statusHistory={statusHistory}
+            statusHistory={manifestationStatus}
             setEditing={setEditing}
             setSelectedId={setSelectedId}
           />

@@ -34,6 +34,7 @@ function getErrorMessage(errorResponse?: Error) {
 
 type PropsGET = { params?: unknown; pathUrl: string; error?: boolean }
 type PropsDELETE = { pathUrl: string }
+type PropsPATCH = { pathUrl: string; data?: unknown }
 type PropsPOSTAndPUT = { data: unknown; pathUrl: string }
 
 class Api {
@@ -80,6 +81,17 @@ class Api {
   put<T>({ data, pathUrl }: PropsPOSTAndPUT): Promise<T> {
     return this.api
       .put(pathUrl, data)
+      .then((response) => {
+        return response.data
+      })
+      .catch((error) => {
+        toast.error(getErrorMessage(error.response))
+      })
+  }
+
+  patch<T>({ data, pathUrl }: PropsPATCH): Promise<T> {
+    return this.api
+      .patch(pathUrl, data)
       .then((response) => {
         return response.data
       })
