@@ -85,6 +85,7 @@ const CreatePage: React.FC = () => {
 
     if (manifestation) {
       toast.success(`Manifestação "${manifestation.title}" criada com sucesso!`)
+      form.reset()
     }
     /**
      * UPLOAD DE ARQUIVOS
