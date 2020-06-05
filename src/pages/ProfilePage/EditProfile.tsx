@@ -28,7 +28,11 @@ export default function EditProfile({ profile }: Props) {
     try {
       await updateProfile({
         id: profile.id,
-        ...data,
+        email: data.email || undefined,
+        first_name: data.first_name || undefined,
+        last_name: data.last_name || undefined,
+        password: data.password || undefined,
+        oldPassword: data.oldPassword || undefined,
       })
       toast.success("O usuário foi editado com sucesso!")
     } catch {

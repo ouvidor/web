@@ -69,6 +69,10 @@ export const MembersContainer = styled(Container)`
     margin-top: 10px;
 
     li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
       background: #ddd;
       padding: 10px 20px;
       border: 1px solid #ddd;
@@ -95,3 +99,5 @@ export const Scroll = styled(PerfectScrollBar)`
   max-width: 100%;
   padding: 5px 0px 0 0;
 `
+
+export const UsersContainer = styled.div``
