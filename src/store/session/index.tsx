@@ -134,7 +134,7 @@ const SessionContextProvider: React.FC = ({ children }) => {
   }, [])
 
   const updateProfile = useCallback(async (data: UpdateProfileRequest) => {
-    const updateProfileData = await Api.post<UpdateProfileResult>({
+    const updateProfileData = await Api.put<UpdateProfileResult>({
       pathUrl: `user/${data.id}`,
       data,
     })

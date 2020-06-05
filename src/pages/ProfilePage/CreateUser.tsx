@@ -7,11 +7,13 @@ import Api from "../../services/api"
 import Field from "../../components/Form/Field"
 
 type NewUserFormData = {
-  first_name?: string
-  last_name?: string
-  email?: string
-  password?: string
-  confirmPassword?: string
+  first_name: string
+  last_name: string
+  email: string
+  password: string
+  confirmPassword: string
+  isAdmin?: boolean
+  role?: "admin" | "citizen"
 }
 
 export default function CreateUser() {
@@ -19,12 +21,19 @@ export default function CreateUser() {
     validationSchema: createUserSchema,
   })
 
-  async function handleEditProfile(data: NewUserFormData) {
-    console.log(data)
-    const user = await Api.post({ pathUrl: "user", data })
-    console.log(user)
+  async function handleCreateUser(data: NewUserFormData) {
+    const formattedData = data
+    formattedData.role = data.isAdmin ? "admin" : "citizen"
+    delete formattedData.isAdmin
+
+    const user = await Api.post<IProfile>({
+      pathUrl: "user",
+      data: formattedData,
+    })
+
     if (user) {
-      toast.success("Usuário criado com sucesso!")
+      toast.success(`Usuário: ${user.first_name} criado com sucesso!`)
+      form.reset()
     }
   }
 
@@ -32,7 +41,7 @@ export default function CreateUser() {
     <section>
       <FormContext {...form}>
         <h1>Cadastre um novo usuário</h1>
-        <form onSubmit={form.handleSubmit(handleEditProfile)}>
+        <form onSubmit={form.handleSubmit(handleCreateUser)}>
           <Field
             name="first_name"
             label="Nome"
