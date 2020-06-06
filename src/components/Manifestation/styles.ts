@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   height: 340px;
+  min-width: 300px;
   width: 100%;
   max-width: 500px;
   background-color: #fff;
@@ -88,9 +89,11 @@ export const Header = styled.header`
 
 export const TagList = styled.ul`
   width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   flex-direction: row;
+  flex-wrap: wrap;
   list-style: none;
 
   span {

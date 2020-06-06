@@ -40,17 +40,18 @@ export const Container = styled.li<{ onClick: Function }>`
     width: 100%;
 
     > svg {
-      height: 20px;
-      width: 20px;
+      min-height: 20px;
+      min-width: 20px;
     }
   }
 `
 
 export const TagList = styled.ul`
-  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  flex-wrap: wrap;
   list-style: none;
   padding: 0px;
   margin: 4px 0 0 0;
