@@ -13,13 +13,9 @@ type Props = {
   label?: string
 }
 
-export interface FileWithPreview {
-  lastModified: number
+export interface FileWithPreview extends File {
   lastModifiedDate: Date
-  name: string
   preview: string
-  size: number
-  type: string
   webkitRelativePath: string
 }
 
