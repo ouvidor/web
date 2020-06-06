@@ -21,7 +21,7 @@ type CreateManifestationFormData = {
   type: SelectItem
   categories: SelectItem[]
   location: string
-  files?: FileList
+  files: FileList
 }
 
 const CreatePage: React.FC = () => {
@@ -95,7 +95,6 @@ const CreatePage: React.FC = () => {
       toast.success(
         `Manifestação "${manifestationResponse.data.title}" criada com sucesso!`
       )
-      form.reset()
     } else {
       return
     }
@@ -103,22 +102,26 @@ const CreatePage: React.FC = () => {
      * UPLOAD DE ARQUIVOS
      * O UPLOAD DEVERA SER POR ULTIMO
      */
-    if (data.files && data.files.length > 0) {
-      const formData = new FormData()
-
-      Array.from(data.files).forEach((file) => {
-        formData.append("file", file)
-      })
-
-      const filesResponse = await Api.post<IFile[]>({
-        pathUrl: `/files/manifestation/${manifestationResponse.data.id}`,
-        data: formData,
-      })
-
-      if (!filesResponse || filesResponse.data.length === 0) {
-        toast.error("Envio de arquivo falhou inesperadamente")
-      }
+    if (!formattedData.files[0]) {
+      form.reset()
+      return
     }
+
+    const formData = new FormData()
+
+    Array.from(formattedData.files).forEach((file) => {
+      formData.append("file", file)
+    })
+
+    const filesResponse = await Api.post<IFile[]>({
+      pathUrl: `/files/manifestation/${manifestationResponse.data.id}`,
+      data: formData,
+    })
+
+    if (!filesResponse || filesResponse.data.length === 0) {
+      toast.error("Envio de arquivo falhou inesperadamente")
+    }
+    form.reset()
   }
 
   return (
