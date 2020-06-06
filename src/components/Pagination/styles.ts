@@ -27,8 +27,8 @@ type ButtonProps = {
 export const Button = styled.button<ButtonProps>`
   border: none;
   border-radius: 4px;
-  height: 40px;
-  width: 60px;
+  height: 36px;
+  width: 54px;
   display: flex;
   align-items: center;
   justify-content: center;
