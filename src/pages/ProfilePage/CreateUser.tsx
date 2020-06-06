@@ -5,6 +5,7 @@ import { toast } from "react-toastify"
 import { createUserSchema } from "../../validations"
 import Api from "../../services/api"
 import Field from "../../components/Form/Field"
+import { CreateUserContainer, IsAdminContainer } from "./styles"
 
 type NewUserFormData = {
   first_name: string
@@ -40,7 +41,7 @@ export default function CreateUser() {
   }
 
   return (
-    <section>
+    <CreateUserContainer>
       <FormContext {...form}>
         <h1>Cadastre um novo usuário</h1>
         <form onSubmit={form.handleSubmit(handleCreateUser)}>
@@ -73,7 +74,7 @@ export default function CreateUser() {
             placeholder="*******"
           />
 
-          <div>
+          <IsAdminContainer>
             <input
               type="checkbox"
               name="isAdmin"
@@ -81,11 +82,11 @@ export default function CreateUser() {
               ref={form.register}
             />
             <label htmlFor="isAdmin">É um administrador?</label>
-          </div>
+          </IsAdminContainer>
 
           <button type="submit">Salvar</button>
         </form>
       </FormContext>
-    </section>
+    </CreateUserContainer>
   )
 }

@@ -4,6 +4,7 @@ import { toast } from "react-toastify"
 
 import { useSession } from "../../store/session"
 import Input from "../../components/Form/Field"
+import { EditProfileContainer } from "./styles"
 
 type ProfileFormData = {
   first_name?: string
@@ -41,7 +42,7 @@ export default function EditProfile({ profile }: Props) {
   }
 
   return (
-    <section>
+    <EditProfileContainer>
       <FormContext {...form}>
         <h1>Edite seu perfil</h1>
         <form onSubmit={form.handleSubmit(handleEditProfile)}>
@@ -66,6 +67,6 @@ export default function EditProfile({ profile }: Props) {
           <button type="submit">Salvar</button>
         </form>
       </FormContext>
-    </section>
+    </EditProfileContainer>
   )
 }

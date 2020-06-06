@@ -1,10 +1,14 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { useForm, FormContext } from "react-hook-form"
-import { toast } from "react-toastify"
 
 import Api from "../../services/api"
 import Field from "../../components/Form/Field"
-import { MembersContainer, UsersContainer } from "./styles"
+import {
+  MembersContainer,
+  UserContainer,
+  AdminList,
+  TransformIntoAdminCheckContainer,
+} from "./styles"
 
 interface SearchUserFormData {
   email: string
@@ -94,16 +98,62 @@ const VisualizeAdmins = () => {
 
   return (
     <>
+      <UserContainer>
+        <h1>Pesquisar por cidadão</h1>
+        <FormContext {...form}>
+          <form onSubmit={form.handleSubmit(fetchUserByEmail)}>
+            <Field name="email" label="Email" />
+
+            <button type="submit">Pesquisar</button>
+          </form>
+        </FormContext>
+        {user && (
+          <div>
+            <div>
+              <p>
+                <span>Nome:</span>
+                {`${user.first_name} ${user.last_name}`}
+              </p>
+              <p>
+                <span>Email:</span>
+                {user.email}
+              </p>
+              <p>
+                <span>Cargo:</span>
+                {user.role}
+              </p>
+            </div>
+            <TransformIntoAdminCheckContainer>
+              <span>É um administrador: </span>
+
+              <input
+                type="checkbox"
+                disabled={user.role === "master"}
+                checked={user.role === "master" || user.role === "admin"}
+                onClick={() => handleTransformUserIntoAdmin(user)}
+              />
+            </TransformIntoAdminCheckContainer>
+          </div>
+        )}
+      </UserContainer>
       <MembersContainer>
         <h1>Veja os outros administradores</h1>
-        <ul>
+        <AdminList>
           {admins.map((admin) => (
             <li key={admin.id}>
-              <div>
-                <span>{admin.first_name}</span>
-                <span>{admin.email}</span>
-                <span>{admin.role}</span>
-              </div>
+              <section>
+                <p>
+                  <span>nome:</span>
+                  {admin.first_name} {admin.last_name}
+                </p>
+                <p>
+                  <span>email:</span> {admin.email}
+                </p>
+                <p>
+                  <span>cargo:</span>
+                  {admin.role}
+                </p>
+              </section>
               <div>
                 Admin:
                 <input
@@ -115,36 +165,8 @@ const VisualizeAdmins = () => {
               </div>
             </li>
           ))}
-        </ul>
+        </AdminList>
       </MembersContainer>
-      <UsersContainer>
-        <h2>Pesquisar por cidadão</h2>
-        <FormContext {...form}>
-          <form onSubmit={form.handleSubmit(fetchUserByEmail)}>
-            <Field name="email" label="Email" />
-
-            <button type="submit">Pesquisar</button>
-          </form>
-        </FormContext>
-        {user && (
-          <div>
-            <p>{user.email}</p>
-            <p>
-              {user.first_name} {user.last_name}
-            </p>
-            <span>{user.role}</span>
-
-            <p>É um administrador? :</p>
-
-            <input
-              type="checkbox"
-              disabled={user.role === "master"}
-              checked={user.role === "master" || user.role === "admin"}
-              onClick={() => handleTransformUserIntoAdmin(user)}
-            />
-          </div>
-        )}
-      </UsersContainer>
     </>
   )
 }

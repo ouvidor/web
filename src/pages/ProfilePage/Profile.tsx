@@ -1,5 +1,6 @@
 import React from "react"
 
+import { useSession } from "../../store/session"
 import { ProfileContainer } from "./styles"
 
 type Props = {
@@ -7,19 +8,26 @@ type Props = {
 }
 
 export default function Profile({ profile }: Props) {
+  const { signOut } = useSession()
+
   return (
     <ProfileContainer>
+      <h1>Meu Perfil</h1>
       <div>
         <p>
-          Nome: <span>{`${profile.first_name} ${profile.last_name}`}</span>
+          <span>Nome:</span>
+          {`${profile.first_name} ${profile.last_name}`}
         </p>
         <p>
-          Email: <span>{profile.email}</span>
+          <span>Email:</span>
+          {profile.email}
         </p>
         <p>
-          Cargo: <span>{profile.role}</span>
+          <span>Cargo:</span>
+          {profile.role}
         </p>
       </div>
+      <button onClick={signOut}>Sair do sessão</button>
     </ProfileContainer>
   )
 }
