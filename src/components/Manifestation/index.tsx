@@ -3,11 +3,11 @@ import { useHistory } from "react-router-dom"
 import { MdAttachFile, MdDateRange, MdLocationOn } from "react-icons/md"
 import { GrDrag } from "react-icons/gr"
 import { MdClose } from "react-icons/md"
-
 import { format, parseISO } from "date-fns"
 import pt from "date-fns/locale/pt"
 import Draggable from "react-draggable"
 
+import openFiles from "../../utils/openFiles"
 import Tag from "../Tag"
 import { Container, Header, DetailsContainer, Footer, TagList } from "./styles"
 
@@ -45,10 +45,8 @@ export default function Manifestation({
     locale: pt,
   })
 
-  function openAttached() {
-    files.forEach((file) => {
-      window.open(`${process.env.REACT_APP_API_URL}/files/${file.id}`)
-    })
+  async function openAttached() {
+    await openFiles(files)
   }
 
   function handleSend() {
