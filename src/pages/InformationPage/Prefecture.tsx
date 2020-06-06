@@ -27,12 +27,16 @@ export default function Prefecture({ prefecture, setPrefecture }: Props) {
   })
 
   async function submitSavedChanges(data: FormData) {
-    const updatedPrefecture = await Api.put<IPrefecture>({
+    const updatedPrefectureResponse = await Api.put<IPrefecture>({
       pathUrl: `/prefecture/${prefecture.id}`,
       data,
     })
 
-    setPrefecture(updatedPrefecture)
+    if (!updatedPrefectureResponse) {
+      return
+    }
+
+    setPrefecture(updatedPrefectureResponse.data)
   }
 
   return (

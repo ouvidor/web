@@ -35,24 +35,32 @@ const CreatePage: React.FC = () => {
   useEffect(() => {
     const loadOptions = async () => {
       try {
-        const typesResult = await Api.get<IType[]>({
+        const typesResponseResult = Api.get<IType[]>({
           pathUrl: "type",
           error: false,
         })
-        const categoriesResult = await Api.get<ICategory[]>({
+        const categoriesResponseResult = Api.get<ICategory[]>({
           pathUrl: "category",
           error: false,
         })
 
-        if (!typesResult || !categoriesResult) {
+        const [typesResponse, categoriesResponse] = await Promise.all([
+          typesResponseResult,
+          categoriesResponseResult,
+        ])
+
+        if (!typesResponse || !categoriesResponse) {
           throw Error
         }
 
+        const types = typesResponse.data
+        const categories = categoriesResponse.data
+
         setTypeOptions(
-          typesResult.map((type) => ({ value: type.id, label: type.title }))
+          types.map((type) => ({ value: type.id, label: type.title }))
         )
         setCategoryOptions(
-          categoriesResult.map((category) => ({
+          categories.map((category) => ({
             value: category.id,
             label: category.title,
           }))
@@ -78,14 +86,18 @@ const CreatePage: React.FC = () => {
       ),
     }
 
-    const manifestation = await Api.post<IManifestation>({
+    const manifestationResponse = await Api.post<IManifestation>({
       pathUrl: "/manifestation",
       data: formattedData,
     })
 
-    if (manifestation) {
-      toast.success(`Manifestação "${manifestation.title}" criada com sucesso!`)
+    if (manifestationResponse && manifestationResponse.data.title) {
+      toast.success(
+        `Manifestação "${manifestationResponse.data.title}" criada com sucesso!`
+      )
       form.reset()
+    } else {
+      return
     }
     /**
      * UPLOAD DE ARQUIVOS
@@ -98,12 +110,12 @@ const CreatePage: React.FC = () => {
         formData.append("file", file)
       })
 
-      const files = await Api.post<IFile[]>({
-        pathUrl: `/files/manifestation/${manifestation.id}`,
+      const filesResponse = await Api.post<IFile[]>({
+        pathUrl: `/files/manifestation/${manifestationResponse.data.id}`,
         data: formData,
       })
 
-      if (!files || files.length === 0) {
+      if (!filesResponse || filesResponse.data.length === 0) {
         toast.error("Envio de arquivo falhou inesperadamente")
       }
     }

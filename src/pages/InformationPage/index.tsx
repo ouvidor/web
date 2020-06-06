@@ -40,17 +40,19 @@ const InformationPage: React.FC = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const prefectureAndOmbudsman = await Api.get<ResponsePrefecture>({
+        const prefectureAndOmbudsmanResponse = await Api.get<
+          ResponsePrefecture
+        >({
           pathUrl: `/prefecture/${city}`,
           error: false,
         })
 
-        if (!prefectureAndOmbudsman) {
+        if (!prefectureAndOmbudsmanResponse) {
           throw Error
         }
 
-        setPrefecture(prefectureAndOmbudsman)
-        setOmbudsman(prefectureAndOmbudsman.ombudsman)
+        setPrefecture(prefectureAndOmbudsmanResponse.data)
+        setOmbudsman(prefectureAndOmbudsmanResponse.data.ombudsman)
       } catch (err) {
         toast.error(
           "Não foi possivel obter os dados da Prefeitura e da Ouvidoria"

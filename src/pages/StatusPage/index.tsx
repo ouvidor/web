@@ -55,36 +55,42 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
       if (!idOrProtocol) return
 
       // buscar dados da manifestação
-      const manifestationDataPromise = Api.get<IManifestation>({
+      const manifestationResponsePromise = Api.get<IManifestation>({
         pathUrl: `manifestation/${idOrProtocol}`,
       })
 
       // buscar historico de status da manifestação
-      const manifestationStatusDataPromise = Api.get<IManifestationStatus[]>({
+      const manifestationStatusResponsePromise = Api.get<
+        IManifestationStatus[]
+      >({
         pathUrl: `manifestation/${idOrProtocol}/status`,
       })
 
       // buscar lista de status possíveis
-      const statusDataPromise = Api.get<IStatus[]>({ pathUrl: "/status" })
+      const statusResponsePromise = Api.get<IStatus[]>({ pathUrl: "/status" })
 
       const [
-        manifestationData,
-        manifestationStatusData,
-        statusData,
+        manifestationResponse,
+        manifestationStatusResponse,
+        statusResponse,
       ] = await Promise.all([
-        manifestationDataPromise,
-        manifestationStatusDataPromise,
-        statusDataPromise,
+        manifestationResponsePromise,
+        manifestationStatusResponsePromise,
+        statusResponsePromise,
       ])
 
-      if (!manifestationData) {
+      if (
+        !manifestationResponse ||
+        !manifestationStatusResponse ||
+        !statusResponse
+      ) {
         history.push("/status")
         return
       }
 
       // formatar a data
       const date = format(
-        parseISO(manifestationData.created_at),
+        parseISO(manifestationResponse.data.created_at),
         "dd 'de' MMMM 'de' yyyy",
         {
           locale: pt,
@@ -92,22 +98,23 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
       )
 
       const formattedData = {
-        ...manifestationData,
+        ...manifestationResponse.data,
         formattedDate: date,
       }
       setManifestation(formattedData)
 
-      if (!manifestationStatusData) {
-        history.push("/status")
-        return
-      }
-      setManifestationStatus(manifestationStatusData)
+      setManifestationStatus(manifestationStatusResponse.data)
 
       setStatusOptions(
-        statusData.map((status) => ({ label: status.title, value: status.id }))
+        statusResponse.data.map((status) => ({
+          label: status.title,
+          value: status.id,
+        }))
       )
-      if (!manifestationData.read) {
-        Api.patch({ pathUrl: `/manifestation/${manifestationData.id}/read` })
+      if (!manifestationResponse.data.read) {
+        Api.patch({
+          pathUrl: `/manifestation/${manifestationResponse.data.id}/read`,
+        })
       }
     },
     [history]
@@ -136,22 +143,26 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
     }
 
     if (isEditing) {
-      const resultData = await Api.put<IManifestationStatus>({
+      const manifestationStatusEditResponse = await Api.put<
+        IManifestationStatus
+      >({
         pathUrl: `manifestation/status/${selectedId}`,
         data: formattedData,
       })
-      if (resultData && manifestation) {
+      if (manifestationStatusEditResponse && manifestation) {
         toast.success(
           `Status da manifestação "${manifestation.title}" editado com sucesso`
         )
         search(id)
       }
     } else {
-      const resultData = await Api.post<IManifestationStatus>({
+      const manifestationStatusCreateResponse = await Api.post<
+        IManifestationStatus
+      >({
         pathUrl: `/manifestation/${id}/status`,
         data: formattedData,
       })
-      if (resultData && manifestation) {
+      if (manifestationStatusCreateResponse && manifestation) {
         toast.success(
           `Novo status criado para a manifestação "${manifestation.title}"`
         )

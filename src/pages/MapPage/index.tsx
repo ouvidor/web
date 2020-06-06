@@ -38,7 +38,7 @@ const MapPage: React.FC = () => {
 
       try {
         // fetch manifestations
-        const fetchManifestationsResult = await Api.get<
+        const fetchManifestationsResultResponse = await Api.get<
           IFetchManifestationsResult
         >({
           pathUrl: "manifestation",
@@ -46,8 +46,12 @@ const MapPage: React.FC = () => {
           error: false,
         })
 
-        setManifestations(fetchManifestationsResult.rows)
-        setMaxPage(fetchManifestationsResult.last_page)
+        if (!fetchManifestationsResultResponse) {
+          return
+        }
+
+        setManifestations(fetchManifestationsResultResponse.data.rows)
+        setMaxPage(fetchManifestationsResultResponse.data.last_page)
       } catch (error) {
         toast.error("Não foi possivel buscar por manifestações")
       }

@@ -11,11 +11,13 @@ const AboutContainer = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const statusResult = await Api.get<IStatus[]>({ pathUrl: "status" })
-        const typesResult = await Api.get<IType[]>({ pathUrl: "type" })
+        const statusResponse = await Api.get<IStatus[]>({ pathUrl: "status" })
+        const typesResponse = await Api.get<IType[]>({ pathUrl: "type" })
 
-        setStatus(statusResult)
-        setTypes(typesResult)
+        if (!statusResponse || !typesResponse) return
+
+        setStatus(statusResponse.data)
+        setTypes(typesResponse.data)
       } catch (error) {
         toast.error("Não foi possível carregar as informações do sistema")
       }

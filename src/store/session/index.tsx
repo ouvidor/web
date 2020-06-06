@@ -89,7 +89,7 @@ const SessionContextProvider: React.FC = ({ children }) => {
 
   const signIn = useCallback(
     async ({ email, password, city }: SignInRequest) => {
-      const signInData = await Api.post<SignInResult>({
+      const signInResponse = await Api.post<SignInResult>({
         pathUrl: "auth",
         data: {
           email,
@@ -98,11 +98,11 @@ const SessionContextProvider: React.FC = ({ children }) => {
         },
       })
 
-      if (signInData && signInData.user.role === "citizen") {
+      if (signInResponse && signInResponse.data.user.role === "citizen") {
         toast.error("Cidadão não pode ter acesso")
       }
 
-      if (!signInData || signInData.user.role === "citizen") {
+      if (!signInResponse || signInResponse.data.user.role === "citizen") {
         localStorage.removeItem("@Ouvidor:city")
         localStorage.removeItem("@Ouvidor:token")
         localStorage.removeItem("@Ouvidor:profile")
@@ -110,14 +110,17 @@ const SessionContextProvider: React.FC = ({ children }) => {
         return
       }
 
-      localStorage.setItem("@Ouvidor:city", signInData.city)
-      localStorage.setItem("@Ouvidor:token", signInData.token)
-      localStorage.setItem("@Ouvidor:profile", JSON.stringify(signInData.user))
+      localStorage.setItem("@Ouvidor:city", signInResponse.data.city)
+      localStorage.setItem("@Ouvidor:token", signInResponse.data.token)
+      localStorage.setItem(
+        "@Ouvidor:profile",
+        JSON.stringify(signInResponse.data.user)
+      )
       toast.success("Login foi feito com sucesso!")
       setSession({
-        token: signInData.token,
-        profile: signInData.user,
-        city: signInData.city,
+        token: signInResponse.data.token,
+        profile: signInResponse.data.user,
+        city: signInResponse.data.city,
       })
     },
     []
@@ -134,10 +137,16 @@ const SessionContextProvider: React.FC = ({ children }) => {
   }, [])
 
   const updateProfile = useCallback(async (data: UpdateProfileRequest) => {
-    const updateProfileData = await Api.put<UpdateProfileResult>({
+    const updateProfileResponse = await Api.put<UpdateProfileResult>({
       pathUrl: `user/${data.id}`,
       data,
     })
+
+    if (!updateProfileResponse) {
+      return
+    }
+
+    const updateProfileData = updateProfileResponse.data
 
     delete updateProfileData.created_at
     delete updateProfileData.updated_at

@@ -49,24 +49,26 @@ const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
       if (!idOrProtocol) return
 
       // busca pela manifestação
-      const manifestationDataPromise = Api.get<IManifestation>({
+      const manifestationResponsePromise = Api.get<IManifestation>({
         pathUrl: `/manifestation/${idOrProtocol}`,
       })
 
       // busca pelas secretarias
-      const secretariatsDataPromise = await Api.get<ISecretary[]>({
+      const secretariatsResponsePromise = await Api.get<ISecretary[]>({
         pathUrl: "/secretary",
       })
 
-      const [manifestationData, secretariatsData] = await Promise.all([
-        manifestationDataPromise,
-        secretariatsDataPromise,
+      const [manifestationResponse, secretariatsResponse] = await Promise.all([
+        manifestationResponsePromise,
+        secretariatsResponsePromise,
       ])
 
-      if (!manifestationData) {
+      if (!manifestationResponse || !secretariatsResponse) {
         history.push("/send")
         return
       }
+
+      const manifestationData = manifestationResponse.data
 
       // formatar a data
       const date = format(
@@ -83,14 +85,16 @@ const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
       setManifestation(manifestationWithDate)
 
       setSecretaryOptions(
-        secretariatsData.map((secretary) => ({
+        secretariatsResponse.data.map((secretary) => ({
           label: secretary.title,
           value: secretary.email,
         }))
       )
 
       if (!manifestationData.read) {
-        Api.patch({ pathUrl: `/manifestation/${manifestationData.id}/read` })
+        Api.patch({
+          pathUrl: `/manifestation/${manifestationData.id}/read`,
+        })
       }
     },
     [history]
@@ -112,13 +116,13 @@ const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
     const formattedData = { ...data, email: data.secretary.value }
     delete formattedData.secretary
 
-    const mailResponseData = await Api.post<IMailReturn>({
+    const mailResponse = await Api.post<IMailReturn>({
       pathUrl: "/email",
       data: formattedData,
     })
 
-    if (mailResponseData) {
-      toast.success(mailResponseData.message)
+    if (mailResponse) {
+      toast.success(mailResponse.data.message)
     }
 
     setLoading(false)

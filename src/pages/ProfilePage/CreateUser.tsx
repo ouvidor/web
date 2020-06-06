@@ -26,13 +26,15 @@ export default function CreateUser() {
     formattedData.role = data.isAdmin ? "admin" : "citizen"
     delete formattedData.isAdmin
 
-    const user = await Api.post<IProfile>({
+    const userResponse = await Api.post<IProfile>({
       pathUrl: "user",
       data: formattedData,
     })
 
-    if (user) {
-      toast.success(`Usuário: ${user.first_name} criado com sucesso!`)
+    if (userResponse) {
+      toast.success(
+        `Usuário: ${userResponse.data.first_name} criado com sucesso!`
+      )
       form.reset()
     }
   }

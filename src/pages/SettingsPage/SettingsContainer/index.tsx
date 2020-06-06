@@ -38,40 +38,40 @@ export default function SettingsContainer({
 
     // excluindo item
     if (!isSaving && data.id) {
-      const responseData = await Api.delete<IGenericItem>({
+      const response = await Api.delete<IGenericItem>({
         pathUrl: `${urlPath}/${data.id}`,
       })
-      if (responseData) {
-        toast.info(`Item "${responseData.title}" excluido com sucesso`)
-        setItems(items.filter((item) => item.id !== responseData.id))
+      if (response) {
+        toast.info(`Item "${response.data.title}" excluido com sucesso`)
+        setItems(items.filter((item) => item.id !== response.data.id))
       }
       return
     }
 
     // cria um novo item
     if (!data.id) {
-      const responseData = await Api.post<IGenericItem>({
+      const response = await Api.post<IGenericItem>({
         pathUrl: `${urlPath}`,
         data,
       })
-      if (responseData) {
-        toast.success(`Item "${responseData.title}" criado com sucesso`)
-        setItems([responseData, ...items])
+      if (response) {
+        toast.success(`Item "${response.data.title}" criado com sucesso`)
+        setItems([response.data, ...items])
       }
       return
     }
 
     // atualizar um item
-    const responseData = await Api.put<IGenericItem>({
+    const response = await Api.put<IGenericItem>({
       pathUrl: `${urlPath}/${data.id}`,
       data,
     })
-    if (responseData) {
-      toast.success(`Item "${responseData.title}" atualizado com sucesso`)
+    if (response) {
+      toast.success(`Item "${response.data.title}" atualizado com sucesso`)
       setItems(
         items.map((item) => {
-          if (responseData.id === item.id) {
-            return responseData
+          if (response.data.id === item.id) {
+            return response.data
           }
           return item
         })
@@ -83,14 +83,17 @@ export default function SettingsContainer({
     setLoading(true)
     setError(false)
 
-    const data = await Api.get<IGenericItem[]>({ pathUrl: url, error: false })
+    const response = await Api.get<IGenericItem[]>({
+      pathUrl: url,
+      error: false,
+    })
 
-    if (!data) {
+    if (!response) {
       setLoading(false)
       setError(true)
       return
     }
-    setItems(data)
+    setItems(response.data)
     setLoading(false)
     setError(false)
   }

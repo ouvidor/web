@@ -3,7 +3,7 @@
  * O Axios é uma biblioteca para fazer requisições HTTP.
  */
 
-import axios, { AxiosInstance } from "axios"
+import axios, { AxiosInstance, AxiosResponse } from "axios"
 import { toast } from "react-toastify"
 
 type Error = {
@@ -34,7 +34,7 @@ function getErrorMessage(errorResponse?: Error) {
 
 type PropsGET = { params?: unknown; pathUrl: string; error?: boolean }
 type PropsDELETE = { pathUrl: string }
-type PropsPATCH = { pathUrl: string; data?: unknown }
+type PropsPATCH = { pathUrl: string; data?: object; params?: object }
 type PropsPOSTAndPUT = { data: unknown; pathUrl: string }
 
 class Api {
@@ -54,61 +54,60 @@ class Api {
     }
   }
 
-  get<T>({ params, pathUrl, error = true }: PropsGET): Promise<T> {
-    return this.api
-      .get(pathUrl, { params })
-      .then((response) => {
-        return response.data
-      })
-      .catch((err) => {
-        if (error === true) {
-          toast.error(getErrorMessage(err.response))
-        }
-      })
+  async get<T>({
+    params,
+    pathUrl,
+    error = true,
+  }: PropsGET): Promise<void | AxiosResponse<T>> {
+    try {
+      return await this.api.get(pathUrl, { params })
+    } catch (err) {
+      if (error === true) {
+        toast.error(getErrorMessage(err.response))
+      }
+    }
   }
 
-  post<T>({ data, pathUrl }: PropsPOSTAndPUT): Promise<T> {
-    return this.api
-      .post(pathUrl, data)
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {
-        toast.error(getErrorMessage(error.response))
-      })
+  async post<T>({
+    data,
+    pathUrl,
+  }: PropsPOSTAndPUT): Promise<void | AxiosResponse<T>> {
+    try {
+      return await this.api.post(pathUrl, data)
+    } catch (error) {
+      toast.error(getErrorMessage(error.response))
+    }
   }
 
-  put<T>({ data, pathUrl }: PropsPOSTAndPUT): Promise<T> {
-    return this.api
-      .put(pathUrl, data)
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {
-        toast.error(getErrorMessage(error.response))
-      })
+  async put<T>({
+    data,
+    pathUrl,
+  }: PropsPOSTAndPUT): Promise<void | AxiosResponse<T>> {
+    try {
+      return await this.api.put(pathUrl, data)
+    } catch (error) {
+      toast.error(getErrorMessage(error.response))
+    }
   }
 
-  patch<T>({ data, pathUrl }: PropsPATCH): Promise<T> {
-    return this.api
-      .patch(pathUrl, data)
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {
-        toast.error(getErrorMessage(error.response))
-      })
+  async patch<T>({
+    data,
+    pathUrl,
+    params,
+  }: PropsPATCH): Promise<void | AxiosResponse<T>> {
+    try {
+      return await this.api.patch(pathUrl, data, { params })
+    } catch (error) {
+      toast.error(getErrorMessage(error.response))
+    }
   }
 
-  delete<T>({ pathUrl }: PropsDELETE): Promise<T> {
-    return this.api
-      .delete(pathUrl)
-      .then((response) => {
-        return response.data
-      })
-      .catch((error) => {
-        toast.error(getErrorMessage(error.response))
-      })
+  async delete<T>({ pathUrl }: PropsDELETE): Promise<void | AxiosResponse<T>> {
+    try {
+      return await this.api.delete(pathUrl)
+    } catch (error) {
+      toast.error(getErrorMessage(error.response))
+    }
   }
 }
 

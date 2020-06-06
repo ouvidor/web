@@ -26,12 +26,16 @@ export default function Omdusman({ ombudsman, setOmbudsman }: Props) {
   })
 
   async function submitSavedChanges(data: FormData) {
-    const updatedOmbudsman = await Api.put<IOmbudsman>({
+    const updatedOmbudsmanResponse = await Api.put<IOmbudsman>({
       pathUrl: `/ombudsman/${ombudsman.id}`,
       data,
     })
 
-    setOmbudsman(updatedOmbudsman)
+    if (!updatedOmbudsmanResponse) {
+      return
+    }
+
+    setOmbudsman(updatedOmbudsmanResponse.data)
   }
 
   return (

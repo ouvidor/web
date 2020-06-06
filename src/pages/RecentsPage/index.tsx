@@ -39,7 +39,7 @@ const RecentsPage: React.FC = () => {
 
       try {
         // passa isRead: 0, para pegar as manifestações que não foram lidas
-        const fetchManifestationsResult = await Api.get<
+        const fetchManifestationsResponse = await Api.get<
           IFetchManifestationsResult
         >({
           pathUrl: "manifestation",
@@ -47,8 +47,10 @@ const RecentsPage: React.FC = () => {
           error: false,
         })
 
-        setManifestations(fetchManifestationsResult.rows)
-        setMaxPage(fetchManifestationsResult.last_page)
+        if (!fetchManifestationsResponse) return
+
+        setManifestations(fetchManifestationsResponse.data.rows)
+        setMaxPage(fetchManifestationsResponse.data.last_page)
       } catch (error) {
         toast.error("Não foi possivel buscar por manifestações")
       }
