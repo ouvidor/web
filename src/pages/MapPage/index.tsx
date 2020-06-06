@@ -42,7 +42,7 @@ const MapPage: React.FC = () => {
           IFetchManifestationsResult
         >({
           pathUrl: "manifestation",
-          params: { ...searchData, page },
+          config: { params: { ...searchData, page } },
           error: false,
         })
 

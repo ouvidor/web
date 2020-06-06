@@ -33,7 +33,7 @@ const VisualizeAdmins = () => {
     async (userId: number, turnIntoAdmin: boolean) => {
       await Api.patch({
         pathUrl: `admins/${userId}`,
-        params: { admin: turnIntoAdmin },
+        config: { params: { admin: turnIntoAdmin } },
       })
     },
     []
@@ -42,7 +42,7 @@ const VisualizeAdmins = () => {
   const fetchUserByEmail = useCallback(async (data: SearchUserFormData) => {
     const userResponse = await Api.get<IProfile>({
       pathUrl: "/user/search",
-      params: { email: data.email },
+      config: { params: { email: data.email } },
     })
 
     if (!userResponse) {

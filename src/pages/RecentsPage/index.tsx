@@ -43,7 +43,7 @@ const RecentsPage: React.FC = () => {
           IFetchManifestationsResult
         >({
           pathUrl: "manifestation",
-          params: { ...searchData, page, isRead: 0 },
+          config: { params: { ...searchData, page, isRead: 0 } },
           error: false,
         })
 
