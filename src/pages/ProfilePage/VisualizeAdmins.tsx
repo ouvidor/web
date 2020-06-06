@@ -29,11 +29,11 @@ const VisualizeAdmins = () => {
     loadUsers()
   }, [])
 
-  const handleAdminRole = useCallback(
+  const handleChangeAdminRole = useCallback(
     async (userId: number, turnIntoAdmin: boolean) => {
       await Api.patch({
         pathUrl: `admins/${userId}`,
-        config: { params: { admin: turnIntoAdmin } },
+        data: { admin: turnIntoAdmin },
       })
     },
     []
@@ -49,8 +49,47 @@ const VisualizeAdmins = () => {
       return
     }
 
-    toast.success("Usuário encontrado")
     setUser(userResponse.data)
+  }, [])
+
+  const handleAdminStatus = useCallback((admin) => {
+    handleChangeAdminRole(admin.id, admin.role === "citizen")
+
+    setAdmins((oldAdmins) =>
+      oldAdmins.map((oldAdm) => {
+        if (oldAdm.id === admin.id) {
+          return {
+            ...oldAdm,
+            role: admin.role === "citizen" ? "admin" : "citizen",
+          }
+        }
+        return oldAdm
+      })
+    )
+  }, [])
+
+  const handleTransformUserIntoAdmin = useCallback((user) => {
+    handleChangeAdminRole(user.id, user.role === "citizen")
+    setUser({
+      ...user,
+      role: user.role === "citizen" ? "admin" : "citizen",
+    })
+    if (user.role === "citizen") {
+      setAdmins((oldAdmins) => [
+        ...oldAdmins,
+        {
+          ...user,
+          role: user.role === "citizen" ? "admin" : "citizen",
+        },
+      ])
+    } else {
+      setAdmins((oldAdmins) =>
+        oldAdmins.filter((oldAdmin) => {
+          if (oldAdmin.id === user.id) return false
+          return true
+        })
+      )
+    }
   }, [])
 
   return (
@@ -58,25 +97,20 @@ const VisualizeAdmins = () => {
       <MembersContainer>
         <h1>Veja os outros administradores</h1>
         <ul>
-          {admins.map((user) => (
-            <li key={user.id}>
+          {admins.map((admin) => (
+            <li key={admin.id}>
               <div>
-                <span>{user.first_name}</span>
-                <span>{user.email}</span>
-                <span>{user.role}</span>
+                <span>{admin.first_name}</span>
+                <span>{admin.email}</span>
+                <span>{admin.role}</span>
               </div>
               <div>
                 Admin:
                 <input
                   type="checkbox"
-                  disabled={user.role === "master"}
-                  checked={user.role === "master" || user.role === "admin"}
-                  onClick={() =>
-                    handleAdminRole(
-                      user.id,
-                      user.role === "citizen" ? true : false
-                    )
-                  }
+                  disabled={admin.role === "master"}
+                  checked={admin.role === "master" || admin.role === "admin"}
+                  onClick={() => handleAdminStatus(admin)}
                 />
               </div>
             </li>
@@ -100,23 +134,13 @@ const VisualizeAdmins = () => {
             </p>
             <span>{user.role}</span>
 
-            <p>
-              {user.role === "citizen"
-                ? "Tornar um administrador?"
-                : "Tornar um cidadão?"}
-            </p>
+            <p>É um administrador? :</p>
 
             <input
               type="checkbox"
               disabled={user.role === "master"}
               checked={user.role === "master" || user.role === "admin"}
-              onClick={() => {
-                handleAdminRole(user.id, user.role === "citizen" ? true : false)
-                setUser({
-                  ...user,
-                  role: user.role === "citizen" ? "admin" : "citizen",
-                })
-              }}
+              onClick={() => handleTransformUserIntoAdmin(user)}
             />
           </div>
         )}
