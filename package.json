@@ -11,7 +11,6 @@
     "nanoid": "^2.1.11",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
-    "react-date-picker": "^7.10.0",
     "react-dom": "^16.9.0",
     "react-draggable": "^4.1.0",
     "react-hook-form": "^4.10.2",
