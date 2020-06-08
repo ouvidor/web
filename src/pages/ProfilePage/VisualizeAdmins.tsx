@@ -56,45 +56,51 @@ const VisualizeAdmins = () => {
     setUser(userResponse.data)
   }, [])
 
-  const handleAdminStatus = useCallback((admin) => {
-    handleChangeAdminRole(admin.id, admin.role === "citizen")
+  const handleAdminStatus = useCallback(
+    (admin) => {
+      handleChangeAdminRole(admin.id, admin.role === "citizen")
 
-    setAdmins((oldAdmins) =>
-      oldAdmins.map((oldAdm) => {
-        if (oldAdm.id === admin.id) {
-          return {
-            ...oldAdm,
-            role: admin.role === "citizen" ? "admin" : "citizen",
-          }
-        }
-        return oldAdm
-      })
-    )
-  }, [])
-
-  const handleTransformUserIntoAdmin = useCallback((user) => {
-    handleChangeAdminRole(user.id, user.role === "citizen")
-    setUser({
-      ...user,
-      role: user.role === "citizen" ? "admin" : "citizen",
-    })
-    if (user.role === "citizen") {
-      setAdmins((oldAdmins) => [
-        ...oldAdmins,
-        {
-          ...user,
-          role: user.role === "citizen" ? "admin" : "citizen",
-        },
-      ])
-    } else {
       setAdmins((oldAdmins) =>
-        oldAdmins.filter((oldAdmin) => {
-          if (oldAdmin.id === user.id) return false
-          return true
+        oldAdmins.map((oldAdm) => {
+          if (oldAdm.id === admin.id) {
+            return {
+              ...oldAdm,
+              role: admin.role === "citizen" ? "admin" : "citizen",
+            }
+          }
+          return oldAdm
         })
       )
-    }
-  }, [])
+    },
+    [handleChangeAdminRole]
+  )
+
+  const handleTransformUserIntoAdmin = useCallback(
+    (user) => {
+      handleChangeAdminRole(user.id, user.role === "citizen")
+      setUser({
+        ...user,
+        role: user.role === "citizen" ? "admin" : "citizen",
+      })
+      if (user.role === "citizen") {
+        setAdmins((oldAdmins) => [
+          ...oldAdmins,
+          {
+            ...user,
+            role: user.role === "citizen" ? "admin" : "citizen",
+          },
+        ])
+      } else {
+        setAdmins((oldAdmins) =>
+          oldAdmins.filter((oldAdmin) => {
+            if (oldAdmin.id === user.id) return false
+            return true
+          })
+        )
+      }
+    },
+    [handleChangeAdminRole]
+  )
 
   return (
     <>
