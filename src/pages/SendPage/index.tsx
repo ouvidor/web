@@ -21,10 +21,14 @@ type FormattedManifestation = IManifestation & {
   formattedDate: string
 }
 
+interface SelectOptionWithId extends ISelectOption {
+  id: number
+}
+
 type SendMailFormData = {
   title: string
   text: string
-  secretary: ISelectOption
+  secretary: SelectOptionWithId
 }
 
 type RouteProps = {
@@ -38,7 +42,9 @@ const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
   const { id } = match.params
   const [loading, setLoading] = useState(false)
   const [manifestation, setManifestation] = useState<FormattedManifestation>()
-  const [secretaryOptions, setSecretaryOptions] = useState<ISelectOption[]>([])
+  const [secretaryOptions, setSecretaryOptions] = useState<
+    SelectOptionWithId[]
+  >([])
 
   const form = useForm<SendMailFormData>({
     validationSchema: sendMailSchema,
@@ -88,6 +94,7 @@ const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
         secretariatsResponse.data.map((secretary) => ({
           label: secretary.title,
           value: secretary.email,
+          id: secretary.id,
         }))
       )
 
@@ -112,9 +119,18 @@ const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
 
   // envio do email
   async function handleSendMail(data: SendMailFormData) {
+    if (!manifestation) {
+      toast.error("Ocorreu um erro, tente recarregar a página")
+      return
+    }
+
     setLoading(true)
     const formattedData = { ...data, email: data.secretary.value }
     delete formattedData.secretary
+
+    Api.patch({
+      pathUrl: `/manifestation/${manifestation.id}/secretary/${data.secretary.id}`,
+    })
 
     const mailResponse = await Api.post<IMailReturn>({
       pathUrl: "/email",
