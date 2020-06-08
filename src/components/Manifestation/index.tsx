@@ -9,7 +9,14 @@ import Draggable from "react-draggable"
 
 import openFiles from "../../utils/openFiles"
 import Tag from "../Tag"
-import { Container, Header, DetailsContainer, Footer, TagList } from "./styles"
+import {
+  Container,
+  Header,
+  DetailsContainer,
+  Footer,
+  TagList,
+  Description,
+} from "./styles"
 
 type Props = {
   manifestation: IManifestation
@@ -37,6 +44,7 @@ export default function Manifestation({
     location,
     protocol,
     files,
+    secretary,
   } = manifestation
 
   const tags = [...categories, type]
@@ -84,9 +92,9 @@ export default function Manifestation({
         </Header>
 
         <DetailsContainer>
-          <p>{description}</p>
+          <Description>{description}</Description>
+          {secretary?.title && <p>Secretaria vinculada: {secretary.title}</p>}
           <br />
-
           {formattedDate && (
             <div>
               <MdDateRange size="14px" />

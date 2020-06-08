@@ -3,7 +3,7 @@ import styled from "styled-components"
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: 340px;
+  height: 410px;
   min-width: 300px;
   width: 100%;
   max-width: 500px;
@@ -102,6 +102,8 @@ export const TagList = styled.ul`
 `
 
 export const DetailsContainer = styled.div`
+  flex: 1;
+
   p {
     margin-top: 12px;
     color: #000;
@@ -119,6 +121,14 @@ export const DetailsContainer = styled.div`
       margin-top: 5px;
     }
   }
+`
+
+export const Description = styled.p`
+  margin-bottom: 20px;
+  height: 100px;
+  white-space: wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 export const Footer = styled.footer`
