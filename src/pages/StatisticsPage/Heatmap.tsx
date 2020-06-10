@@ -21,8 +21,6 @@ const Heatmap: React.FC = () => {
   const form = useForm<HeatmapFormData>()
 
   async function fetchHeatmapData(data: HeatmapFormData) {
-    console.log(data)
-
     const heatmapResponse = await Api.get<HeatmapData[]>({
       pathUrl: `statistics/heatmap`,
       config: {
@@ -62,13 +60,16 @@ const Heatmap: React.FC = () => {
         </FormContext>
       </section>
 
-      {heatmapData.length > 0 && (
-        <MapContainer>
-          <MapView>
-            <HeatmapLayer data={heatmapData} />
-          </MapView>
-        </MapContainer>
-      )}
+      <MapContainer>
+        <MapView>
+          <HeatmapLayer
+            data={heatmapData.map((item) => {
+              console.log(window)
+              return new window.google.maps.LatLng(item.lat, item.lng)
+            })}
+          />
+        </MapView>
+      </MapContainer>
     </HeatmapContainer>
   )
 }
