@@ -14,6 +14,8 @@ interface Props extends GoogleMapProps {
   selectItem?(item: IManifestation): void
 }
 
+const libraries = ["visualization"]
+
 const MapView: React.FC<Props> = ({ items, selectItem, children }) => {
   const { apiKey, initialPlace } = mapsConfig
 
@@ -23,11 +25,8 @@ const MapView: React.FC<Props> = ({ items, selectItem, children }) => {
   }
 
   return (
-    <LoadScript googleMapsApiKey={apiKey} libraries={["visualization"]}>
+    <LoadScript googleMapsApiKey={apiKey} libraries={libraries}>
       <GoogleMap
-        // onLoad={(map) => {
-        //   console.log(map);
-        // }}
         mapContainerStyle={{
           height: "100%",
           width: "100%",
