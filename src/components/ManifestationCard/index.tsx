@@ -1,5 +1,6 @@
 import React from "react"
 import { AiOutlineEye, AiFillEye } from "react-icons/ai"
+import { GrAttachment } from "react-icons/gr"
 
 import Tag from "../Tag"
 import { Container, TagList } from "./styles"
@@ -13,7 +14,7 @@ export default function ManifestationCard({
   manifestation,
   handleSelect,
 }: Props) {
-  const { title, categories, type, read } = manifestation
+  const { title, categories, type, read, files } = manifestation
 
   const tags = [...categories, type]
 
@@ -23,10 +24,13 @@ export default function ManifestationCard({
 
   return (
     <Container onClick={handleClick}>
-      <span>{title}</span>
-
+      <div>
+        <span>{title}</span>
+        {files[0] && <GrAttachment />}
+      </div>
       <section>
         {read ? <AiFillEye /> : <AiOutlineEye />}
+
         <TagList>
           {tags && tags.map((tag) => <Tag key={tag.title} tag={tag} />)}
         </TagList>

@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useCallback } from "react"
 import { RouteComponentProps } from "react-router-dom"
 import { useForm, FormContext, Controller } from "react-hook-form"
+import { GrAttachment } from "react-icons/gr"
 import { toast } from "react-toastify"
 import { format, parseISO } from "date-fns"
 import pt from "date-fns/locale/pt"
 
 import Api from "../../services/api"
+import openFiles from "../../utils/openFiles"
 import Tag from "../../components/Tag"
-// import Datepicker from '../../components/Form/Datepicker';
+import FilesInput from "../../components/Form/FilesInput"
 import Select from "../../components/Form/Select"
 import Field from "../../components/Form/Field"
 import SearchManifestationByProtocol, {
@@ -29,6 +31,7 @@ type RouteProps = {
 type CreateManifestationStatusFormProps = {
   status: ISelectOption
   description: string
+  files: FileList
 }
 
 type FormattedManifestation = IManifestation & {
@@ -136,11 +139,15 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
     setSelectedId(undefined)
   }
 
-  async function onSubmit(data: CreateManifestationStatusFormProps) {
+  async function submitManifestationStatus(
+    data: CreateManifestationStatusFormProps
+  ) {
     const formattedData = {
       description: data.description,
       status_id: data.status.value,
     }
+
+    let manifestationStatusData
 
     if (isEditing) {
       const manifestationStatusEditResponse = await Api.put<
@@ -154,6 +161,7 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
           `Status da manifestação "${manifestation.title}" editado com sucesso`
         )
         search(id)
+        manifestationStatusData = manifestationStatusEditResponse.data
       }
     } else {
       const manifestationStatusCreateResponse = await Api.post<
@@ -167,7 +175,51 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
           `Novo status criado para a manifestação "${manifestation.title}"`
         )
         search(id)
+        manifestationStatusData = manifestationStatusCreateResponse.data
       }
+    }
+
+    if (!manifestationStatusData) {
+      return
+    }
+
+    /**
+     * UPLOAD DE ARQUIVOS
+     * O UPLOAD DEVERA SER POR ULTIMO
+     */
+    if (!data.files[0]) {
+      form.reset()
+      return
+    }
+
+    const formData = new FormData()
+
+    Array.from(data.files).forEach((file) => {
+      formData.append("file", file)
+    })
+
+    const filesResponse = await Api.post<IFile[]>({
+      pathUrl: `/files/status/${manifestationStatusData.id}`,
+      data: formData,
+    })
+
+    if (!filesResponse || filesResponse.data.length === 0) {
+      toast.error("Envio de arquivo falhou inesperadamente")
+    }
+    form.reset()
+  }
+
+  async function openAttached() {
+    // get files
+    const selectedManifestationStatus = manifestationStatus.find(
+      (mS) => mS.id === selectedId
+    )
+    const files = selectedManifestationStatus?.files
+
+    if (files && files[0]) {
+      await openFiles(files)
+    } else {
+      toast.info("Não há anexos nesse status de manifestação")
     }
   }
 
@@ -207,7 +259,13 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
         </ManifestationContainer>
         <FormContext {...form}>
           <StatusContainer>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            {selectedId && (
+              <button type="button" onClick={openAttached}>
+                <GrAttachment color="black" size="14" />
+                Anexos
+              </button>
+            )}
+            <form onSubmit={form.handleSubmit(submitManifestationStatus)}>
               <Controller
                 as={<Select options={statusOptions} />}
                 name="status"
@@ -222,14 +280,9 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
                 maxLength={610}
               />
 
-              <footer>
-                {/* <Controller
-                as={<Datepicker />}
-                control={control}
-                name="created_at"
-              /> */}
-                <button type="submit">Salvar</button>
-              </footer>
+              <FilesInput name="files" />
+
+              <button type="submit">Salvar</button>
             </form>
           </StatusContainer>
           <StatusHistoryList

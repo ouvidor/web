@@ -52,46 +52,55 @@ export const ManifestationContainer = styled.div`
 export const StatusContainer = styled.div`
   grid-area: status;
 
-  input,
-  textarea {
-    background: #eaedf2;
-    border: 2px solid #eaedf2;
-    border-radius: 8px;
-    padding: 10px;
-    width: 100%;
-    margin-top: 5px;
+  > button {
+    padding: 4px 8px;
+    margin-bottom: 10px;
+    background: #d3d6db;
+    border: 2px solid #d3d6db;
+    border-radius: 4px;
+    transition: border 0.3s;
   }
 
-  textarea {
-    resize: none;
-    height: 140px;
+  > button:hover {
+    border: 2px solid #9ea4ad;
   }
 
   > form {
-    footer {
-      margin-top: 20px;
+    > div {
+      margin-bottom: 5px;
+    }
+
+    textarea {
+      resize: none;
+      height: 140px;
+    }
+
+    input,
+    textarea {
+      background: #eaedf2;
+      border: 2px solid #eaedf2;
+      border-radius: 8px;
+      padding: 10px;
       width: 100%;
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
+      margin-top: 5px;
+    }
 
-      > button {
-        padding: 5px 10px;
-        border: none;
-        border-radius: 8px;
-        color: #fff;
-        font-size: 16px;
-        background: #0b76da;
-        width: 100px;
-        height: 38px;
+    button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 16px;
+      background: #0b76da;
+      width: 100px;
+      height: 38px;
 
-        &:hover {
-          background: rgb(11, 118, 218, 0.8);
-        }
+      &:hover {
+        background: rgb(11, 118, 218, 0.8);
+      }
 
-        &:active {
-          background: rgb(11, 118, 218, 0.4);
-        }
+      &:active {
+        background: rgb(11, 118, 218, 0.4);
       }
     }
   }

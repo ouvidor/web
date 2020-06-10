@@ -74,7 +74,7 @@ const CreatePage: React.FC = () => {
     loadOptions()
   }, [])
 
-  async function onSubmitClick(data: CreateManifestationFormData) {
+  async function submitManifestation(data: CreateManifestationFormData) {
     /**
      * UPLOAD DE MANIFESTAÇÃO
      */
@@ -130,7 +130,7 @@ const CreatePage: React.FC = () => {
         <h1>Criar manifestação</h1>
 
         <FormContext {...form}>
-          <form onSubmit={form.handleSubmit(onSubmitClick)}>
+          <form onSubmit={form.handleSubmit(submitManifestation)}>
             <Field
               label="Título"
               name="title"

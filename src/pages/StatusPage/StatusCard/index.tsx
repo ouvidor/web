@@ -1,4 +1,5 @@
 import React, { useMemo } from "react"
+import { GrAttachment } from "react-icons/gr"
 import { format, parseISO } from "date-fns"
 import pt from "date-fns/locale/pt"
 
@@ -29,6 +30,7 @@ export default function StatusCard({ manifestationStatus, selectItem }: Props) {
     <Container onClick={handleClickStatus}>
       <Title>{manifestationStatus.status.title}</Title>
       <Date>{formattedDate}</Date>
+      {manifestationStatus.files[0] && <GrAttachment />}
     </Container>
   )
 }

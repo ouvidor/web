@@ -56,6 +56,7 @@ interface IManifestationStatus {
   created_at: string
   updated_at: string
   status: IStatus
+  files: IFile[]
 }
 
 interface IPrefecture {
@@ -129,10 +130,10 @@ interface IFile {
   id: number
   extension: string
   name: string
-  name_in_server: string
-  created_at: string
-  updated_at: string
-  users_id: number
+  // name_in_server: string
+  // created_at: string
+  // updated_at: string
+  // users_id: number
 }
 
 interface IFetchManifestationsResult {

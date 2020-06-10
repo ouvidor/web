@@ -20,16 +20,22 @@ export const Container = styled.li<{ onClick: Function }>`
     border: 2px solid #ddd;
   }
 
-  > span {
-    font-weight: bold;
-    font-size: 16px;
-    color: #0e508d;
-    max-width: 100%;
-    flex: 1;
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    span {
+      font-weight: bold;
+      font-size: 16px;
+      color: #0e508d;
+      max-width: 100%;
+      flex: 1;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   section {
