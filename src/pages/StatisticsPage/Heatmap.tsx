@@ -29,6 +29,7 @@ const Heatmap: React.FC = () => {
         params: {
           init: data.init,
           end: data.end,
+          city: process.env.REACT_APP_CITY,
         },
       },
     })

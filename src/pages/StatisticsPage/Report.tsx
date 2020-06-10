@@ -3,10 +3,11 @@ import { FormContext, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 
 import Api from "../../services/api"
-import { ReportContainer, ReportTable } from "./styles"
+import { ReportContainer, ReportTable, ReportForm } from "./styles"
 
 interface ReportFormData {
-  date: string
+  init: string
+  end: string
 }
 
 interface ReportData {
@@ -35,7 +36,13 @@ const Report: React.FC = () => {
     console.log(data)
     const reportResponse = await Api.get<ReportData[]>({
       pathUrl: "/statistics",
-      config: { params: { city: process.env.REACT_APP_CITY, date: data.date } },
+      config: {
+        params: {
+          init: data.init,
+          end: data.end,
+          city: process.env.REACT_APP_CITY,
+        },
+      },
     })
 
     if (!reportResponse) {
@@ -63,16 +70,19 @@ const Report: React.FC = () => {
       <section>
         <h1>Relatório</h1>
         <FormContext {...form}>
-          <form onSubmit={form.handleSubmit(handleFetchReport)}>
-            <label htmlFor="date">Data </label>
-            <input
-              name="date"
-              type="month"
-              max={new Date().toISOString()}
-              ref={form.register}
-            />
+          <ReportForm onSubmit={form.handleSubmit(handleFetchReport)}>
+            <div>
+              <div>
+                <label htmlFor="init">Data de inicio</label>
+                <input name="init" type="date" ref={form.register} />
+              </div>
+              <div>
+                <label htmlFor="init">Data de fim</label>
+                <input name="end" type="date" ref={form.register} />
+              </div>
+            </div>
             <button type="submit">Gerar relatório</button>
-          </form>
+          </ReportForm>
         </FormContext>
       </section>
       <section>

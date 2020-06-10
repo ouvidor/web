@@ -20,6 +20,39 @@ export const NavBar = styled.nav`
   }
 `
 
+const StyledForm = styled.form`
+  > div {
+    display: flex;
+
+    > div {
+      margin-right: 25px;
+
+      label {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 16px;
+      }
+
+      input {
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        padding: 4px 8px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  button {
+    padding: 8px 16px;
+    border: 2px solid #0b76da;
+    border-radius: 4px;
+    background: #0b76da;
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+`
+
 const Container = styled.article`
   padding: 10px 20px;
   background: #fff;
@@ -45,33 +78,9 @@ export const ReportContainer = styled(Container)`
   display: flex;
   justify-content: space-between;
   transition: all 0.3s;
-
-  form {
-    label {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 16px;
-    }
-
-    input {
-      border: 2px solid #ddd;
-      border-radius: 4px;
-      padding: 4px 8px;
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    button {
-      padding: 8px 16px;
-      border: 2px solid #0b76da;
-      border-radius: 4px;
-      background: #0b76da;
-      color: #fff;
-      font-size: 18px;
-      margin-bottom: 5px;
-    }
-  }
 `
+
+export const ReportForm = styled(StyledForm)``
 
 export const ReportTable = styled.table`
   border-collapse: collapse;
@@ -116,38 +125,7 @@ export const HeatmapContainer = styled(Container)`
   transition: all 0.3s;
 `
 
-export const HeatmapForm = styled.form`
-  > div {
-    display: flex;
-
-    > div {
-      margin-right: 25px;
-
-      label {
-        display: block;
-        margin-bottom: 4px;
-        font-size: 16px;
-      }
-
-      input {
-        border: 2px solid #ddd;
-        border-radius: 4px;
-        padding: 4px 8px;
-        margin-bottom: 8px;
-      }
-    }
-  }
-
-  button {
-    padding: 8px 16px;
-    border: 2px solid #0b76da;
-    border-radius: 4px;
-    background: #0b76da;
-    color: #fff;
-    font-size: 18px;
-    margin-bottom: 5px;
-  }
-`
+export const HeatmapForm = styled(StyledForm)``
 
 export const MapContainer = styled.div`
   display: flex;
