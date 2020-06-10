@@ -106,4 +106,58 @@ export const ReportTable = styled.table`
   }
 `
 
-export const HeatmapContainer = styled(Container)``
+/**
+ * HEATMAP
+ */
+export const HeatmapContainer = styled(Container)`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  transition: all 0.3s;
+`
+
+export const HeatmapForm = styled.form`
+  > div {
+    display: flex;
+
+    > div {
+      margin-right: 25px;
+
+      label {
+        display: block;
+        margin-bottom: 4px;
+        font-size: 16px;
+      }
+
+      input {
+        border: 2px solid #ddd;
+        border-radius: 4px;
+        padding: 4px 8px;
+        margin-bottom: 8px;
+      }
+    }
+  }
+
+  button {
+    padding: 8px 16px;
+    border: 2px solid #0b76da;
+    border-radius: 4px;
+    background: #0b76da;
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+`
+
+export const MapContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100;
+  height: 500px;
+  position: relative;
+  font-weight: bold;
+  font-size: 24px;
+  color: #fff;
+`
