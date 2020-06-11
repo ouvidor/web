@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { FormContext, useForm } from "react-hook-form"
 import { toast } from "react-toastify"
-
+import html2canvas from "html2canvas"
+import jsPDF from "jspdf"
 import Api from "../../services/api"
 import { ReportContainer, ReportTable, ReportForm } from "./styles"
 
@@ -29,7 +30,7 @@ interface FormattedReportData {
 
 const Report: React.FC = () => {
   const [report, setReport] = useState<FormattedReportData[]>([])
-
+  const tableRef = useRef<HTMLTableElement>(null)
   const form = useForm<ReportFormData>()
 
   async function handleFetchReport(data: ReportFormData) {
@@ -65,6 +66,16 @@ const Report: React.FC = () => {
     setReport(formattedReportData)
   }
 
+  async function handlePDF() {
+    if (tableRef?.current !== null) {
+      const canvas = await html2canvas(tableRef.current as HTMLElement)
+      const imgData = canvas.toDataURL("image/png")
+      const pdf = new jsPDF()
+      pdf.addImage(imgData, "PNG", 0, 0)
+      pdf.save("relatorio.pdf")
+    }
+  }
+
   return (
     <ReportContainer>
       <section>
@@ -82,12 +93,17 @@ const Report: React.FC = () => {
               </div>
             </div>
             <button type="submit">Gerar relatório</button>
+            {report.length > 0 && (
+              <button type="button" onClick={handlePDF}>
+                Gerar pdf
+              </button>
+            )}
           </ReportForm>
         </FormContext>
       </section>
       <section>
         {report.length > 0 && (
-          <ReportTable>
+          <ReportTable ref={tableRef}>
             <thead>
               <tr>
                 <th>Secretarias municipais</th>
