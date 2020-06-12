@@ -72,8 +72,6 @@ const Container = styled.article`
   }
 `
 
-export const StatisticsContainer = styled(Container)``
-
 export const ReportContainer = styled(Container)`
   display: flex;
   justify-content: space-between;
@@ -138,4 +136,15 @@ export const MapContainer = styled.div`
   font-weight: bold;
   font-size: 24px;
   color: #fff;
+`
+
+/**
+ * STATISTICS
+ */
+export const StatisticsContainer = styled(Container)``
+
+export const GraphContainer = styled.div`
+  width: 700px;
+  height: 500px;
+  background: #eee;
 `
