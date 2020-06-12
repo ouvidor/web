@@ -80,3 +80,24 @@ export const createUserSchema = object().shape({
     .required("É necessário confirmar a senha"),
   isAdmin: boolean(),
 })
+
+export const createOmbudsmanSchema = object().shape({
+  site: string().required("O site é necessário"),
+  location: string().required("A localização é necessária"),
+  email: string()
+    .email("Insira um email válido.")
+    .required("O email é necessário"),
+  telephone: string().required("O telefone é necessário"),
+  attendance: string().required("O horário de atendimento é necessário"),
+})
+
+export const createPrefectureSchema = object().shape({
+  name: string().required("O nome da cidade é necessário"),
+  site: string().required("O site é necessário"),
+  location: string().required("A localização é necessária"),
+  email: string()
+    .email("Insira um email válido.")
+    .required("O email é necessário"),
+  telephone: string().required("O telefone é necessário"),
+  attendance: string().required("O horário de atendimento é necessário"),
+})

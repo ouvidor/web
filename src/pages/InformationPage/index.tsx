@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react"
 import { toast } from "react-toastify"
+import Popup from "reactjs-popup"
 
 import { Background } from "../../styles"
-import { GridContainer } from "./styles"
+import { GridContainer, CreateNewContainer } from "./styles"
 import Api from "../../services/api"
 import { useSession } from "../../store/session"
 import Ombudsman from "./Ombudsman"
 import Prefecture from "./Prefecture"
+import CreateOmbudsmanPopup from "./CreateOmbudsmanPopup"
+import CreatePrefecturePopup from "./CreatePrefecturePopup"
 
 interface ResponseOmbudsman {
   attendance: string
@@ -33,7 +36,7 @@ interface ResponsePrefecture {
 }
 
 const InformationPage: React.FC = () => {
-  const { city } = useSession()
+  const { city, profile } = useSession()
   const [prefecture, setPrefecture] = useState<IPrefecture>()
   const [ombudsman, setOmbudsman] = useState<IOmbudsman>()
 
@@ -65,6 +68,24 @@ const InformationPage: React.FC = () => {
 
   return (
     <Background>
+      {profile.role === "master" && (
+        <CreateNewContainer>
+          <Popup
+            trigger={<button>Criar nova ouvidoria</button>}
+            position="center center"
+            modal
+          >
+            <CreateOmbudsmanPopup />
+          </Popup>
+          <Popup
+            trigger={<button>Criar nova ouvidoria</button>}
+            position="center center"
+            modal
+          >
+            <CreatePrefecturePopup />
+          </Popup>
+        </CreateNewContainer>
+      )}
       <GridContainer>
         {ombudsman && prefecture && (
           <>

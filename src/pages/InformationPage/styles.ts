@@ -1,5 +1,50 @@
 import styled from "styled-components"
 
+export const CreateNewContainer = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-evenly;
+
+  button {
+    border-radius: 4px;
+    border: 2px solid #ddd;
+    background: #ddd;
+    padding: 5px 10px;
+    transition: border 0.3s;
+  }
+
+  button:hover {
+    border: 2px solid #aaa;
+  }
+`
+
+export const PopupContainer = styled.div`
+  padding: 20px 40px;
+
+  form {
+    label {
+      margin-bottom: 5px;
+    }
+    input,
+    textarea {
+      background: #eee;
+      border: 2px solid #eee;
+    }
+
+    button {
+      margin-top: 10px;
+      background: #86e670;
+      border: 2px solid #86e670;
+      transition: border 0.3s;
+    }
+
+    button:hover {
+      border: 2px solid #54a341;
+    }
+  }
+`
+
 export const GridContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
