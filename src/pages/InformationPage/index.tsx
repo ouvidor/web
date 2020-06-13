@@ -78,7 +78,7 @@ const InformationPage: React.FC = () => {
             <CreateOmbudsmanPopup />
           </Popup>
           <Popup
-            trigger={<button>Criar nova ouvidoria</button>}
+            trigger={<button>Criar nova prefeitura</button>}
             position="center center"
             modal
           >
