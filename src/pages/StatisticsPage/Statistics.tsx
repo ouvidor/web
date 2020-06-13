@@ -1,33 +1,99 @@
-import React from "react"
+import React, { useState } from "react"
 import { ResponsiveBar } from "@nivo/bar"
+import { FormContext, useForm } from "react-hook-form"
 
-import { StatisticsContainer, GraphContainer } from "./styles"
+import Api from "../../services/api"
+import { StatisticsContainer, GraphContainer, StatisticForm } from "./styles"
 
-const data = [
-  {
-    month: "janeiro",
-    denuncia: 190,
-    denunciaColor: "hsl(148, 70%, 50%)",
-    sandwich: 186,
-    sandwichColor: "hsl(52, 70%, 50%)",
-    kebab: 70,
-    kebabColor: "hsl(57, 70%, 50%)",
-    fries: 93,
-    friesColor: "hsl(339, 70%, 50%)",
-    donut: 27,
-    donutColor: "hsl(148, 70%, 50%)",
-  },
-]
+interface StatisticFormData {
+  init: string
+  end: string
+}
+
+interface StatisticResponse {
+  mesAno: string
+  sugestão: string
+  elogio: string
+  solicitacao: string
+  reclamacao: string
+  denuncia: string
+}
+
+interface StatisticData {
+  date: string
+  sugestão: number
+  elogio: number
+  solicitacao: number
+  reclamacao: number
+  denuncia: number
+}
 
 const Statistics: React.FC = () => {
+  const [statistics, setStatistics] = useState<StatisticData[]>([])
+  const [keys, setKeys] = useState<string[]>([])
+  const form = useForm<StatisticFormData>()
+
+  async function handleFetchStatistic(data: StatisticFormData) {
+    const keysToSave: string[] = []
+    const response = await Api.get<StatisticResponse[]>({
+      pathUrl: "/statistics/types",
+      config: { params: { init: data.init, end: data.end } },
+    })
+
+    if (!response) {
+      return
+    }
+
+    const formattedData = response.data.map((item) => ({
+      date: item.mesAno.replace("#", "/"),
+      sugestão: Number(item.sugestão),
+      elogio: Number(item.elogio),
+      solicitacao: Number(item.solicitacao),
+      reclamacao: Number(item.reclamacao),
+      denuncia: Number(item.denuncia),
+    }))
+
+    setStatistics(formattedData)
+
+    for (const item of formattedData) {
+      for (const key in item) {
+        if (key === "date") {
+          continue
+        } else {
+          keysToSave.push(key)
+        }
+      }
+    }
+
+    console.log(keysToSave)
+    setKeys(keysToSave)
+  }
+
   return (
     <StatisticsContainer>
-      <h1>Estatísticas</h1>
+      <section>
+        <h1>Estatística</h1>
+        <FormContext {...form}>
+          <StatisticForm onSubmit={form.handleSubmit(handleFetchStatistic)}>
+            <div>
+              <div>
+                <label htmlFor="init">Data de inicio</label>
+                <input name="init" type="date" ref={form.register} />
+              </div>
+              <div>
+                <label htmlFor="init">Data de fim</label>
+                <input name="end" type="date" ref={form.register} />
+              </div>
+            </div>
+            <button type="submit">Gerar estatística</button>
+          </StatisticForm>
+        </FormContext>
+      </section>
       <GraphContainer>
         <ResponsiveBar
-          data={data}
-          keys={["reclamação", "denúncia"]}
-          indexBy="month"
+          data={statistics}
+          keys={keys}
+          indexBy="date"
           margin={{ top: 50, right: 130, bottom: 50, left: 60 }}
           padding={0.3}
           colors={{ scheme: "nivo" }}

@@ -148,3 +148,5 @@ export const GraphContainer = styled.div`
   height: 500px;
   background: #eee;
 `
+
+export const StatisticForm = styled(StyledForm)``
