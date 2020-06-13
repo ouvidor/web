@@ -91,6 +91,14 @@ export const createOmbudsmanSchema = object().shape({
   attendance: string().required("O horário de atendimento é necessário"),
 })
 
+export const editOmbudsmanSchema = object().shape({
+  site: string(),
+  location: string(),
+  email: string().email("Insira um email válido."),
+  telephone: string(),
+  attendance: string(),
+})
+
 export const createPrefectureSchema = object().shape({
   name: string().required("O nome da cidade é necessário"),
   site: string().required("O site é necessário"),
@@ -100,4 +108,15 @@ export const createPrefectureSchema = object().shape({
     .required("O email é necessário"),
   telephone: string().required("O telefone é necessário"),
   attendance: string().required("O horário de atendimento é necessário"),
+  ombudsmanEmail: string().required("O email da ouvidoria é necessário"),
+})
+
+export const editPrefectureSchema = object().shape({
+  name: string(),
+  site: string(),
+  location: string(),
+  email: string().email("Insira um email válido."),
+  telephone: string(),
+  attendance: string(),
+  ombudsmanEmail: string(),
 })

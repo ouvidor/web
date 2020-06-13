@@ -46,7 +46,7 @@ const CreateOmbudsmanPopup: React.FC = () => {
             label="Atendimento"
             placeholder="De segunda a sexta: 08:00 até 17:00, Aos sabados e domingos: 12:00 até 16:00"
           />
-          <button type="submit">Salvar</button>
+          <button type="submit">Criar</button>
         </form>
       </FormContext>
     </PopupContainer>

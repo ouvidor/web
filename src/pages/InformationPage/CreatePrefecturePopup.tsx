@@ -48,7 +48,12 @@ const CreatePrefecturePopup: React.FC = () => {
             label="Atendimento"
             placeholder="De segunda a sexta: 08:00 até 17:00, Aos sabados e domingos: 12:00 até 16:00"
           />
-          <button type="submit">Salvar</button>
+          <Field
+            label="Email da ouvidoria"
+            name="ombudsmanEmail"
+            placeholder="email@email.br"
+          />
+          <button type="submit">Criar</button>
         </form>
       </FormContext>
     </PopupContainer>

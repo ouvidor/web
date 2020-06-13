@@ -1,9 +1,11 @@
 import React, { useState } from "react"
 import { FormContext, useForm } from "react-hook-form"
+import { toast } from "react-toastify"
 
-import { OmbudsmanContainer, Section, Header } from "./styles"
+import { editOmbudsmanSchema } from "../../validations"
 import Field from "../../components/Form/Field"
 import Api from "../../services/api"
+import { OmbudsmanContainer, Section, Header } from "./styles"
 
 type Props = {
   ombudsman: IOmbudsman
@@ -23,6 +25,7 @@ export default function Omdusman({ ombudsman, setOmbudsman }: Props) {
 
   const form = useForm<FormData>({
     defaultValues: ombudsman,
+    validationSchema: editOmbudsmanSchema,
   })
 
   async function submitSavedChanges(data: FormData) {
@@ -36,6 +39,7 @@ export default function Omdusman({ ombudsman, setOmbudsman }: Props) {
     }
 
     setOmbudsman(updatedOmbudsmanResponse.data)
+    toast.success("Ouvidoria atualizada com sucesso")
   }
 
   return (
@@ -88,7 +92,7 @@ export default function Omdusman({ ombudsman, setOmbudsman }: Props) {
                 label="Atendimento"
                 placeholder="De segunda a sexta: 08:00 até 17:00, Aos sabados e domingos: 12:00 até 16:00"
               />
-              <button type="submit">Salvar</button>
+              <button type="submit">Editar</button>
             </form>
           </FormContext>
         </Section>

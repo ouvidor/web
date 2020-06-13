@@ -1,9 +1,11 @@
 import React, { useState } from "react"
 import { FormContext, useForm } from "react-hook-form"
+import { toast } from "react-toastify"
 
-import { PrefectureContainer, Section, Header } from "./styles"
+import { editPrefectureSchema } from "../../validations"
 import Field from "../../components/Form/Field"
 import Api from "../../services/api"
+import { PrefectureContainer, Section, Header } from "./styles"
 
 type Props = {
   prefecture: IPrefecture
@@ -24,6 +26,7 @@ export default function Prefecture({ prefecture, setPrefecture }: Props) {
 
   const form = useForm<FormData>({
     defaultValues: prefecture,
+    validationSchema: editPrefectureSchema,
   })
 
   async function submitSavedChanges(data: FormData) {
@@ -37,6 +40,7 @@ export default function Prefecture({ prefecture, setPrefecture }: Props) {
     }
 
     setPrefecture(updatedPrefectureResponse.data)
+    toast.success("Prefeitura atualizada com sucesso")
   }
 
   return (
@@ -91,7 +95,12 @@ export default function Prefecture({ prefecture, setPrefecture }: Props) {
                 label="Atendimento"
                 placeholder="De segunda a sexta: 08:00 até 17:00, Aos sabados e domingos: 12:00 até 16:00"
               />
-              <button type="submit">Salvar</button>
+              <Field
+                label="Email da ouvidoria"
+                name="ombudsmanEmail"
+                placeholder="email@email.br"
+              />
+              <button type="submit">Editar</button>
             </form>
           </FormContext>
         </Section>
