@@ -25,7 +25,7 @@ import {
 } from "./styles"
 
 type RouteProps = {
-  id: string
+  id?: string
 }
 
 type CreateManifestationStatusFormProps = {
@@ -54,7 +54,7 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
   const form = useForm<CreateManifestationStatusFormProps>()
 
   const search = useCallback(
-    async (idOrProtocol: string) => {
+    async (idOrProtocol: string | number) => {
       if (!idOrProtocol) return
 
       // buscar dados da manifestação
@@ -125,7 +125,9 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
 
   // busca atráves da id da manifestação
   useEffect(() => {
-    search(id)
+    if (id) {
+      search(id)
+    }
   }, [id, search])
 
   // pesquisa pelo protocolo inserido
@@ -142,6 +144,11 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
   async function submitManifestationStatus(
     data: CreateManifestationStatusFormProps
   ) {
+    if (!manifestation) {
+      toast.error("Erro inesperado, tente recarregar a página")
+      return
+    }
+
     const formattedData = {
       description: data.description,
       status_id: data.status.value,
@@ -160,21 +167,21 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
         toast.success(
           `Status da manifestação "${manifestation.title}" editado com sucesso`
         )
-        search(id)
+        search(manifestation.id)
         manifestationStatusData = manifestationStatusEditResponse.data
       }
     } else {
       const manifestationStatusCreateResponse = await Api.post<
         IManifestationStatus
       >({
-        pathUrl: `/manifestation/${id}/status`,
+        pathUrl: `/manifestation/${manifestation.id}/status`,
         data: formattedData,
       })
       if (manifestationStatusCreateResponse && manifestation) {
         toast.success(
           `Novo status criado para a manifestação "${manifestation.title}"`
         )
-        search(id)
+        search(manifestation.id)
         manifestationStatusData = manifestationStatusCreateResponse.data
       }
     }
