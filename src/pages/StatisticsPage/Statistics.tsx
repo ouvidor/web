@@ -61,17 +61,14 @@ const Statistics: React.FC = () => {
 
     setStatistics(formattedData)
 
-    for (const item of formattedData) {
-      for (const key in item) {
-        if (key === "date") {
-          continue
-        } else {
-          keysToSave.push(key)
-        }
+    for (const key in formattedData[0]) {
+      if (key === "date") {
+        continue
+      } else {
+        keysToSave.push(key)
       }
     }
 
-    console.log(keysToSave)
     setKeys(keysToSave)
   }
 
