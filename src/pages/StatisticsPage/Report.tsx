@@ -118,8 +118,8 @@ const Report: React.FC = () => {
                 <tr key={line.id}>
                   <td>{line.secretary}</td>
                   <td>{line.total}</td>
-                  <td>{line.closed}</td>
                   <td>{line.withoutAnswer}</td>
+                  <td>{line.closed}</td>
                   <td>{line.accountable}</td>
                 </tr>
               ))}
