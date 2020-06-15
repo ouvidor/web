@@ -37,7 +37,13 @@ const Statistics: React.FC = () => {
     const keysToSave: string[] = []
     const response = await Api.get<StatisticResponse[]>({
       pathUrl: "/statistics/types",
-      config: { params: { init: data.init, end: data.end } },
+      config: {
+        params: {
+          init: data.init,
+          end: data.end,
+          city: process.env.REACT_APP_CITY,
+        },
+      },
     })
 
     if (!response) {
