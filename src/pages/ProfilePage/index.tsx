@@ -29,9 +29,11 @@ const ProfilePage: React.FC = () => {
       <NavBar>
         <Link to={url}>Meu perfil</Link>
         <Link to={`${url}/edit`}>Editar meu perfil</Link>
-        <Link to={`${url}/admins`}>Visualizar administradores</Link>
         {profile.role === "master" && (
-          <Link to={`${url}/new`}>Novo usuário</Link>
+          <>
+            <Link to={`${url}/admins`}>Visualizar administradores</Link>
+            <Link to={`${url}/new`}>Novo usuário</Link>
+          </>
         )}
       </NavBar>
 
