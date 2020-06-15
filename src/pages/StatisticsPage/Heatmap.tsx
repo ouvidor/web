@@ -63,6 +63,7 @@ const Heatmap: React.FC = () => {
       <MapContainer>
         <MapView>
           <HeatmapLayer
+            options={{ radius: 25 }}
             data={heatmapData.map((item) => {
               console.log(window)
               return new window.google.maps.LatLng(item.lat, item.lng)
