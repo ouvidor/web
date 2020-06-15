@@ -180,12 +180,6 @@ const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
             <section>
               <header>
                 <h2>Conteudo do email</h2>
-                <Controller
-                  as={<Select options={[]} />}
-                  name="base"
-                  placeholder="Selecione uma base"
-                  alternativeStyle
-                />
               </header>
 
               <form onSubmit={form.handleSubmit(handleSendMail)}>
