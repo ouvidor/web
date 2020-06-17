@@ -1,13 +1,13 @@
 import React from "react"
 import { useHistory } from "react-router-dom"
-import { MdAttachFile, MdDateRange, MdLocationOn } from "react-icons/md"
+import { MdDateRange, MdLocationOn } from "react-icons/md"
 import { GrDrag } from "react-icons/gr"
 import { MdClose } from "react-icons/md"
 import { format, parseISO } from "date-fns"
 import pt from "date-fns/locale/pt"
 import Draggable from "react-draggable"
 
-import openFiles from "../../utils/openFiles"
+import AttchmentButton from "../AttachmentButton"
 import Tag from "../Tag"
 import {
   Container,
@@ -53,10 +53,6 @@ export default function Manifestation({
     locale: pt,
   })
 
-  async function openAttached() {
-    await openFiles(files)
-  }
-
   function handleSend() {
     history.push(`/send/${id}`)
   }
@@ -84,10 +80,7 @@ export default function Manifestation({
               {tags && tags.map((tag) => <Tag key={tag.title} tag={tag} />)}
             </TagList>
 
-            <button type="button" onClick={openAttached}>
-              <MdAttachFile color="black" size="14" />
-              Anexos
-            </button>
+            <AttchmentButton files={files} />
           </section>
         </Header>
 

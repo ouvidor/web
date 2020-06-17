@@ -15,6 +15,7 @@ import Field from "../../components/Form/Field"
 import SearchManifestationByProtocol, {
   SearchManifestationProps,
 } from "../../components/SearchManifestationByProtocol"
+import AttachmentButton from "../../components/AttachmentButton"
 import { sendMailSchema } from "../../validations"
 
 type FormattedManifestation = IManifestation & {
@@ -171,8 +172,8 @@ const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
               ))}
           </TagList>
           <p>{manifestation.description}</p>
-
           <footer>
+            <AttachmentButton files={manifestation.files} />
             <span>{manifestation.formattedDate}</span>
           </footer>
 

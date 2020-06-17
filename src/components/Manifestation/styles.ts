@@ -69,20 +69,10 @@ export const Header = styled.header`
     display: flex;
     align-items: center;
     margin-top: 10px;
+    flex-wrap: wrap;
 
     span {
       font-size: 12px;
-    }
-
-    button {
-      display: flex;
-      align-items: center;
-      background-color: white;
-      padding: 2px 10px;
-      border-radius: 8px;
-      border: 0.8px solid #0b76da;
-      font-size: 12px;
-      pointer-events: all;
     }
   }
 `

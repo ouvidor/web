@@ -15,6 +15,7 @@ import Field from "../../components/Form/Field"
 import SearchManifestationByProtocol, {
   SearchManifestationProps,
 } from "../../components/SearchManifestationByProtocol"
+import AttachmentButton from "../../components/AttachmentButton"
 import StatusHistoryList from "./StatusHistoryList"
 import { Background } from "../../styles"
 import {
@@ -262,7 +263,10 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
             <p>{manifestation.description}</p>
           </div>
 
-          <footer>{manifestation.formattedDate}</footer>
+          <footer>
+            <AttachmentButton files={manifestation.files} />
+            {manifestation.formattedDate}
+          </footer>
         </ManifestationContainer>
         <FormContext {...form}>
           <StatusContainer>
