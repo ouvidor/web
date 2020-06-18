@@ -23,3 +23,17 @@ export const ButtonContainer = styled.button`
     margin-right: 5px;
   }
 `
+
+export const PopupContainer = styled.div`
+  padding: 5px 10px;
+  display: flex;
+  flex-direction: column;
+
+  button {
+    padding: 10px 20px;
+  }
+
+  button + button {
+    margin-top: 10px;
+  }
+`

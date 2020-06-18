@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react"
 import { RouteComponentProps } from "react-router-dom"
 import { useForm, FormContext, Controller } from "react-hook-form"
-import { GrAttachment } from "react-icons/gr"
 import { toast } from "react-toastify"
 import { format, parseISO } from "date-fns"
 import pt from "date-fns/locale/pt"
 
 import Api from "../../services/api"
-import openFiles from "../../utils/openFiles"
 import Tag from "../../components/Tag"
 import FilesInput from "../../components/Form/FilesInput"
 import Select from "../../components/Form/Select"
@@ -45,11 +43,14 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
 }) => {
   const { id } = match.params
   const [manifestation, setManifestation] = useState<FormattedManifestation>()
-  const [manifestationStatus, setManifestationStatus] = useState<
+  const [arrayOfManifestationStatus, setArrayOfManifestationStatus] = useState<
     IManifestationStatus[]
   >([])
+  const [
+    selectedManifestationStatus,
+    setSelectedManifestationStatus,
+  ] = useState<IManifestationStatus>()
   const [statusOptions, setStatusOptions] = useState<ISelectOption[]>([])
-  const [selectedId, setSelectedId] = useState<number>()
   const [isEditing, setEditing] = useState(false)
 
   const form = useForm<CreateManifestationStatusFormProps>()
@@ -107,7 +108,7 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
       }
       setManifestation(formattedData)
 
-      setManifestationStatus(manifestationStatusResponse.data)
+      setArrayOfManifestationStatus(manifestationStatusResponse.data)
 
       setStatusOptions(
         statusResponse.data.map((status) => ({
@@ -139,7 +140,7 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
   function handleStatusCreate() {
     form.reset()
     setEditing(false)
-    setSelectedId(undefined)
+    setSelectedManifestationStatus(undefined)
   }
 
   async function submitManifestationStatus(
@@ -157,11 +158,11 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
 
     let manifestationStatusData
 
-    if (isEditing) {
+    if (isEditing && selectedManifestationStatus) {
       const manifestationStatusEditResponse = await Api.put<
         IManifestationStatus
       >({
-        pathUrl: `manifestation/status/${selectedId}`,
+        pathUrl: `manifestation/status/${selectedManifestationStatus.id}`,
         data: formattedData,
       })
       if (manifestationStatusEditResponse && manifestation) {
@@ -217,20 +218,6 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
     form.reset()
   }
 
-  async function openAttached() {
-    // get files
-    const selectedManifestationStatus = manifestationStatus.find(
-      (mS) => mS.id === selectedId
-    )
-    const files = selectedManifestationStatus?.files
-
-    if (files && files[0]) {
-      await openFiles(files)
-    } else {
-      toast.info("Não há anexos nesse status de manifestação")
-    }
-  }
-
   // renderiza o formulario de busca por protocolo
   if (!manifestation)
     return (
@@ -270,12 +257,11 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
         </ManifestationContainer>
         <FormContext {...form}>
           <StatusContainer>
-            {selectedId && (
-              <button type="button" onClick={openAttached}>
-                <GrAttachment color="black" size="14" />
-                Anexos
-              </button>
-            )}
+            {selectedManifestationStatus &&
+              selectedManifestationStatus.files &&
+              selectedManifestationStatus.files[0] && (
+                <AttachmentButton files={selectedManifestationStatus.files} />
+              )}
             <form onSubmit={form.handleSubmit(submitManifestationStatus)}>
               <Controller
                 as={<Select options={statusOptions} />}
@@ -298,9 +284,9 @@ const StatusPage: React.FC<RouteComponentProps<RouteProps>> = ({
           </StatusContainer>
           <StatusHistoryList
             onNewStatusClick={handleStatusCreate}
-            statusHistory={manifestationStatus}
+            statusHistory={arrayOfManifestationStatus}
             setEditing={setEditing}
-            setSelectedId={setSelectedId}
+            setSelected={setSelectedManifestationStatus}
           />
         </FormContext>
       </GridContainer>

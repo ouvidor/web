@@ -8,20 +8,20 @@ type Props = {
   onNewStatusClick(): void
   statusHistory: IManifestationStatus[]
   setEditing(isEditing: boolean): void
-  setSelectedId(id?: number): void
+  setSelected(manifestationStatus?: IManifestationStatus): void
 }
 
 export default function StatusHistoryList({
   onNewStatusClick,
   statusHistory,
   setEditing,
-  setSelectedId,
+  setSelected,
 }: Props) {
   const { setValue } = useFormContext()
 
   function handleClickStatusCard(manifestationStatus: IManifestationStatus) {
     setEditing(true)
-    setSelectedId(manifestationStatus.id)
+    setSelected(manifestationStatus)
     setValue([
       {
         status: {
