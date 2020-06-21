@@ -15,24 +15,28 @@ const AttachmentButton: React.FC<Props> = ({ files }) => {
   }
 
   return (
-    <ReactPopup
-      trigger={
-        <ButtonContainer type="button">
-          <GrAttachment color="black" size="14" />
-          Anexos
-        </ButtonContainer>
-      }
-      position="center center"
-      modal
-    >
-      <PopupContainer>
-        {files.map((file) => (
-          <button key={file.name} onClick={() => openAttached(file)}>
-            Abrir arquivo {file.extension}
-          </button>
-        ))}
-      </PopupContainer>
-    </ReactPopup>
+    <>
+      {files.length > 0 && (
+        <ReactPopup
+          trigger={
+            <ButtonContainer type="button">
+              <GrAttachment color="black" size="14" />
+              Anexos
+            </ButtonContainer>
+          }
+          position="center center"
+          modal
+        >
+          <PopupContainer>
+            {files.map((file) => (
+              <button key={file.name} onClick={() => openAttached(file)}>
+                Abrir arquivo {file.extension}
+              </button>
+            ))}
+          </PopupContainer>
+        </ReactPopup>
+      )}
+    </>
   )
 }
 
