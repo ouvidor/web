@@ -194,6 +194,7 @@ const SendPage: React.FC<RouteComponentProps<RouteProps>> = ({
                   name="text"
                   component="textarea"
                   placeholder="Corpo do email"
+                  maxLength={700}
                 />
                 <footer>
                   <Controller
