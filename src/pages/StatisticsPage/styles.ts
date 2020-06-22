@@ -51,6 +51,10 @@ const StyledForm = styled.form`
     font-size: 18px;
     margin-bottom: 5px;
   }
+
+  button + button {
+    margin-left: 20px;
+  }
 `
 
 const Container = styled.article`
