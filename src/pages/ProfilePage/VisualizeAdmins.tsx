@@ -21,7 +21,7 @@ const VisualizeAdmins = () => {
   const form = useForm<SearchUserFormData>()
 
   useEffect(() => {
-    async function loadUsers() {
+    async function loadAdmins() {
       const usersResponse = await Api.get<IProfile[]>({ pathUrl: `/admins` })
 
       if (!usersResponse) {
@@ -30,7 +30,7 @@ const VisualizeAdmins = () => {
 
       setAdmins(usersResponse.data)
     }
-    loadUsers()
+    loadAdmins()
   }, [])
 
   const handleChangeAdminRole = useCallback(
